@@ -1,3 +1,5 @@
+import swedishCsv from '../data/svenska.csv?raw'
+
 export const CATEGORY_STYLES = {
   noun: {
     color: '#7bdff2',
@@ -59,14 +61,33 @@ export const CATEGORY_STYLES = {
     border: 'rgba(255, 214, 165, 0.5)',
     background: 'rgba(255, 214, 165, 0.12)',
   },
+  present: {
+    color: '#ffe29a',
+    border: 'rgba(255, 226, 154, 0.5)',
+    background: 'rgba(255, 226, 154, 0.12)',
+  },
+  verbPhrase: {
+    color: '#d0b7ff',
+    border: 'rgba(208, 183, 255, 0.5)',
+    background: 'rgba(208, 183, 255, 0.12)',
+  },
+  phrase: {
+    color: '#9bf6ff',
+    border: 'rgba(155, 246, 255, 0.5)',
+    background: 'rgba(155, 246, 255, 0.12)',
+  },
 }
 
-const makeCategory = (id, label, description, words) => ({
+const makeCategory = (id, label, description, words, extra = {}) => ({
   id,
   label,
   pluralLabel: label.toLowerCase(),
   description,
   words,
+  styleId: id,
+  matchType: 'category',
+  sourceBucketIds: [id],
+  ...extra,
 })
 
 const nouns = (words) => makeCategory('noun', 'Nouns', 'people, places, things, or ideas', words)
@@ -80,6 +101,8 @@ const modal = (words) => makeCategory('modal', 'Modal Forms', 'forms expressing 
 const connective = (words) => makeCategory('connective', 'Connectives', 'linking words for longer sentences', words)
 const subjunctive = (words) => makeCategory('subjunctive', 'Subjunctive', 'forms for wishes, doubt, emotion, or hypotheticals', words)
 const idiom = (words) => makeCategory('idiom', 'Idioms', 'fixed advanced expressions', words)
+const present = (words) => makeCategory('present', 'Present Forms', 'present-tense verb forms', words)
+const verbPhrase = (words) => makeCategory('verbPhrase', 'Verb Phrases', 'multi-word verb constructions', words)
 const createLevel = (label, categories) => ({ label, categories })
 const createLanguagePack = (name, levels) => ({ name, levels })
 
@@ -147,6 +170,178 @@ const compileLevelsWithUniqueProgression = (levels) => {
           vocabTarget: CEFR_VOCAB_TARGETS[levelId],
         },
       ]
+    }),
+  )
+}
+
+const SWEDISH_LEVEL_LABELS = {
+  A1: 'A1 Nybörjare',
+  A2: 'A2 Grundläggande',
+  B1: 'B1 Mellannivå',
+  B2: 'B2 Högre mellannivå',
+  C1: 'C1 Avancerad',
+  C2: 'C2 Mycket avancerad',
+}
+
+const parseCsvRows = (csvText) => {
+  const lines = csvText
+    .trim()
+    .split(/\r?\n/)
+    .filter(Boolean)
+
+  const [headerLine, ...rowLines] = lines
+  const headers = headerLine.replace(/^\uFEFF/, '').split(',')
+
+  return rowLines.map((line) => {
+    const values = line.split(',')
+    return Object.fromEntries(headers.map((header, index) => [header, values[index] ?? '']))
+  })
+}
+
+const SWEDISH_CATEGORY_BUILDERS = {
+  substantiv: {
+    id: 'noun',
+    build: nouns,
+  },
+  verb_infinitiv: {
+    id: 'verb',
+    build: verbs,
+  },
+  verb_presens: {
+    id: 'present',
+    build: present,
+  },
+  verbfras: {
+    id: 'verbPhrase',
+    build: verbPhrase,
+  },
+  adjektiv: {
+    id: 'adjective',
+    build: adjectives,
+  },
+  adverb: {
+    id: 'adverb',
+    build: adverbs,
+  },
+  sambandsord: {
+    id: 'connective',
+    build: connective,
+  },
+}
+
+const buildSwedishLevelsFromCsv = (csvText) => {
+  const grouped = new Map()
+  const subcategoryGrouped = new Map()
+
+  parseCsvRows(csvText).forEach(({ level, category, subcategory, word }) => {
+    const categoryConfig = SWEDISH_CATEGORY_BUILDERS[category]
+    if (!categoryConfig || !CEFR_LEVELS.includes(level) || !word) {
+      return
+    }
+
+    if (!grouped.has(level)) {
+      grouped.set(level, new Map())
+    }
+
+    const levelMap = grouped.get(level)
+    const categoryWords = levelMap.get(categoryConfig.id) ?? []
+    categoryWords.push(word.trim())
+    levelMap.set(categoryConfig.id, categoryWords)
+
+    if (subcategory?.trim()) {
+      if (!subcategoryGrouped.has(level)) {
+        subcategoryGrouped.set(level, new Map())
+      }
+      const subMap = subcategoryGrouped.get(level)
+      const subKey = `${categoryConfig.id}::${subcategory.trim()}`
+      const subState =
+        subMap.get(subKey) ??
+        {
+          parentId: categoryConfig.id,
+          subcategoryId: subcategory.trim(),
+          words: [],
+        }
+      subState.words.push(word.trim())
+      subMap.set(subKey, subState)
+    }
+  })
+
+  return Object.fromEntries(
+    CEFR_LEVELS.map((level) => {
+      const levelMap = grouped.get(level) ?? new Map()
+      const allowedCategoryIds =
+        level === 'A1'
+          ? new Set(['noun', 'verb', 'adjective'])
+          : null
+      const categories = Array.from(levelMap.entries())
+        .map(([id, words]) => {
+          const config = Object.values(SWEDISH_CATEGORY_BUILDERS).find((item) => item.id === id)
+          return config ? config.build(uniqueWords(words)) : null
+        })
+        .filter(Boolean)
+      const categoriesById = new Map(categories.map((category) => [category.id, category]))
+      if (level === 'A1') {
+        const baseVerbCategory = categoriesById.get('verb')
+        const presentCategory = categoriesById.get('present')
+        if (baseVerbCategory && presentCategory) {
+          categoriesById.set('verb', {
+            ...baseVerbCategory,
+            words: uniqueWords([...baseVerbCategory.words, ...presentCategory.words]),
+            // A1 keeps a single playable verb bucket even if the source CSV
+            // includes a few present-tense forms.
+            sourceBucketIds: ['verb'],
+          })
+          categoriesById.delete('present')
+        }
+      }
+      const subcategories = Array.from((subcategoryGrouped.get(level) ?? new Map()).values())
+        .map(({ parentId, subcategoryId, words }) => {
+          const normalizedWords = uniqueWords(words)
+          const styleId = parentId
+          const sourceBucketId = `${parentId}:${subcategoryId}`
+          return makeCategory(
+            sourceBucketId,
+            subcategoryId[0].toUpperCase() + subcategoryId.slice(1),
+            `${subcategoryId} inom ${parentId}`,
+            normalizedWords,
+            {
+              styleId,
+              matchType: 'subcategory',
+              parentCategoryId: parentId,
+              subcategoryId,
+              sourceBucketIds: [sourceBucketId],
+            },
+          )
+        })
+        .filter((item) => item.words.length > 0)
+      const allCategories = Array.from(categoriesById.values()).filter((category) =>
+        allowedCategoryIds ? allowedCategoryIds.has(category.id) : true,
+      )
+      const withExpandedSources = allCategories.map((category) => {
+        if (allowedCategoryIds) {
+          return {
+            ...category,
+            sourceBucketIds: [category.id],
+          }
+        }
+
+        const matchingSubcategories = subcategories
+          .filter((item) => item.parentCategoryId === category.id)
+          .map((item) => item.id)
+        if (matchingSubcategories.length === 0) {
+          return category
+        }
+
+        return {
+          ...category,
+          sourceBucketIds: [category.id, ...matchingSubcategories],
+        }
+      })
+      const activeSubcategories = allowedCategoryIds
+        ? []
+        : subcategories
+
+      return [level, createLevel(SWEDISH_LEVEL_LABELS[level], [...withExpandedSources, ...activeSubcategories])]
     }),
   )
 }
@@ -403,56 +598,7 @@ const LANGUAGE_LEVELS = {
   },
   swedish: {
     name: 'Svenska',
-    levels: {
-      A1: {
-        label: 'A1 Nybörjare',
-        categories: [
-          nouns(['hus', 'bok', 'vän', 'stad', 'vatten', 'skola', 'familj', 'fönster', 'trädgård', 'gata', 'rum', 'dörr', 'bord', 'stol', 'hund', 'katt', 'mamma', 'pappa', 'barn', 'äpple', 'bröd', 'bil', 'buss', 'sol', 'regn', 'dag', 'natt', 'väska', 'telefon', 'kök']),
-          verbs(['gå', 'äta', 'tala', 'bo', 'ha', 'leka', 'skriva', 'öppna', 'titta', 'lära', 'komma', 'dricka', 'sova', 'sitta', 'stå', 'lyssna', 'arbeta', 'studera', 'hjälpa', 'börja', 'sluta', 'laga', 'ringa', 'vänta', 'bära', 'köra', 'älska', 'använda', 'läsa', 'resa']),
-          adjectives(['stor', 'liten', 'glad', 'kall', 'ny', 'enkel', 'varm', 'ren', 'kort', 'ljus', 'gammal', 'bra', 'dålig', 'snabb', 'långsam', 'het', 'söt', 'stark', 'tyst', 'hög', 'snäll', 'upptagen', 'redo', 'full', 'tom', 'mörk', 'tidig', 'sen', 'vänlig', 'billig']),
-        ],
-      },
-      A2: {
-        label: 'A2 Grundläggande',
-        categories: [
-          pronouns(['någon', 'ingen', 'vi', 'de', 'denna', 'var och en', 'alla', 'något', 'den andre', 'vem som helst', 'någon annan', 'ingenting', 'sig själv', 'oss själva', 'dem själva', 'sådan', 'sådana', 'båda', 'endera', 'varken', 'flera', 'några', 'allt', 'varje']),
-          adverbs(['alltid', 'ofta', 'redan', 'nästan', 'snabbt', 'tillsammans', 'utomhus', 'långsamt', 'senare', 'vanligtvis', 'inomhus', 'igår', 'idag', 'imorgon', 'verkligen', 'ensam', 'ovanpå', 'nedanför', 'snart', 'därefter', 'överallt', 'någonstans', 'hemma', 'borta']),
-          past(['gick', 'såg', 'gjorde', 'studerade', 'kom fram', 'förstod', 'köpte', 'hämtade', 'valde', 'stannade', 'fann', 'lämnade', 'hörde', 'träffade', 'tappade', 'skickade', 'tog', 'gav', 'spenderade', 'glömde', 'kände', 'vann', 'sålde', 'bestämde']),
-        ],
-      },
-      B1: {
-        label: 'B1 Mellannivå',
-        categories: [
-          future(['ska resa', 'kommer att lära', 'ska stanna', 'kommer tillbaka', 'ska regna', 'ska förändra', 'ska fortsätta', 'kommer att öppna', 'ska behöva hjälp', 'ska bygga', 'kommer att bli tydligare', 'ska ta tid', 'kommer att börja', 'ska stanna längre', 'kommer troligen att växa', 'ska träffas', 'kommer att fungera bättre', 'ska försöka igen', 'kommer snart att ändras', 'ska flytta']),
-          connective(['fastän', 'eftersom', 'medan', 'därför', 'så att', 'innan', 'dessutom', 'samtidigt', 'i fall', 'till exempel', 'å andra sidan', 'som resultat', 'annars', 'för att', 'efter det', 'före det', 'åtminstone', 'trots att', 'så snart som', 'under tiden']),
-          modal(['skulle vilja', 'kan nog gå', 'borde förstå', 'måste vänta', 'får inte glömma', 'kunde hjälpa', 'skulle kunna prova', 'måste nog åka', 'borde ha frågat', 'kan tänka mig', 'får gärna stanna', 'skulle behöva vila', 'måste hinna klart', 'kunde kanske förklara', 'borde försöka igen', 'kan råka bli fel', 'får lov att gå', 'skulle vilja veta', 'måste ha missat', 'kunde ha sagt det']),
-        ],
-      },
-      B2: {
-        label: 'B2 Högre mellannivå',
-        categories: [
-          modal(['skulle kunna', 'borde ha sagt', 'måste vara sant', 'kunde ha kommit', 'ville stanna', 'skulle hellre gå']),
-          connective(['ändå', 'dessutom', 'ifall', 'medan', 'trots att', 'således']),
-          idiom(['ingen ko på isen', 'ana ugglor i mossen', 'glida in på en räkmacka', 'ha is i magen', 'falla mellan stolarna', 'lägga benen på ryggen']),
-        ],
-      },
-      C1: {
-        label: 'C1 Avancerad',
-        categories: [
-          modal(['hade kunnat undvika', 'borde ha insett', 'skulle ha velat veta', 'måste ha förstått', 'kunde ha nämnt', 'lär ha hänt']),
-          connective(['likväl', 'i den mån', 'varigenom', 'samtidigt som', 'med tanke på', 'fördenskull']),
-          idiom(['sitta i sjön', 'ingen dans på rosor', 'kasta in handduken', 'ha rent mjöl i påsen', 'dra alla över en kam', 'gå som katten kring het gröt']),
-        ],
-      },
-      C2: {
-        label: 'C2 Mycket avancerad',
-        categories: [
-          idiom(['ingen fara på taket', 'fånga dagen', 'lägga korten på bordet', 'få blodad tand', 'ha tomtar på loftet', 'inte för allt i världen']),
-          modal(['det hade kunnat undvikas', 'man kunde tro', 'det lär ha hänt', 'det borde inte ha skett', 'jag ville att det måtte gå', 'det skulle kunna visa sig']),
-          connective(['oaktat detta', 'så till vida', 'mot bakgrund av', 'å andra sidan', 'i kraft av', 'desto mera']),
-        ],
-      },
-    },
+    levels: buildSwedishLevelsFromCsv(swedishCsv),
   },
 }
 
@@ -481,3 +627,22 @@ export const getCategoryMap = (languageId, levelId) => {
 
 export const getCategoryOrder = (languageId, levelId) =>
   getLevelPack(languageId, levelId).categories.map((category) => category.id)
+
+export const getSpawnBucketMap = (languageId, levelId) => {
+  const pack = getLevelPack(languageId, levelId)
+  return Object.fromEntries(
+    pack.categories.map((category) => [
+      category.id,
+      {
+        id: category.id,
+        categoryId: category.parentCategoryId ?? category.id,
+        subcategoryId: category.subcategoryId ?? null,
+        words: category.words,
+        styleId: category.styleId ?? category.id,
+      },
+    ]),
+  )
+}
+
+export const getSpawnBucketOrder = (languageId, levelId) =>
+  Object.keys(getSpawnBucketMap(languageId, levelId))

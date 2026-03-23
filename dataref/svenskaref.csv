@@ -1,0 +1,1201 @@
+level,category,word
+A1,substantiv,hus
+A1,substantiv,bil
+A1,substantiv,bord
+A1,substantiv,stol
+A1,substantiv,säng
+A1,substantiv,dörr
+A1,substantiv,fönster
+A1,substantiv,rum
+A1,substantiv,kök
+A1,substantiv,badrum
+A1,substantiv,mat
+A1,substantiv,bröd
+A1,substantiv,mjölk
+A1,substantiv,vatten
+A1,substantiv,äpple
+A1,substantiv,banan
+A1,substantiv,ost
+A1,substantiv,kaffe
+A1,substantiv,te
+A1,substantiv,skola
+A1,substantiv,bok
+A1,substantiv,penna
+A1,substantiv,papper
+A1,substantiv,barn
+A1,substantiv,mamma
+A1,substantiv,pappa
+A1,substantiv,vän
+A1,substantiv,familj
+A1,substantiv,lärare
+A1,substantiv,elev
+A1,substantiv,telefon
+A1,substantiv,dator
+A1,substantiv,nyckel
+A1,substantiv,väska
+A1,substantiv,skor
+A1,substantiv,tröja
+A1,substantiv,byxa
+A1,substantiv,jacka
+A1,substantiv,gata
+A1,substantiv,väg
+A1,substantiv,buss
+A1,substantiv,tåg
+A1,substantiv,cykel
+A1,substantiv,stad
+A1,substantiv,land
+A1,substantiv,plats
+A1,substantiv,jobb
+A1,substantiv,pengar
+A1,substantiv,nummer
+A1,substantiv,fråga
+A1,substantiv,svar
+A1,substantiv,språk
+A1,substantiv,bild
+A1,substantiv,färg
+A1,substantiv,film
+A1,substantiv,spel
+A1,substantiv,tid
+A1,substantiv,dag
+A1,substantiv,vecka
+A1,substantiv,bor
+A1,verb,vara
+A1,verb,ha
+A1,verb,gå
+A1,verb,komma
+A1,verb,se
+A1,verb,äta
+A1,verb,dricka
+A1,verb,sova
+A1,verb,bo
+A1,verb,bor
+A1,verb,läsa
+A1,verb,skriva
+A1,verb,lyssna
+A1,verb,titta
+A1,verb,prata
+A1,verb,säga
+A1,verb,fråga
+A1,verb,svara
+A1,verb,förstå
+A1,verb,hjälpa
+A1,verb,köpa
+A1,verb,betala
+A1,verb,öppna
+A1,verb,stänga
+A1,verb,sitta
+A1,verb,stå
+A1,verb,ligga
+A1,verb,vänta
+A1,verb,jobba
+A1,verb,resa
+A1,verb,spela
+A1,verb,köra
+A1,verb,ta
+A1,verb,ge
+A1,verb,gilla
+A1,verb,vilja
+A1,verb,kunna
+A1,verb,måste
+A1,verb,börja
+A1,verb,sluta
+A1,verb,lämna
+A1,verb,hämta
+A1,verb,ringa
+A1,verb,skicka
+A1,verb,glömma
+A1,verb,minnas
+A1,verb,tvätta
+A1,verb,städa
+A1,verb,laga
+A1,verb,baka
+A1,adjektiv,stor
+A1,adjektiv,liten
+A1,adjektiv,bra
+A1,adjektiv,dålig
+A1,adjektiv,varm
+A1,adjektiv,kall
+A1,adjektiv,ny
+A1,adjektiv,gammal
+A1,adjektiv,lång
+A1,adjektiv,kort
+A1,adjektiv,snabb
+A1,adjektiv,långsam
+A1,adjektiv,enkel
+A1,adjektiv,svår
+A1,adjektiv,glad
+A1,adjektiv,ledsen
+A1,adjektiv,trött
+A1,adjektiv,hungrig
+A1,adjektiv,törstig
+A1,adjektiv,fin
+A1,adjektiv,ful
+A1,adjektiv,ren
+A1,adjektiv,smutsig
+A1,adjektiv,tidig
+A1,adjektiv,sen
+A1,adjektiv,öppen
+A1,adjektiv,stängd
+A1,adjektiv,rik
+A1,adjektiv,fattig
+A1,adjektiv,lätt
+A1,adjektiv,tung
+A1,adjektiv,rolig
+A1,adjektiv,tråkig
+A1,adjektiv,viktig
+A1,adjektiv,vanlig
+A1,adjektiv,olik
+A1,adjektiv,samma
+A1,adjektiv,rätt
+A1,adjektiv,fel
+A1,adjektiv,klar
+A1,adverb,här
+A1,adverb,där
+A1,adverb,nu
+A1,adverb,snart
+A1,adverb,idag
+A1,adverb,imorgon
+A1,adverb,igår
+A1,adverb,alltid
+A1,adverb,ofta
+A1,adverb,ibland
+A1,adverb,sällan
+A1,adverb,aldrig
+A1,adverb,redan
+A1,adverb,ännu
+A1,adverb,igen
+A1,adverb,bara
+A1,adverb,mycket
+A1,adverb,lite
+A1,adverb,också
+A1,adverb,inte
+A1,adverb,ja
+A1,adverb,nej
+A1,adverb,hemma
+A1,adverb,borta
+A1,adverb,upp
+A1,adverb,ner
+A1,adverb,ut
+A1,adverb,in
+A1,adverb,fast
+A1,adverb,tillsammans
+A1,fraser,jag heter
+A1,fraser,hur mår du
+A1,fraser,tack så mycket
+A1,fraser,var bor du
+A1,fraser,jag förstår
+A1,fraser,jag vet inte
+A1,fraser,kan du hjälpa mig
+A1,fraser,jag vill ha
+A1,fraser,jag gillar det
+A1,fraser,vi ses senare
+A1,fraser,god morgon
+A1,fraser,god kväll
+A1,fraser,hej då
+A1,fraser,förlåt så mycket
+A1,fraser,ingen fara
+A1,fraser,det går bra
+A1,fraser,jag kommer nu
+A1,fraser,vad gör du
+A1,fraser,hur mycket kostar det
+A1,fraser,jag är trött
+A2,substantiv,affär
+A2,substantiv,butik
+A2,substantiv,kund
+A2,substantiv,kvitto
+A2,substantiv,pris
+A2,substantiv,fritid
+A2,substantiv,semester
+A2,substantiv,utflykt
+A2,substantiv,station
+A2,substantiv,hållplats
+A2,substantiv,flygplats
+A2,substantiv,bagage
+A2,substantiv,väder
+A2,substantiv,regn
+A2,substantiv,sol
+A2,substantiv,vind
+A2,substantiv,snö
+A2,substantiv,sommar
+A2,substantiv,vinter
+A2,substantiv,vår
+A2,substantiv,höst
+A2,substantiv,morgon
+A2,substantiv,kväll
+A2,substantiv,helg
+A2,substantiv,frukost
+A2,substantiv,lunch
+A2,substantiv,middag
+A2,substantiv,soppa
+A2,substantiv,sallad
+A2,substantiv,frukt
+A2,substantiv,grönsak
+A2,substantiv,kropp
+A2,substantiv,huvud
+A2,substantiv,mage
+A2,substantiv,hals
+A2,substantiv,arm
+A2,substantiv,ben
+A2,substantiv,hjärta
+A2,substantiv,sjukhus
+A2,substantiv,apotek
+A2,substantiv,musik
+A2,substantiv,sång
+A2,substantiv,fest
+A2,substantiv,födelsedag
+A2,substantiv,granne
+A2,substantiv,lägenhet
+A2,substantiv,hyra
+A2,substantiv,tvättstuga
+A2,substantiv,karta
+A2,substantiv,centrum
+A2,substantiv,museum
+A2,substantiv,strand
+A2,substantiv,park
+A2,substantiv,klassrum
+A2,substantiv,övning
+A2,substantiv,läxa
+A2,substantiv,möte
+A2,substantiv,schema
+A2,substantiv,vila
+A2,substantiv,mynt
+A2,verb,arbeta
+A2,verb,studera
+A2,verb,träna
+A2,verb,promenera
+A2,verb,simma
+A2,verb,dansa
+A2,verb,sjunga
+A2,verb,rita
+A2,verb,måla
+A2,verb,packa
+A2,verb,boka
+A2,verb,byta
+A2,verb,låna
+A2,verb,hyra
+A2,verb,besöka
+A2,verb,visa
+A2,verb,leta
+A2,verb,hitta
+A2,verb,använda
+A2,verb,välja
+A2,verb,prova
+A2,verb,försöka
+A2,verb,planera
+A2,verb,behöva
+A2,verb,hoppas
+A2,verb,känna
+A2,verb,sakna
+A2,verb,oroa
+A2,verb,drömma
+A2,verb,stanna
+A2,verb,fortsätta
+A2,verb,reparera
+A2,verb,diska
+A2,verb,duscha
+A2,verb,klä på sig
+A2,verb,vakna
+A2,verb,somna
+A2,verb,handla
+A2,verb,beställa
+A2,verb,servera
+A2,verb,resa runt
+A2,verb,ta med
+A2,verb,ta av
+A2,verb,berätta
+A2,verb,redogöra
+A2,verb,glädja
+A2,verb,leda
+A2,verb,trivas
+A2,verb,skynda
+A2,verb,förkorta
+A2,adjektiv,billig
+A2,adjektiv,dyr
+A2,adjektiv,intressant
+A2,adjektiv,nyttig
+A2,adjektiv,ledig
+A2,adjektiv,upptagen
+A2,adjektiv,frisk
+A2,adjektiv,sjuk
+A2,adjektiv,stark
+A2,adjektiv,svag
+A2,adjektiv,mörk
+A2,adjektiv,ljus
+A2,adjektiv,vacker
+A2,adjektiv,ung
+A2,adjektiv,gift
+A2,adjektiv,ensam
+A2,adjektiv,fullbokad
+A2,adjektiv,säker
+A2,adjektiv,osäker
+A2,adjektiv,tom
+A2,adjektiv,full
+A2,adjektiv,senaste
+A2,adjektiv,nästa
+A2,adjektiv,förra
+A2,adjektiv,lokal
+A2,adjektiv,nationell
+A2,adjektiv,behändig
+A2,adjektiv,bekväm
+A2,adjektiv,ovanlig
+A2,adjektiv,nervös
+A2,adjektiv,lugn
+A2,adjektiv,sur
+A2,adjektiv,stolt
+A2,adjektiv,färdig
+A2,adjektiv,redo
+A2,adjektiv,kortärmad
+A2,adjektiv,bred
+A2,adjektiv,smal
+A2,adjektiv,främre
+A2,adjektiv,bakre
+A2,adverb,oftast
+A2,adverb,kanske
+A2,adverb,verkligen
+A2,adverb,ganska
+A2,adverb,nästan
+A2,adverb,helst
+A2,adverb,gärna
+A2,adverb,tyvärr
+A2,adverb,lyckligtvis
+A2,adverb,oväntat
+A2,adverb,extra
+A2,adverb,längre
+A2,adverb,fort
+A2,adverb,lugnt
+A2,adverb,hemifrån
+A2,adverb,utomhus
+A2,adverb,inomhus
+A2,adverb,överallt
+A2,adverb,någonstans
+A2,adverb,ingenstans
+A2,adverb,gemensamt
+A2,adverb,ensam
+A2,adverb,sedan
+A2,adverb,därefter
+A2,adverb,strax
+A2,adverb,sällsynt
+A2,adverb,gratis
+A2,adverb,bakåt
+A2,adverb,framåt
+A2,adverb,förbi
+A2,fraser,jag tycker att
+A2,fraser,kan du upprepa det
+A2,fraser,jag förstår inte riktigt
+A2,fraser,vad menar du
+A2,fraser,jag letar efter
+A2,fraser,hur lång tid tar det
+A2,fraser,det låter bra
+A2,fraser,jag håller inte med
+A2,fraser,har du tid
+A2,fraser,det spelar ingen roll
+A2,fraser,jag mår bättre nu
+A2,fraser,skulle du kunna hjälpa mig
+A2,fraser,vad kostar biljetten
+A2,fraser,jag är på väg
+A2,fraser,vi har bokat bord
+A2,fraser,det regnar ute
+A2,fraser,jag behöver vila
+A2,fraser,kan jag betala med kort
+A2,fraser,hur kommer jag dit
+A2,fraser,det var länge sedan
+B1,substantiv,erfarenhet
+B1,substantiv,beslut
+B1,substantiv,utbildning
+B1,substantiv,möjlighet
+B1,substantiv,ansvar
+B1,substantiv,resultat
+B1,substantiv,anledning
+B1,substantiv,skillnad
+B1,substantiv,förändring
+B1,substantiv,framtid
+B1,substantiv,situation
+B1,substantiv,miljö
+B1,substantiv,samhälle
+B1,substantiv,debatt
+B1,substantiv,artikel
+B1,substantiv,intervju
+B1,substantiv,projekt
+B1,substantiv,kollega
+B1,substantiv,chef
+B1,substantiv,anställning
+B1,substantiv,lön
+B1,substantiv,yrke
+B1,substantiv,karriär
+B1,substantiv,arbetsplats
+B1,substantiv,företag
+B1,substantiv,kundservice
+B1,substantiv,vana
+B1,substantiv,ovana
+B1,substantiv,intresse
+B1,substantiv,hobby
+B1,substantiv,förening
+B1,substantiv,träning
+B1,substantiv,match
+B1,substantiv,olycka
+B1,substantiv,symtom
+B1,substantiv,behandling
+B1,substantiv,hälsa
+B1,substantiv,sjukdom
+B1,substantiv,kost
+B1,substantiv,rutin
+B1,substantiv,relation
+B1,substantiv,vänskap
+B1,substantiv,konflikt
+B1,substantiv,gräns
+B1,substantiv,fördel
+B1,substantiv,nackdel
+B1,substantiv,förslag
+B1,substantiv,lösning
+B1,substantiv,meddelande
+B1,substantiv,samtal
+B1,substantiv,uttryck
+B1,substantiv,ton
+B1,substantiv,stil
+B1,substantiv,intryck
+B1,substantiv,betyg
+B1,substantiv,kurs
+B1,substantiv,uppgift
+B1,substantiv,deadline
+B1,substantiv,utkast
+B1,substantiv,fall
+B1,verb,förklara
+B1,verb,besluta
+B1,verb,förbättra
+B1,verb,utveckla
+B1,verb,påverka
+B1,verb,jämföra
+B1,verb,föreslå
+B1,verb,diskutera
+B1,verb,delta
+B1,verb,undvika
+B1,verb,hantera
+B1,verb,förbereda
+B1,verb,ansöka
+B1,verb,erkänna
+B1,verb,beskriva
+B1,verb,sammanfatta
+B1,verb,minska
+B1,verb,öka
+B1,verb,ändra
+B1,verb,ordna
+B1,verb,kräva
+B1,verb,lyckas
+B1,verb,misslyckas
+B1,verb,verka
+B1,verb,passa
+B1,verb,störa
+B1,verb,lova
+B1,verb,vägra
+B1,verb,acceptera
+B1,verb,uppleva
+B1,verb,klaga
+B1,verb,respektera
+B1,verb,lösa
+B1,verb,undersöka
+B1,verb,kontrollera
+B1,verb,leverera
+B1,verb,förlora
+B1,verb,vinna
+B1,verb,satsa
+B1,verb,skapa
+B1,verb,publicera
+B1,verb,meddela
+B1,verb,övertala
+B1,verb,skuldbelägga
+B1,verb,sporra
+B1,verb,betvivla
+B1,verb,tvivla
+B1,verb,lagra
+B1,verb,avkorta
+B1,verb,falla
+B1,adjektiv,effektiv
+B1,adjektiv,ansvarig
+B1,adjektiv,nödvändig
+B1,adjektiv,möjlig
+B1,adjektiv,omöjlig
+B1,adjektiv,positiv
+B1,adjektiv,negativ
+B1,adjektiv,allvarlig
+B1,adjektiv,van
+B1,adjektiv,ovan
+B1,adjektiv,utåtriktad
+B1,adjektiv,privat
+B1,adjektiv,offentlig
+B1,adjektiv,miljövänlig
+B1,adjektiv,stressad
+B1,adjektiv,otålig
+B1,adjektiv,skyldig
+B1,adjektiv,oskyldig
+B1,adjektiv,enastående
+B1,adjektiv,genomsnittlig
+B1,adjektiv,lagom
+B1,adjektiv,skälig
+B1,adjektiv,orimlig
+B1,adjektiv,stabil
+B1,adjektiv,flexibel
+B1,adjektiv,sårbar
+B1,adjektiv,medveten
+B1,adjektiv,beroende
+B1,adjektiv,självständig
+B1,adjektiv,artig
+B1,adjektiv,hård
+B1,adjektiv,mjuk
+B1,adjektiv,tomhänt
+B1,adjektiv,pålitlig
+B1,adjektiv,slarvig
+B1,adjektiv,typisk
+B1,adjektiv,ovanstående
+B1,adjektiv,dubbelsidig
+B1,adjektiv,klarlagd
+B1,adjektiv,kortfattad
+B1,adverb,egentligen
+B1,adverb,dessförinnan
+B1,adverb,fortfarande
+B1,adverb,dessvärre
+B1,adverb,nämligen
+B1,adverb,dessutom
+B1,adverb,däremot
+B1,adverb,knappt
+B1,adverb,möjligen
+B1,adverb,vanligtvis
+B1,adverb,oftare
+B1,adverb,samtidigt
+B1,adverb,allmänt
+B1,adverb,personligen
+B1,adverb,frivilligt
+B1,adverb,omedelbart
+B1,adverb,så småningom
+B1,adverb,uppenbart
+B1,adverb,tydligt
+B1,adverb,bitvis
+B1,adverb,faktiskt
+B1,adverb,plötsligt
+B1,adverb,långsamt
+B1,adverb,försiktigt
+B1,adverb,noggrant
+B1,adverb,särskilt
+B1,adverb,medvetet
+B1,adverb,ungefär
+B1,adverb,framför allt
+B1,adverb,kortfattat
+B1,fraser,det beror på
+B1,fraser,så vitt jag vet
+B1,fraser,jag håller med
+B1,fraser,å andra sidan
+B1,fraser,i min erfarenhet
+B1,fraser,det verkar som att
+B1,fraser,jag ser fram emot
+B1,fraser,jag har vant mig vid
+B1,fraser,så snart som möjligt
+B1,fraser,jag skulle föredra att
+B1,fraser,det är inte värt det
+B1,fraser,om jag minns rätt
+B1,fraser,det låter rimligt
+B1,fraser,vi måste komma överens
+B1,fraser,jag tog fel
+B1,fraser,det är upp till dig
+B1,fraser,jag är van vid det
+B1,fraser,som jag ser det
+B1,fraser,det gör ingen skillnad
+B1,fraser,vi får se
+B2,substantiv,utveckling
+B2,substantiv,teknologi
+B2,substantiv,globalisering
+B2,substantiv,demokrati
+B2,substantiv,rättvisa
+B2,substantiv,identitet
+B2,substantiv,perspektiv
+B2,substantiv,analys
+B2,substantiv,strategi
+B2,substantiv,innovation
+B2,substantiv,forskning
+B2,substantiv,resurs
+B2,substantiv,konsumtion
+B2,substantiv,produktion
+B2,substantiv,trend
+B2,substantiv,konsekvens
+B2,substantiv,hypotes
+B2,substantiv,princip
+B2,substantiv,process
+B2,substantiv,struktur
+B2,substantiv,nätverk
+B2,substantiv,plattform
+B2,substantiv,algoritm
+B2,substantiv,integritet
+B2,substantiv,hållbarhet
+B2,substantiv,jämställdhet
+B2,substantiv,myndighet
+B2,substantiv,lagstiftning
+B2,substantiv,journalistik
+B2,substantiv,retorik
+B2,substantiv,kulturarv
+B2,substantiv,mångfald
+B2,substantiv,diskriminering
+B2,substantiv,klimatkris
+B2,substantiv,utsläpp
+B2,substantiv,energiförbrukning
+B2,substantiv,förhandling
+B2,substantiv,kompromiss
+B2,substantiv,konkurrens
+B2,substantiv,varumärke
+B2,substantiv,investering
+B2,substantiv,lönsamhet
+B2,substantiv,statistik
+B2,substantiv,indikator
+B2,substantiv,målgrupp
+B2,substantiv,beteende
+B2,substantiv,vanföreställning
+B2,substantiv,inställning
+B2,substantiv,värdering
+B2,substantiv,samverkan
+B2,substantiv,ledarskap
+B2,substantiv,arbetsmoral
+B2,substantiv,anspråk
+B2,substantiv,begränsning
+B2,substantiv,upphovsrätt
+B2,substantiv,tolkning
+B2,substantiv,slutsats
+B2,substantiv,resonemang
+B2,substantiv,spänning
+B2,substantiv,egendom
+B2,verb,analysera
+B2,verb,argumentera
+B2,verb,resonera
+B2,verb,definiera
+B2,verb,pröva
+B2,verb,motivera
+B2,verb,bedöma
+B2,verb,värdera
+B2,verb,representera
+B2,verb,illustrera
+B2,verb,påstå
+B2,verb,förneka
+B2,verb,anta
+B2,verb,prognostisera
+B2,verb,främja
+B2,verb,förhindra
+B2,verb,försämra
+B2,verb,fördjupa
+B2,verb,specificera
+B2,verb,detaljera
+B2,verb,samordna
+B2,verb,förhandla
+B2,verb,prioritera
+B2,verb,investera
+B2,verb,fördela
+B2,verb,ersätta
+B2,verb,omfatta
+B2,verb,provocera
+B2,verb,institutionalisera
+B2,verb,anpassa
+B2,verb,bearbeta
+B2,verb,underlätta
+B2,verb,försvåra
+B2,verb,gynna
+B2,verb,begränsa
+B2,verb,förena
+B2,verb,särskilja
+B2,verb,korrelera
+B2,verb,påvisa
+B2,verb,tolka
+B2,verb,granska
+B2,verb,stimulera
+B2,verb,understryka
+B2,verb,motsäga
+B2,verb,utmynna
+B2,verb,avslöja
+B2,verb,fastna
+B2,verb,förflytta
+B2,verb,belägga
+B2,verb,korta
+B2,adjektiv,komplex
+B2,adjektiv,avgörande
+B2,adjektiv,betydande
+B2,adjektiv,relevant
+B2,adjektiv,hållbar
+B2,adjektiv,etisk
+B2,adjektiv,teoretisk
+B2,adjektiv,praktisk
+B2,adjektiv,abstrakt
+B2,adjektiv,konkret
+B2,adjektiv,sannolik
+B2,adjektiv,osannolik
+B2,adjektiv,medborgerlig
+B2,adjektiv,digital
+B2,adjektiv,effektiviserad
+B2,adjektiv,laglig
+B2,adjektiv,olaglig
+B2,adjektiv,vetenskaplig
+B2,adjektiv,ekonomisk
+B2,adjektiv,politisk
+B2,adjektiv,kulturell
+B2,adjektiv,historisk
+B2,adjektiv,psykologisk
+B2,adjektiv,samhällelig
+B2,adjektiv,mångsidig
+B2,adjektiv,vidsträckt
+B2,adjektiv,begränsad
+B2,adjektiv,försvarbar
+B2,adjektiv,avgiftsfri
+B2,adjektiv,ömsesidig
+B2,adjektiv,jämförbar
+B2,adjektiv,motsägelsefull
+B2,adjektiv,stereotyp
+B2,adjektiv,grundläggande
+B2,adjektiv,helhetsinriktad
+B2,adjektiv,märkbar
+B2,adjektiv,neutral
+B2,adjektiv,avgörandekänslig
+B2,adjektiv,strategisk
+B2,adjektiv,utsatt
+B2,adverb,tydligen
+B2,adverb,förmodligen
+B2,adverb,huvudsakligen
+B2,adverb,följaktligen
+B2,adverb,däremellan
+B2,adverb,hittills
+B2,adverb,ytterligare
+B2,adverb,inledningsvis
+B2,adverb,avslutningsvis
+B2,adverb,främst av allt
+B2,adverb,numera
+B2,adverb,alltmer
+B2,adverb,överlag
+B2,adverb,nödvändigtvis
+B2,adverb,praktiskt taget
+B2,adverb,teoretiskt sett
+B2,adverb,visserligen
+B2,adverb,sannolikt
+B2,adverb,eventuellt
+B2,adverb,exceptionellt
+B2,adverb,tvärtom
+B2,adverb,fortsättningsvis
+B2,adverb,styckevis
+B2,adverb,systematiskt
+B2,adverb,successivt
+B2,adverb,ursprungligen
+B2,adverb,jämförelsevis
+B2,adverb,omedvetet
+B2,adverb,främst
+B2,adverb,indirekt
+B2,fraser,å ena sidan
+B2,fraser,i själva verket
+B2,fraser,det vill säga
+B2,fraser,med andra ord
+B2,fraser,ur ett större perspektiv
+B2,fraser,det återstår att se
+B2,fraser,så långt det är möjligt
+B2,fraser,jag vill betona att
+B2,fraser,det råder ingen tvekan om
+B2,fraser,med tanke på detta
+B2,fraser,i jämförelse med
+B2,fraser,det är värt att nämna
+B2,fraser,utan tvekan
+B2,fraser,frågan är om
+B2,fraser,det kan tolkas som
+B2,fraser,i första hand
+B2,fraser,i längden
+B2,fraser,på kort sikt
+B2,fraser,till viss del
+B2,fraser,detta leder till
+C1,substantiv,förutsättning
+C1,substantiv,medvetenhet
+C1,substantiv,förhållningssätt
+C1,substantiv,sammanhang
+C1,substantiv,trovärdighet
+C1,substantiv,övertygelse
+C1,substantiv,sårbarhet
+C1,substantiv,påfrestning
+C1,substantiv,förskjutning
+C1,substantiv,precision
+C1,substantiv,motsättning
+C1,substantiv,ställningstagande
+C1,substantiv,genomförande
+C1,substantiv,utvärdering
+C1,substantiv,kapacitet
+C1,substantiv,verksamhet
+C1,substantiv,legitimitet
+C1,substantiv,representativitet
+C1,substantiv,nyansering
+C1,substantiv,samstämmighet
+C1,substantiv,maktbalans
+C1,substantiv,intressekonflikt
+C1,substantiv,omständighet
+C1,substantiv,föreställning
+C1,substantiv,uppfattning
+C1,substantiv,tillvägagångssätt
+C1,substantiv,mottaglighet
+C1,substantiv,förankring
+C1,substantiv,resiliens
+C1,substantiv,anknytning
+C1,substantiv,kontinuitet
+C1,substantiv,bakslag
+C1,substantiv,förenkling
+C1,substantiv,samordning
+C1,substantiv,tolkningsram
+C1,substantiv,världsbild
+C1,substantiv,fördelningseffekt
+C1,substantiv,fördom
+C1,substantiv,självbild
+C1,substantiv,självinsikt
+C1,substantiv,arbetsbelastning
+C1,substantiv,ersättningsnivå
+C1,substantiv,tillgänglighet
+C1,substantiv,tillförlitlighet
+C1,substantiv,utgångspunkt
+C1,substantiv,genklang
+C1,substantiv,sammanlänkning
+C1,substantiv,slagsida
+C1,substantiv,betänklighet
+C1,substantiv,anklagelse
+C1,substantiv,överdrift
+C1,substantiv,eftertanke
+C1,substantiv,hänsynstagande
+C1,substantiv,verkställighet
+C1,substantiv,efterlevnad
+C1,substantiv,motprestation
+C1,substantiv,hållning
+C1,substantiv,utspel
+C1,substantiv,meningsskapande
+C1,substantiv,mening
+C1,verb,förutsätta
+C1,verb,genomföra
+C1,verb,utvärdera
+C1,verb,problematisera
+C1,verb,nyansera
+C1,verb,omformulera
+C1,verb,ompröva
+C1,verb,omvärdera
+C1,verb,konsolidera
+C1,verb,tillgodose
+C1,verb,bemöta
+C1,verb,underbygga
+C1,verb,tydliggöra
+C1,verb,åskådliggöra
+C1,verb,förmedla
+C1,verb,åberopa
+C1,verb,föreskriva
+C1,verb,verkställa
+C1,verb,efterleva
+C1,verb,accentuera
+C1,verb,belysa
+C1,verb,förvanska
+C1,verb,underkänna
+C1,verb,försvaga
+C1,verb,stärka
+C1,verb,samspela
+C1,verb,samverka
+C1,verb,tillskriva
+C1,verb,försumma
+C1,verb,motverka
+C1,verb,bemanna
+C1,verb,förespegla
+C1,verb,underordna
+C1,verb,frilägga
+C1,verb,vidmakthålla
+C1,verb,reservera
+C1,verb,föregå
+C1,verb,föranleda
+C1,verb,inrama
+C1,verb,balansera
+C1,verb,utlösa
+C1,verb,överväga
+C1,verb,förmå
+C1,verb,förutsäga
+C1,verb,utmana
+C1,verb,förklena
+C1,verb,särredovisa
+C1,verb,precisera
+C1,verb,sammanlänka
+C1,verb,mena
+C1,adjektiv,nyanserad
+C1,adjektiv,omfattande
+C1,adjektiv,tillförlitlig
+C1,adjektiv,påtaglig
+C1,adjektiv,angelägen
+C1,adjektiv,övergripande
+C1,adjektiv,väsentlig
+C1,adjektiv,oundviklig
+C1,adjektiv,tvetydig
+C1,adjektiv,ensidig
+C1,adjektiv,mångfacetterad
+C1,adjektiv,underliggande
+C1,adjektiv,samstämmig
+C1,adjektiv,otillräcklig
+C1,adjektiv,vedertagen
+C1,adjektiv,genuin
+C1,adjektiv,skör
+C1,adjektiv,mottaglig
+C1,adjektiv,försumbar
+C1,adjektiv,reserverad
+C1,adjektiv,förhastad
+C1,adjektiv,oförenlig
+C1,adjektiv,välgrundad
+C1,adjektiv,eftersträvansvärd
+C1,adjektiv,trovärdig
+C1,adjektiv,svåröverskådlig
+C1,adjektiv,uttalad
+C1,adjektiv,obetydlig
+C1,adjektiv,marginaliserad
+C1,adjektiv,motsvarande
+C1,adjektiv,förenklad
+C1,adjektiv,inflytelserik
+C1,adjektiv,prestigefylld
+C1,adjektiv,förankrad
+C1,adjektiv,övertygande
+C1,adjektiv,kontroversiell
+C1,adjektiv,iakttagbar
+C1,adjektiv,slentrianmässig
+C1,adjektiv,dubbelbottnad
+C1,adjektiv,intrikat
+C1,adverb,därmed
+C1,adverb,snarare
+C1,adverb,förvisso
+C1,adverb,otvivelaktigt
+C1,adverb,närmast
+C1,adverb,uteslutande
+C1,adverb,överhuvudtaget
+C1,adverb,rimligen
+C1,adverb,i huvudsak
+C1,adverb,sammantaget
+C1,adverb,tillfälligtvis
+C1,adverb,ömsesidigt
+C1,adverb,anmärkningsvärt
+C1,adverb,bakvänt
+C1,adverb,synnerligen
+C1,adverb,företrädesvis
+C1,adverb,avsevärt
+C1,adverb,grundligen
+C1,adverb,fortlöpande
+C1,adverb,ingalunda
+C1,adverb,någorlunda
+C1,adverb,upprepade gånger
+C1,adverb,gradvis
+C1,adverb,synbarligen
+C1,adverb,påtagligt
+C1,adverb,undantagsvis
+C1,adverb,obetydligt
+C1,adverb,resonemangsvis
+C1,adverb,otvetydigt
+C1,adverb,relativt
+C1,fraser,med hänsyn till
+C1,fraser,i motsats till
+C1,fraser,såvitt det gäller
+C1,fraser,det bör understrykas att
+C1,fraser,mot bakgrund av
+C1,fraser,i den mån
+C1,fraser,det kan inte uteslutas att
+C1,fraser,det förhåller sig så att
+C1,fraser,med andra förtecken
+C1,fraser,som en följd av
+C1,fraser,det ligger nära till hands att
+C1,fraser,utan att för den skull
+C1,fraser,i ljuset av detta
+C1,fraser,det förutsätter att
+C1,fraser,det är angeläget att
+C1,fraser,i förekommande fall
+C1,fraser,det bör framhållas att
+C1,fraser,under förutsättning att
+C1,fraser,sett i efterhand
+C1,fraser,i synnerhet
+C2,substantiv,paradigm
+C2,substantiv,förnimmelse
+C2,substantiv,vederläggning
+C2,substantiv,förskingring
+C2,substantiv,förvillelse
+C2,substantiv,sinnesstämning
+C2,substantiv,världsfrånvändhet
+C2,substantiv,tankefigur
+C2,substantiv,innebörd
+C2,substantiv,omstöpning
+C2,substantiv,föresats
+C2,substantiv,självklarhet
+C2,substantiv,omedelbarhet
+C2,substantiv,rättmätighet
+C2,substantiv,förhoppning
+C2,substantiv,tvetalan
+C2,substantiv,skärningspunkt
+C2,substantiv,mellanhavande
+C2,substantiv,förveckling
+C2,substantiv,förehavande
+C2,substantiv,åskådning
+C2,substantiv,beskaffenhet
+C2,substantiv,allmängiltighet
+C2,substantiv,syftning
+C2,substantiv,ordalydelse
+C2,substantiv,klander
+C2,substantiv,förtegenhet
+C2,substantiv,ansats
+C2,substantiv,hållhake
+C2,substantiv,förbehåll
+C2,substantiv,egenart
+C2,substantiv,oförvitlighet
+C2,substantiv,oförmåga
+C2,substantiv,framsynthet
+C2,substantiv,ofördragsamhet
+C2,substantiv,tvesyn
+C2,substantiv,undfallenhet
+C2,substantiv,mättnad
+C2,substantiv,förträngning
+C2,substantiv,självbespegling
+C2,substantiv,omdömesförmåga
+C2,substantiv,skärpa
+C2,substantiv,förpliktelse
+C2,substantiv,förslagenhet
+C2,substantiv,inträngande
+C2,substantiv,skönjbarhet
+C2,substantiv,märg
+C2,substantiv,resonansbotten
+C2,substantiv,sinnelag
+C2,substantiv,tillblivelse
+C2,substantiv,ofullkomlighet
+C2,substantiv,förgrovning
+C2,substantiv,försoning
+C2,substantiv,förlustelse
+C2,substantiv,tanke
+C2,substantiv,vedermöda
+C2,substantiv,rättrådighet
+C2,substantiv,grannlagenhet
+C2,substantiv,sinnevärld
+C2,substantiv,ämbar
+C2,verb,vederlägga
+C2,verb,förnimma
+C2,verb,framhäva
+C2,verb,förskingra
+C2,verb,tillbakavisa
+C2,verb,förvränga
+C2,verb,skönja
+C2,verb,avkräva
+C2,verb,frammana
+C2,verb,undergräva
+C2,verb,försjunka
+C2,verb,förlöjliga
+C2,verb,tillspetsa
+C2,verb,utkräva
+C2,verb,vackla
+C2,verb,försona
+C2,verb,förkovra
+C2,verb,tillmäta
+C2,verb,avfärda
+C2,verb,frikänna
+C2,verb,undanröja
+C2,verb,hävda
+C2,verb,förebåda
+C2,verb,urarta
+C2,verb,överbrygga
+C2,verb,förläna
+C2,verb,avgränsa
+C2,verb,förskjuta
+C2,verb,sammanfalla
+C2,verb,uppslukas
+C2,verb,förta
+C2,verb,förgripa
+C2,verb,vidlåda
+C2,verb,förfina
+C2,verb,stävja
+C2,verb,inpränta
+C2,verb,blottlägga
+C2,verb,fortplanta
+C2,verb,bemästra
+C2,verb,förarga
+C2,verb,hemfalla
+C2,verb,genomskåda
+C2,verb,vidga
+C2,verb,förtäta
+C2,verb,förankra
+C2,verb,fördrista sig
+C2,verb,uttunna
+C2,verb,förringa
+C2,verb,förebilda
+C2,verb,tanka
+C2,adjektiv,subtil
+C2,adjektiv,implicit
+C2,adjektiv,kontextuell
+C2,adjektiv,försåtlig
+C2,adjektiv,väsensskild
+C2,adjektiv,svårgripbar
+C2,adjektiv,självreferentiell
+C2,adjektiv,avsiktlig
+C2,adjektiv,oegentlig
+C2,adjektiv,invändningsfri
+C2,adjektiv,förfinad
+C2,adjektiv,egenmäktig
+C2,adjektiv,mångtydig
+C2,adjektiv,närmast oöversättlig
+C2,adjektiv,förtegen
+C2,adjektiv,förkonstlad
+C2,adjektiv,ogenomskinlig
+C2,adjektiv,allmängiltig
+C2,adjektiv,samvetsgrann
+C2,adjektiv,lidelsefull
+C2,adjektiv,oberäknelig
+C2,adjektiv,missvisande
+C2,adjektiv,ogenomtänkt
+C2,adjektiv,finstämd
+C2,adjektiv,sträng
+C2,adjektiv,lågmäld
+C2,adjektiv,förbehållsam
+C2,adjektiv,storslagen
+C2,adjektiv,illvillig
+C2,adjektiv,slående
+C2,adjektiv,anspråksfull
+C2,adjektiv,självklar
+C2,adjektiv,svindlande
+C2,adjektiv,grannlaga
+C2,adjektiv,substantiell
+C2,adjektiv,obändig
+C2,adjektiv,försonlig
+C2,adjektiv,skarpsinnig
+C2,adjektiv,undflyende
+C2,adjektiv,fullödig
+C2,adverb,föga
+C2,adverb,ytterst
+C2,adverb,knappast
+C2,adverb,tvivelsutan
+C2,adverb,till synes
+C2,adverb,i grunden
+C2,adverb,alltjämt
+C2,adverb,likväl
+C2,adverb,sedermera
+C2,adverb,obönhörligen
+C2,adverb,på intet vis
+C2,adverb,onekligen
+C2,adverb,väsentligen
+C2,adverb,skenbart
+C2,adverb,förnimbart
+C2,adverb,tillika
+C2,adverb,alltfort
+C2,adverb,mestadels
+C2,adverb,näppeligen
+C2,adverb,besynnerligt nog
+C2,adverb,förhållandevis
+C2,adverb,outtröttligt
+C2,adverb,påfallande
+C2,adverb,rentav
+C2,adverb,alltigenom
+C2,adverb,förment
+C2,adverb,hädanefter
+C2,adverb,undan för undan
+C2,adverb,omedgörligt
+C2,adverb,närmelsevis
+C2,fraser,det torde vara
+C2,fraser,i egenskap av
+C2,fraser,så till vida att
+C2,fraser,vid närmare eftertanke
+C2,fraser,det förutsätter i någon mån
+C2,fraser,såvitt kan bedömas
+C2,fraser,det ligger i sakens natur
+C2,fraser,utan att överdriva
+C2,fraser,det må vara hur som helst
+C2,fraser,i ordets rätta bemärkelse
+C2,fraser,det förtar inte att
+C2,fraser,såvitt jag förmår avgöra
+C2,fraser,med fog kan hävdas att
+C2,fraser,i någon bemärkelse
+C2,fraser,det låter sig sägas att
+C2,fraser,sett ur den synvinkeln
+C2,fraser,i allt väsentligt
+C2,fraser,med all önskvärd tydlighet
+C2,fraser,om man så vill
+C2,fraser,det kan svårligen förnekas

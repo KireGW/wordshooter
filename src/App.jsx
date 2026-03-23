@@ -10,6 +10,8 @@ import {
   getCategoryOrder,
   getLanguageNames,
   getLevelPack,
+  getSpawnBucketMap,
+  getSpawnBucketOrder,
 } from './gameData.js'
 
 const ARENA = {
@@ -44,8 +46,8 @@ const INITIAL_WORD_Y_MIN = -6
 const INITIAL_WORD_Y_MAX = 10
 const ACTIVE_SPAWN_Y_MIN = -8
 const ACTIVE_SPAWN_Y_MAX = 9
-const DESKTOP_CATEGORY_SWITCH_SAFE_Y = 58
-const MOBILE_CATEGORY_SWITCH_SAFE_Y = 52
+const DESKTOP_CATEGORY_SWITCH_SAFE_Y = 46
+const MOBILE_CATEGORY_SWITCH_SAFE_Y = 42
 const CATEGORY_SWITCH_RESPAWN_Y_MAX = 10
 const WORD_BOX_HEIGHT = 6
 const WORD_CHAR_WIDTH = 1.15
@@ -54,11 +56,15 @@ const MOBILE_WORD_BOX_HEIGHT = 6.8
 const MOBILE_WORD_CHAR_WIDTH = 1.22
 const MOBILE_WORD_BOX_PADDING = 4.3
 const WORD_BOX_BORDER_ALLOWANCE = 0.45
-const BULLET_HITBOX_RADIUS_X = 0.65
-const BULLET_HITBOX_RADIUS_Y = 1.15
+const DESKTOP_BULLET_HITBOX_RADIUS_X = 0.28
+const DESKTOP_BULLET_HITBOX_RADIUS_Y = 0.68
+const MOBILE_BULLET_HITBOX_RADIUS_X = 0.65
+const MOBILE_BULLET_HITBOX_RADIUS_Y = 1.15
 const SHIP_LEVEL_HIT_Y = 80
-const SHIP_LEVEL_HITBOX_BONUS_X = 0.7
-const SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
+const DESKTOP_SHIP_LEVEL_HITBOX_BONUS_X = 0.22
+const DESKTOP_SHIP_LEVEL_HITBOX_BONUS_Y = 0.75
+const MOBILE_SHIP_LEVEL_HITBOX_BONUS_X = 0.7
+const MOBILE_SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
 const MOBILE_ARENA_FIRE_Y_MIN = 74
 const WORD_OVERLAP_ALLOWANCE = 0.2
 const MAX_READABILITY_OVERLAP = 0.7
@@ -87,6 +93,9 @@ const TARGET_UI_TRANSLATIONS = {
     categories: {
       noun: { label: 'Nouns', description: 'people, places, things, or ideas' },
       verb: { label: 'Verbs', description: 'action or state words' },
+      present: { label: 'Present Verbs', description: 'verbs in present tense' },
+      verbPhrase: { label: 'Verb Phrases', description: 'multi-word verb constructions' },
+      phrase: { label: 'Phrases', description: 'short fixed phrases and chunks' },
       adjective: { label: 'Adjectives', description: 'describing words' },
       adverb: { label: 'Adverbs', description: 'words that modify actions or descriptions' },
       pronoun: { label: 'Pronouns', description: 'replacement words like I, she, they' },
@@ -104,6 +113,9 @@ const TARGET_UI_TRANSLATIONS = {
     categories: {
       noun: { label: 'Noms', description: 'personnes, lieux, choses ou idées' },
       verb: { label: 'Verbes', description: "mots d'action ou d'état" },
+      present: { label: 'Verbes au présent', description: 'verbes conjugués au présent' },
+      verbPhrase: { label: 'Locutions verbales', description: 'constructions verbales à plusieurs mots' },
+      phrase: { label: 'Phrases', description: 'expressions et segments courts figés' },
       adjective: { label: 'Adjectifs', description: 'mots qui décrivent' },
       adverb: { label: 'Adverbes', description: "mots qui modifient l'action ou la description" },
       pronoun: { label: 'Pronoms', description: 'mots de remplacement comme je, elle, ils' },
@@ -121,6 +133,9 @@ const TARGET_UI_TRANSLATIONS = {
     categories: {
       noun: { label: 'Sustantivos', description: 'personas, lugares, cosas o ideas' },
       verb: { label: 'Verbos', description: 'palabras de acción o estado' },
+      present: { label: 'Verbos en presente', description: 'verbos conjugados en presente' },
+      verbPhrase: { label: 'Perífrasis verbales', description: 'construcciones verbales de varias palabras' },
+      phrase: { label: 'Frases', description: 'frases cortas y bloques fijos' },
       adjective: { label: 'Adjetivos', description: 'palabras que describen' },
       adverb: { label: 'Adverbios', description: 'palabras que modifican acciones o descripciones' },
       pronoun: { label: 'Pronombres', description: 'palabras de reemplazo como yo, ella, ellos' },
@@ -138,6 +153,9 @@ const TARGET_UI_TRANSLATIONS = {
     categories: {
       noun: { label: 'Sostantivi', description: 'persone, luoghi, cose o idee' },
       verb: { label: 'Verbi', description: 'parole di azione o stato' },
+      present: { label: 'Verbi al presente', description: 'verbi coniugati al presente' },
+      verbPhrase: { label: 'Frasi verbali', description: 'costruzioni verbali con più parole' },
+      phrase: { label: 'Frasi', description: 'frasi brevi e blocchi fissi' },
       adjective: { label: 'Aggettivi', description: 'parole che descrivono' },
       adverb: { label: 'Avverbi', description: 'parole che modificano azioni o descrizioni' },
       pronoun: { label: 'Pronomi', description: 'parole sostitutive come io, lei, loro' },
@@ -155,6 +173,9 @@ const TARGET_UI_TRANSLATIONS = {
     categories: {
       noun: { label: 'Nomen', description: 'Personen, Orte, Dinge oder Ideen' },
       verb: { label: 'Verben', description: 'Handlungs- oder Zustandswörter' },
+      present: { label: 'Verben im Präsens', description: 'konjugierte Verben im Präsens' },
+      verbPhrase: { label: 'Verbphrasen', description: 'mehrteilige Verbkonstruktionen' },
+      phrase: { label: 'Phrasen', description: 'kurze feste Wendungen und Chunks' },
       adjective: { label: 'Adjektive', description: 'beschreibende Wörter' },
       adverb: { label: 'Adverbien', description: 'Wörter, die Handlungen oder Beschreibungen verändern' },
       pronoun: { label: 'Pronomen', description: 'Stellvertreter wie ich, sie, sie' },
@@ -172,6 +193,9 @@ const TARGET_UI_TRANSLATIONS = {
     categories: {
       noun: { label: 'Substantiv', description: 'personer, platser, saker eller idéer' },
       verb: { label: 'Verb', description: 'ord för handling eller tillstånd' },
+      present: { label: 'Verb i presens', description: 'verb böjda i presens' },
+      verbPhrase: { label: 'Verbfraser', description: 'verbkonstruktioner med flera ord' },
+      phrase: { label: 'Fraser', description: 'korta fasta fraser och uttrycksblock' },
       adjective: { label: 'Adjektiv', description: 'ord som beskriver' },
       adverb: { label: 'Adverb', description: 'ord som ändrar handlingar eller beskrivningar' },
       pronoun: { label: 'Pronomen', description: 'ersättningsord som jag, hon, de' },
@@ -200,11 +224,12 @@ const UI_TRANSLATIONS = {
     noScores: 'No scores saved yet.',
     score: 'Score',
     streak: 'Streak',
-    nextSwitch: 'Next switch',
+    nextSwitch: 'New category in',
     highScore: 'High score',
     lives: 'Lives',
     restart: 'Restart',
     restartRun: 'Restart run',
+    newGame: 'New game',
     intro:
       'Choose a language and CEFR level, then steer the ship and shoot only the vocabulary or grammar forms that match the active category.',
     gameOver: 'Game over',
@@ -216,6 +241,7 @@ const UI_TRANSLATIONS = {
     saveScore: 'Save score',
     scoreSaved: 'Score saved.',
     tapToShoot: 'Tap to shoot',
+    spaceToShoot: 'Space to shoot',
     bonusUnlocked: 'Bonus unlocked',
     missionLoaded:
       'Mission loaded for {language} {level}. Shoot only the matching targets.',
@@ -246,11 +272,12 @@ const UI_TRANSLATIONS = {
     noScores: 'Aucun score enregistre.',
     score: 'Score',
     streak: 'Serie',
-    nextSwitch: 'Prochain changement',
+    nextSwitch: 'Nouvelle categorie dans',
     highScore: 'Meilleur score',
     lives: 'Vies',
     restart: 'Recommencer',
     restartRun: 'Relancer',
+    newGame: 'Nouveau jeu',
     intro:
       'Choisissez une langue et un niveau CECR, puis dirigez le vaisseau et tirez seulement sur le vocabulaire ou les formes grammaticales qui correspondent a la categorie active.',
     gameOver: 'Partie terminee',
@@ -262,6 +289,7 @@ const UI_TRANSLATIONS = {
     saveScore: 'Enregistrer',
     scoreSaved: 'Score enregistre.',
     tapToShoot: 'Touchez pour tirer',
+    spaceToShoot: 'Espace pour tirer',
     bonusUnlocked: 'Bonus active',
     missionLoaded:
       'Mission chargee pour {language} {level}. Tirez seulement sur les bonnes cibles.',
@@ -292,11 +320,12 @@ const UI_TRANSLATIONS = {
     noScores: 'Todavia no hay puntuaciones guardadas.',
     score: 'Puntuacion',
     streak: 'Racha',
-    nextSwitch: 'Proximo cambio',
+    nextSwitch: 'Nueva categoria en',
     highScore: 'Puntuacion maxima',
     lives: 'Vidas',
     restart: 'Reiniciar',
     restartRun: 'Reiniciar partida',
+    newGame: 'Nuevo juego',
     intro:
       'Elige un idioma y un nivel MCER, luego dirige la nave y dispara solo al vocabulario o a las formas gramaticales que coincidan con la categoria activa.',
     gameOver: 'Fin de la partida',
@@ -308,6 +337,7 @@ const UI_TRANSLATIONS = {
     saveScore: 'Guardar',
     scoreSaved: 'Puntuacion guardada.',
     tapToShoot: 'Toca para disparar',
+    spaceToShoot: 'Pulsa espacio para disparar',
     bonusUnlocked: 'Bonus desbloqueado',
     missionLoaded:
       'Mision cargada para {language} {level}. Dispara solo a los objetivos correctos.',
@@ -338,11 +368,12 @@ const UI_TRANSLATIONS = {
     noScores: 'Nessun punteggio salvato.',
     score: 'Punteggio',
     streak: 'Serie',
-    nextSwitch: 'Prossimo cambio',
+    nextSwitch: 'Nuova categoria tra',
     highScore: 'Record',
     lives: 'Vite',
     restart: 'Riavvia',
     restartRun: 'Riavvia partita',
+    newGame: 'Nuova partita',
     intro:
       'Scegli una lingua e un livello QCER, poi guida la nave e spara solo al vocabolario o alle forme grammaticali che corrispondono alla categoria attiva.',
     gameOver: 'Game over',
@@ -354,6 +385,7 @@ const UI_TRANSLATIONS = {
     saveScore: 'Salva',
     scoreSaved: 'Punteggio salvato.',
     tapToShoot: 'Tocca per sparare',
+    spaceToShoot: 'Premi spazio per sparare',
     bonusUnlocked: 'Bonus sbloccato',
     missionLoaded:
       'Missione caricata per {language} {level}. Spara solo ai bersagli giusti.',
@@ -384,11 +416,12 @@ const UI_TRANSLATIONS = {
     noScores: 'Noch keine Punkte gespeichert.',
     score: 'Punktzahl',
     streak: 'Serie',
-    nextSwitch: 'Naechster Wechsel',
+    nextSwitch: 'Neue Kategorie in',
     highScore: 'Highscore',
     lives: 'Leben',
     restart: 'Neustart',
     restartRun: 'Runde neu starten',
+    newGame: 'Neues Spiel',
     intro:
       'Waehle eine Sprache und ein GER-Niveau, steuere dann das Schiff und schiesse nur auf Woerter oder Grammatikformen, die zur aktiven Kategorie passen.',
     gameOver: 'Spiel vorbei',
@@ -400,6 +433,7 @@ const UI_TRANSLATIONS = {
     saveScore: 'Speichern',
     scoreSaved: 'Punktzahl gespeichert.',
     tapToShoot: 'Tippen zum Schiessen',
+    spaceToShoot: 'Leertaste zum Schiessen',
     bonusUnlocked: 'Bonus aktiviert',
     missionLoaded:
       'Mission fuer {language} {level} geladen. Schiesse nur auf passende Ziele.',
@@ -430,11 +464,12 @@ const UI_TRANSLATIONS = {
     noScores: 'Inga sparade resultat än.',
     score: 'Poäng',
     streak: 'Streak',
-    nextSwitch: 'Nästa byte',
+    nextSwitch: 'Ny kategori om',
     highScore: 'High score',
     lives: 'Liv',
     restart: 'Starta om',
     restartRun: 'Starta om runda',
+    newGame: 'Nytt spel',
     intro:
       'Välj ett språk och en CEFR-nivå, styr sedan skeppet och skjut bara på ord eller grammatiska former som matchar den aktiva kategorin.',
     gameOver: 'Game over',
@@ -446,6 +481,7 @@ const UI_TRANSLATIONS = {
     saveScore: 'Spara',
     scoreSaved: 'Resultat sparat.',
     tapToShoot: 'Knacka för att skjuta',
+    spaceToShoot: 'Space för att skjuta',
     bonusUnlocked: 'Bonus upplåst',
     missionLoaded:
       'Uppdrag laddat för {language} {level}. Skjut bara på rätt mål.',
@@ -469,10 +505,32 @@ const getUiText = (languageId) => UI_TRANSLATIONS[languageId] ?? UI_TRANSLATIONS
 const formatUiText = (template, values = {}) =>
   template.replace(/\{(\w+)\}/g, (_, key) => `${values[key] ?? ''}`)
 
+const getShootPrompt = (languageId, isMobileLayout) => {
+  const uiText = getUiText(languageId)
+  return isMobileLayout ? uiText.tapToShoot : uiText.spaceToShoot
+}
+
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
 const getCategorySwitchSafeY = (isMobileLayout) =>
   isMobileLayout ? MOBILE_CATEGORY_SWITCH_SAFE_Y : DESKTOP_CATEGORY_SWITCH_SAFE_Y
+
+const getBulletHitboxPadding = (isMobileLayout, isNearShipLevel) => ({
+  x:
+    (isMobileLayout ? MOBILE_BULLET_HITBOX_RADIUS_X : DESKTOP_BULLET_HITBOX_RADIUS_X) +
+    (isNearShipLevel
+      ? isMobileLayout
+        ? MOBILE_SHIP_LEVEL_HITBOX_BONUS_X
+        : DESKTOP_SHIP_LEVEL_HITBOX_BONUS_X
+      : 0),
+  y:
+    (isMobileLayout ? MOBILE_BULLET_HITBOX_RADIUS_Y : DESKTOP_BULLET_HITBOX_RADIUS_Y) +
+    (isNearShipLevel
+      ? isMobileLayout
+        ? MOBILE_SHIP_LEVEL_HITBOX_BONUS_Y
+        : DESKTOP_SHIP_LEVEL_HITBOX_BONUS_Y
+      : 0),
+})
 
 const getWordBudget = (isMobileLayout, viewportSize) => {
   if (!isMobileLayout) {
@@ -1118,6 +1176,41 @@ const pickCategoryWordText = (categoryMap, categoryId, recentWordsByCategory = {
   return pickRandom(availableWords.length > 0 ? availableWords : category.words)
 }
 
+const doesWordMatchTarget = (word, target) => {
+  if (!target) {
+    return false
+  }
+
+  const sourceBucketId = word.sourceBucketId ?? word.categoryId
+  return (target.sourceBucketIds ?? [target.id]).includes(sourceBucketId)
+}
+
+const countWordsMatchingTarget = (target, words) =>
+  words.filter((word) => doesWordMatchTarget(word, target)).length
+
+const countPlayableWordsMatchingTarget = (target, words, maxY) =>
+  words.filter((word) => doesWordMatchTarget(word, target) && word.y < maxY).length
+
+const getDesiredTargetWordCount = (target) =>
+  target?.matchType === 'subcategory' ? Math.min(2, target.words.length) : 1
+
+const getPreferredSpawnBucketId = (target, activeWords) => {
+  const sourceBucketIds = target?.sourceBucketIds ?? []
+  if (sourceBucketIds.length === 0) {
+    return null
+  }
+
+  const counts = Object.fromEntries(
+    sourceBucketIds.map((bucketId) => [
+      bucketId,
+      activeWords.filter((word) => (word.sourceBucketId ?? word.categoryId) === bucketId).length,
+    ]),
+  )
+  const minCount = Math.min(...Object.values(counts))
+  const eligible = sourceBucketIds.filter((bucketId) => counts[bucketId] === minCount)
+  return pickRandom(eligible)
+}
+
 const makeSpecificCategoryWord = ({
   id,
   categoryId,
@@ -1125,14 +1218,19 @@ const makeSpecificCategoryWord = ({
   categoryMap,
   recentWordsByCategory = {},
   yRange = { min: INITIAL_WORD_Y_MIN, max: CATEGORY_SWITCH_RESPAWN_Y_MAX },
-}) => ({
-  id,
-  text: pickCategoryWordText(categoryMap, categoryId, recentWordsByCategory),
-  categoryId,
-  x: 12 + Math.random() * 76,
-  y: yRange.min + Math.random() * (yRange.max - yRange.min),
-  speed: WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + score * 0.12,
-})
+}) => {
+  const bucket = categoryMap[categoryId]
+  return {
+    id,
+    text: pickCategoryWordText(categoryMap, categoryId, recentWordsByCategory),
+    categoryId: bucket.categoryId ?? categoryId,
+    subcategoryId: bucket.subcategoryId ?? null,
+    sourceBucketId: categoryId,
+    x: 12 + Math.random() * 76,
+    y: yRange.min + Math.random() * (yRange.max - yRange.min),
+    speed: WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + score * 0.12,
+  }
+}
 
 const makeHeartPickup = (id) => ({
   id,
@@ -1145,7 +1243,7 @@ const countWordsByCategory = (categoryOrder, words) =>
   categoryOrder.reduce(
     (counts, categoryId) => ({
       ...counts,
-      [categoryId]: words.filter((word) => word.categoryId === categoryId).length,
+      [categoryId]: words.filter((word) => (word.sourceBucketId ?? word.categoryId) === categoryId).length,
     }),
     {},
   )
@@ -1157,7 +1255,7 @@ const pickBalancedCategoryId = (
 ) => {
   if (
     mustIncludeCategoryId &&
-    !words.some((word) => word.categoryId === mustIncludeCategoryId)
+    !words.some((word) => (word.sourceBucketId ?? word.categoryId) === mustIncludeCategoryId)
   ) {
     return mustIncludeCategoryId
   }
@@ -1174,8 +1272,8 @@ const pickBalancedCategoryId = (
 }
 
 const makeWordFactory = (languageId, cefrLevel) => {
-  const categoryOrder = getCategoryOrder(languageId, cefrLevel)
-  const categoryMap = getCategoryMap(languageId, cefrLevel)
+  const categoryOrder = getSpawnBucketOrder(languageId, cefrLevel)
+  const categoryMap = getSpawnBucketMap(languageId, cefrLevel)
 
   return (
     id,
@@ -1218,7 +1316,7 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     initialWords.push(placeWordWithoutOverlap(candidate, initialWords, isMobileLayout))
     recentWordsByCategory = rememberRecentWord(
       recentWordsByCategory,
-      candidate.categoryId,
+      candidate.sourceBucketId ?? candidate.categoryId,
       candidate.text,
     )
   }
@@ -1239,7 +1337,7 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     phase: 1,
     nextCategorySwitchMs: CATEGORY_SWITCH_MS,
     nextHeartSpawnMs: HEART_SPAWN_MS,
-    startAnnouncement: getUiText(languageId).tapToShoot,
+    startAnnouncement: getShootPrompt(languageId, isMobileLayout),
     startAnnouncementMs: START_ANNOUNCEMENT_MS,
     categoryAnnouncement: '',
     categoryAnnouncementMs: 0,
@@ -1477,6 +1575,41 @@ function App() {
     setHasSubmittedCurrentRun(true)
   }, [game.bestScore, game.cefrLevel, game.languageId, game.status, hasSubmittedCurrentRun, playerName])
 
+  const saveHighScoreEntryAndReset = useCallback(() => {
+    if (game.status !== 'gameover' || game.bestScore <= 0 || hasSubmittedCurrentRun) {
+      return
+    }
+
+    const highScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
+    const nextEntry = {
+      name: sanitizeHighScoreName(playerName),
+      score: game.bestScore,
+      achievedAt: new Date().toISOString(),
+    }
+
+    setHighScores((current) => {
+      const existingEntries = current[highScoreKey] ?? []
+      const nextEntries = [...existingEntries, nextEntry]
+        .sort((first, second) => second.score - first.score)
+        .slice(0, HIGH_SCORE_LIMIT)
+
+      return {
+        ...current,
+        [highScoreKey]: nextEntries,
+      }
+    })
+    setHasSubmittedCurrentRun(true)
+    resetGame()
+  }, [
+    game.bestScore,
+    game.cefrLevel,
+    game.languageId,
+    game.status,
+    hasSubmittedCurrentRun,
+    playerName,
+    resetGame,
+  ])
+
   const fireBullet = useCallback(() => {
     if (!hasLaunchedInitialRun) {
       return
@@ -1547,6 +1680,10 @@ function App() {
 
   const handleArenaPointerDown = useCallback(
     (event) => {
+      if (!hasLaunchedInitialRun) {
+        return
+      }
+
       if (!isMobileLayout) {
         if (event.pointerType !== 'mouse' || event.button !== 0) {
           return
@@ -1585,11 +1722,15 @@ function App() {
         event.currentTarget.setPointerCapture?.(event.pointerId)
       }
     },
-    [isMobileLayout],
+    [hasLaunchedInitialRun, isMobileLayout],
   )
 
   const handleArenaPointerMove = useCallback(
     (event) => {
+      if (!hasLaunchedInitialRun) {
+        return
+      }
+
       if (arenaTouchStateRef.current.pointerId !== event.pointerId || !arenaTouchStateRef.current.active) {
         return
       }
@@ -1611,11 +1752,15 @@ function App() {
         }
       }
     },
-    [isMobileLayout, movePlayerByRelativeDrag, movePlayerToClientX],
+    [hasLaunchedInitialRun, isMobileLayout, movePlayerByRelativeDrag, movePlayerToClientX],
   )
 
   const handleArenaPointerUp = useCallback(
     (event) => {
+      if (!hasLaunchedInitialRun) {
+        return
+      }
+
       if (arenaTouchStateRef.current.pointerId !== event.pointerId) {
         return
       }
@@ -1636,7 +1781,7 @@ function App() {
         fireBullet()
       }
     },
-    [fireBullet],
+    [fireBullet, hasLaunchedInitialRun],
   )
 
   const handleControlPointerDown = useCallback(
@@ -1708,6 +1853,12 @@ function App() {
     [fireBullet],
   )
 
+  const startInitialRun = useCallback(() => {
+    audioRef.current?.resume()
+    setHasLaunchedInitialRun(true)
+    resetGame()
+  }, [resetGame])
+
   useEffect(() => {
     const onKeyDown = (event) => {
       const key = event.key.toLowerCase()
@@ -1724,7 +1875,20 @@ function App() {
       }
 
       if (key === 'enter') {
-        resetGame()
+        if (isMobileLayout) {
+          return
+        }
+
+        if (!hasLaunchedInitialRun) {
+          startInitialRun()
+          return
+        }
+
+        if (game.status === 'gameover') {
+          resetGame()
+          return
+        }
+
         return
       }
 
@@ -1745,7 +1909,7 @@ function App() {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('keyup', onKeyUp)
     }
-  }, [fireBullet, resetGame])
+  }, [fireBullet, game.status, hasLaunchedInitialRun, isMobileLayout, resetGame, startInitialRun])
 
   useEffect(() => {
     if (
@@ -1764,32 +1928,38 @@ function App() {
 
         const categoryOrder = getCategoryOrder(current.languageId, current.cefrLevel)
         const categoryMap = getCategoryMap(current.languageId, current.cefrLevel)
+        const spawnBucketOrder = getSpawnBucketOrder(current.languageId, current.cefrLevel)
+        const spawnBucketMap = getSpawnBucketMap(current.languageId, current.cefrLevel)
         const uiText = getUiText(current.languageId)
         const nextCategory = getNextCategoryId(categoryOrder, current.targetCategory)
+        const nextTarget = categoryMap[nextCategory]
         const categorySwitchSafeY = getCategorySwitchSafeY(isMobileLayout)
         const wordsTooLowForNewTarget = current.words.filter(
-          (word) => word.categoryId === nextCategory && word.y >= categorySwitchSafeY,
+          (word) => doesWordMatchTarget(word, nextTarget) && word.y >= categorySwitchSafeY,
         )
         const preservedWords = current.words.filter(
-          (word) => !(word.categoryId === nextCategory && word.y >= categorySwitchSafeY),
+          (word) => !(doesWordMatchTarget(word, nextTarget) && word.y >= categorySwitchSafeY),
         )
         let adjustedWords = [...preservedWords]
         let recentWordsByCategory = current.recentWordsByCategory
 
         wordsTooLowForNewTarget.forEach(() => {
-          const needsVisibleTarget = !adjustedWords.some(
-            (word) => word.categoryId === nextCategory,
-          )
-          const replacementCategoryId = pickBalancedCategoryId(categoryOrder, adjustedWords, {
-            mustIncludeCategoryId: needsVisibleTarget ? nextCategory : null,
-            avoidCategoryId: needsVisibleTarget ? null : nextCategory,
+          const needsVisibleTarget =
+            countPlayableWordsMatchingTarget(nextTarget, adjustedWords, categorySwitchSafeY) <
+            getDesiredTargetWordCount(nextTarget)
+          const preferredBucketId = needsVisibleTarget
+            ? getPreferredSpawnBucketId(nextTarget, adjustedWords)
+            : null
+          const replacementCategoryId = pickBalancedCategoryId(spawnBucketOrder, adjustedWords, {
+            mustIncludeCategoryId: preferredBucketId,
+            avoidCategoryId: preferredBucketId ? null : getPreferredSpawnBucketId(nextTarget, adjustedWords),
           })
           const replacement = placeWordWithoutOverlap(
             makeSpecificCategoryWord({
               id: wordIdRef.current++,
               categoryId: replacementCategoryId,
               score: current.score,
-              categoryMap,
+              categoryMap: spawnBucketMap,
               recentWordsByCategory,
             }),
             adjustedWords,
@@ -1798,10 +1968,41 @@ function App() {
           adjustedWords.push(replacement)
           recentWordsByCategory = rememberRecentWord(
             recentWordsByCategory,
-            replacement.categoryId,
+            replacement.sourceBucketId,
             replacement.text,
           )
         })
+
+        while (
+          countPlayableWordsMatchingTarget(nextTarget, adjustedWords, categorySwitchSafeY) <
+          getDesiredTargetWordCount(nextTarget)
+        ) {
+          const preferredBucketId = getPreferredSpawnBucketId(nextTarget, adjustedWords)
+          const replacementCategoryId = pickBalancedCategoryId(spawnBucketOrder, adjustedWords, {
+            mustIncludeCategoryId: preferredBucketId,
+          })
+          const replacement = placeWordWithoutOverlap(
+            makeSpecificCategoryWord({
+              id: wordIdRef.current++,
+              categoryId: replacementCategoryId,
+              score: current.score,
+              categoryMap: spawnBucketMap,
+              recentWordsByCategory,
+              yRange: {
+                min: INITIAL_WORD_Y_MIN,
+                max: CATEGORY_SWITCH_RESPAWN_Y_MAX,
+              },
+            }),
+            adjustedWords,
+            isMobileLayout,
+          )
+          adjustedWords.push(replacement)
+          recentWordsByCategory = rememberRecentWord(
+            recentWordsByCategory,
+            replacement.sourceBucketId,
+            replacement.text,
+          )
+        }
 
         return {
           ...current,
@@ -1849,6 +2050,8 @@ function App() {
         }
 
         const uiText = getUiText(current.languageId)
+        const targetMap = getCategoryMap(current.languageId, current.cefrLevel)
+        const activeTarget = targetMap[current.targetCategory]
         const makeWord = makeWordFactory(current.languageId, current.cefrLevel)
 
         let playerDirection = 0
@@ -1968,23 +2171,12 @@ function App() {
 
             const isNearShipLevel = word.y >= SHIP_LEVEL_HIT_Y
             const bounds = getWordBounds(word, isMobileLayout)
+            const hitboxPadding = getBulletHitboxPadding(isMobileLayout, isNearShipLevel)
             const rect = {
-              left:
-                bounds.left -
-                BULLET_HITBOX_RADIUS_X -
-                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
-              right:
-                bounds.right +
-                BULLET_HITBOX_RADIUS_X +
-                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
-              top:
-                bounds.top -
-                BULLET_HITBOX_RADIUS_Y -
-                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
-              bottom:
-                bounds.bottom +
-                BULLET_HITBOX_RADIUS_Y +
-                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
+              left: bounds.left - hitboxPadding.x,
+              right: bounds.right + hitboxPadding.x,
+              top: bounds.top - hitboxPadding.y,
+              bottom: bounds.bottom + hitboxPadding.y,
             }
 
             return segmentIntersectsRect(
@@ -2003,7 +2195,7 @@ function App() {
           spentBullets.add(bullet.id)
           destroyedWords.add(hitWord.id)
 
-          if (hitWord.categoryId === targetCategory) {
+          if (doesWordMatchTarget(hitWord, activeTarget)) {
             score += CORRECT_HIT_POINTS
             bestScore = Math.max(bestScore, score)
             streak += 1
@@ -2084,7 +2276,7 @@ function App() {
         nextHearts = nextHearts.filter((heart) => !collectedHearts.has(heart.id) && heart.y < 98)
 
         const slippedWords = nextWords.filter((word) => word.y >= 96)
-        if (slippedWords.some((word) => word.categoryId === targetCategory)) {
+        if (slippedWords.some((word) => doesWordMatchTarget(word, activeTarget))) {
           score = Math.max(0, score - MISSED_TARGET_POINTS)
           lives -= 1
           streak = 0
@@ -2092,7 +2284,7 @@ function App() {
             points: MISSED_TARGET_POINTS,
           })
           feedbackTone = 'bad'
-          const missedTarget = slippedWords.find((word) => word.categoryId === targetCategory)
+          const missedTarget = slippedWords.find((word) => doesWordMatchTarget(word, activeTarget))
           if (missedTarget) {
             nextEffects = [
               ...nextEffects,
@@ -2118,6 +2310,10 @@ function App() {
 
         if (spawnDue || nextWords.length < wordBudget.minActiveWords) {
           lastSpawnRef.current = timestamp
+          const preferredBucketId =
+            countWordsMatchingTarget(activeTarget, nextWords) < getDesiredTargetWordCount(activeTarget)
+              ? getPreferredSpawnBucketId(activeTarget, nextWords)
+              : null
 
           while (nextWords.length < wordBudget.minActiveWords) {
             spawnCountRef.current += 1
@@ -2126,12 +2322,16 @@ function App() {
               score,
               nextWords,
               recentWordsByCategory,
+              undefined,
+              {
+                mustIncludeCategoryId: preferredBucketId,
+              },
             )
             const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
               recentWordsByCategory,
-              placedWord.categoryId,
+              placedWord.sourceBucketId,
               placedWord.text,
             )
           }
@@ -2143,12 +2343,16 @@ function App() {
               score,
               nextWords,
               recentWordsByCategory,
+              undefined,
+              {
+                mustIncludeCategoryId: preferredBucketId,
+              },
             )
             const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
               recentWordsByCategory,
-              placedWord.categoryId,
+              placedWord.sourceBucketId,
               placedWord.text,
             )
           }
@@ -2236,7 +2440,10 @@ function App() {
   }, [hasLaunchedInitialRun, isMobileLayout, mobileMenuOpen, selection.sfxEnabled, wordBudget])
 
   const levelPack = getLevelPack(game.languageId, game.cefrLevel)
-  const targetStyle = CATEGORY_STYLES[game.targetCategory]
+  const targetCategoryMap = getCategoryMap(game.languageId, game.cefrLevel)
+  const currentTarget = targetCategoryMap[game.targetCategory]
+  const targetStyle =
+    CATEGORY_STYLES[currentTarget?.styleId ?? game.targetCategory] ?? CATEGORY_STYLES.verb
   const languages = getLanguageNames()
   const uiLanguageId = selection.languageId
   const uiText = getUiText(uiLanguageId)
@@ -2245,7 +2452,10 @@ function App() {
     TARGET_UI_TRANSLATIONS[targetLanguageId] ?? TARGET_UI_TRANSLATIONS.english
   const targetUiCategory =
     targetUiPack.categories[game.targetCategory] ??
-    TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory]
+    TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory] ?? {
+      label: currentTarget?.label ?? game.targetCategory,
+      description: currentTarget?.description ?? '',
+    }
   const selectedHighScoreEntries =
     highScores[getHighScoreKey(selection.languageId, selection.cefrLevel)] ?? []
   const selectedHighScore = selectedHighScoreEntries[0]?.score ?? 0
@@ -2260,6 +2470,16 @@ function App() {
     (gameHighScoreEntries.length < HIGH_SCORE_LIMIT ||
       game.bestScore > lowestQualifyingScore)
   const lifeHearts = Array.from({ length: MAX_LIVES }, (_, index) => index < game.lives)
+  const categoryCountdown =
+    hasLaunchedInitialRun &&
+    game.status !== 'gameover' &&
+    game.nextCategorySwitchMs > 0 &&
+    game.nextCategorySwitchMs <= 3000
+      ? Math.ceil(game.nextCategorySwitchMs / 1000)
+      : null
+  const nextSwitchDisplay = categoryCountdown
+    ? `${categoryCountdown}`
+    : `${(game.nextCategorySwitchMs / 1000).toFixed(1)}s`
 
   const handleLanguageChange = (event) => {
     const languageId = event.target.value
@@ -2305,12 +2525,6 @@ function App() {
       ...current,
       sfxEnabled: !current.sfxEnabled,
     }))
-  }
-
-  const startInitialRun = () => {
-    audioRef.current?.resume()
-    setHasLaunchedInitialRun(true)
-    resetGame()
   }
 
   const handleTargetLanguageChange = (event) => {
@@ -2414,10 +2628,6 @@ function App() {
       <div className="hud-card">
         <span>{uiText.streak}</span>
         <strong>{game.streak}</strong>
-      </div>
-      <div className="hud-card">
-        <span>{uiText.nextSwitch}</span>
-        <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
       </div>
       <div className="hud-card">
         <span>{uiText.highScore}</span>
@@ -2532,32 +2742,20 @@ function App() {
           <p className="arena-kicker">
             {LANGUAGE_PACKS[game.languageId].name} · {game.cefrLevel}
           </p>
-          <button className="restart-button" onClick={() => resetGame()}>
-            {uiText.restartRun}
-          </button>
-        </div>
-        ) : null}
-
-        {!isMobileLayout ? (
-        <div className={`lives-panel ${game.feedbackTone === 'bad' ? 'lives-panel-alert' : ''}`}>
-          <div className="lives-panel-copy">
-            <span>{uiText.lives}</span>
-          </div>
-          <div className="lives-row" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
-            {lifeHearts.map((filled, index) => (
-              <span key={index} className={`life-heart ${filled ? 'life-heart-filled' : ''}`}>
-                {filled ? '♥' : '♡'}
-              </span>
-            ))}
-          </div>
         </div>
         ) : null}
 
         {!isMobileLayout ? (
         <div className="mission-card mission-card-inline">
-          <p className="mission-label">{targetUiPack.currentTarget}</p>
-          <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
-          <span>{targetUiCategory.description}</span>
+          <div className="mission-main">
+            <p className="mission-label">{targetUiPack.currentTarget}</p>
+            <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
+            <span>{targetUiCategory.description}</span>
+          </div>
+          <div className={`mission-countdown ${categoryCountdown ? 'is-imminent' : ''}`}>
+            <span>{uiText.nextSwitch}</span>
+            <strong>{nextSwitchDisplay}</strong>
+          </div>
         </div>
         ) : null}
 
@@ -2572,11 +2770,24 @@ function App() {
           <div className="starfield starfield-a" />
           <div className="starfield starfield-b" />
 
+          {!isMobileLayout ? (
+            <div className={`lives-panel arena-desktop-lives ${game.feedbackTone === 'bad' ? 'lives-panel-alert' : ''}`}>
+              <div className="lives-panel-copy">
+                <div className="lives-row" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
+                  {lifeHearts.map((filled, index) => (
+                    <span key={index} className={`life-heart ${filled ? 'life-heart-filled' : ''}`}>
+                      {filled ? '♥' : '♡'}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           {isMobileLayout ? (
             <>
               <div className="arena-overlay arena-overlay-top">
                 <div className={`arena-mini-card arena-mini-time ${game.feedbackTone === 'bad' ? 'arena-mini-time-alert' : ''}`}>
-                  <span>{uiText.lives}</span>
                   <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
                     {lifeHearts.map((filled, index) => (
                       <span key={index} className={`arena-mini-heart ${filled ? 'arena-mini-heart-filled' : ''}`}>
@@ -2589,6 +2800,10 @@ function App() {
                   <div className="arena-mini-card arena-target-card">
                     <span>{targetUiPack.currentTarget}</span>
                     <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
+                    <div className={`arena-target-countdown ${categoryCountdown ? 'is-imminent' : ''}`}>
+                      <span>{uiText.nextSwitch}</span>
+                      <strong>{nextSwitchDisplay}</strong>
+                    </div>
                   </div>
                 </div>
                 <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
@@ -2695,7 +2910,11 @@ function App() {
               ) : null}
 
               {game.status === 'gameover' ? (
-                <div className="overlay overlay-interactive">
+                <div
+                  className="overlay overlay-interactive"
+                  onPointerDown={(event) => event.stopPropagation()}
+                  onClick={(event) => event.stopPropagation()}
+                >
                   <p>{uiText.gameOver}</p>
                   <h3>{uiText.score}: {game.bestScore}</h3>
                   {qualifiesForHighScore && !hasSubmittedCurrentRun ? (
@@ -2712,8 +2931,25 @@ function App() {
                         onChange={(event) => setPlayerName(event.target.value)}
                         placeholder={uiText.yourName}
                       />
-                      <button className="restart-button highscore-save-button" onClick={saveHighScoreEntry}>
-                        {uiText.saveScore}
+                      {isMobileLayout ? (
+                        <button className="restart-button highscore-save-button" onClick={saveHighScoreEntry}>
+                          {uiText.saveScore}
+                        </button>
+                      ) : (
+                        <div className="overlay-actions">
+                          <button className="restart-button highscore-save-button" onClick={saveHighScoreEntryAndReset}>
+                            {uiText.saveScore}
+                          </button>
+                          <button className="restart-button overlay-new-game-button" onClick={() => resetGame()}>
+                            {uiText.newGame}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ) : !isMobileLayout ? (
+                    <div className="overlay-actions">
+                      <button className="restart-button overlay-new-game-button" onClick={() => resetGame()}>
+                        {uiText.newGame}
                       </button>
                     </div>
                   ) : null}
@@ -2730,7 +2966,7 @@ function App() {
           ) : null}
 
           <div
-            className="spaceship"
+            className={`spaceship ${hasLaunchedInitialRun ? '' : 'spaceship-inactive'}`.trim()}
             style={{ left: `${(game.playerX / ARENA.width) * 100}%` }}
             onClick={hasLaunchedInitialRun ? handleShipClick : undefined}
           >
