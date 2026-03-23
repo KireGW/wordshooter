@@ -241,7 +241,7 @@
 .life-heart {
   font-size: 1.3rem;
   line-height: 1;
-  color: rgba(236, 247, 255, 0.2);
+  color: rgba(236, 247, 255, 0.12);
   text-shadow: none;
 }
 
@@ -1301,7 +1301,7 @@
   .arena-mini-heart {
     font-size: 0.92rem;
     line-height: 1;
-    color: rgba(236, 247, 255, 0.22);
+    color: rgba(236, 247, 255, 0.14);
   }
 
   .arena-mini-heart-filled {

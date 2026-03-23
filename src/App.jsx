@@ -28,7 +28,7 @@ const DESKTOP_MAX_ACTIVE_WORDS = 5
 const CATEGORY_SWITCH_MS = 15000
 const CATEGORY_ANNOUNCEMENT_MS = 1800
 const INITIAL_LIVES = 3
-const MAX_LIVES = 4
+const MAX_LIVES = 5
 const HEART_SPAWN_MS = 18000
 const HEART_PICKUP_POINTS = 1
 const HEART_PICKUP_SIZE = 5.8
@@ -1930,7 +1930,10 @@ function App() {
           }
         }
 
-        if (nextHeartSpawnMs <= 0) {
+        if (lives >= MAX_LIVES) {
+          nextHearts = []
+          nextHeartSpawnMs = HEART_SPAWN_MS
+        } else if (nextHeartSpawnMs <= 0) {
           nextHearts = [...nextHearts, makeHeartPickup(heartIdRef.current++)]
           nextHeartSpawnMs = HEART_SPAWN_MS * (0.88 + Math.random() * 0.28)
         }
@@ -2243,7 +2246,7 @@ function App() {
           <div className="lives-row" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
             {lifeHearts.map((filled, index) => (
               <span key={index} className={`life-heart ${filled ? 'life-heart-filled' : ''}`}>
-                ♥
+                {filled ? '♥' : '♡'}
               </span>
             ))}
           </div>
@@ -2277,7 +2280,7 @@ function App() {
                   <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
                     {lifeHearts.map((filled, index) => (
                       <span key={index} className={`arena-mini-heart ${filled ? 'arena-mini-heart-filled' : ''}`}>
-                        ♥
+                        {filled ? '♥' : '♡'}
                       </span>
                     ))}
                   </div>
