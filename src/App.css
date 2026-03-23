@@ -53,6 +53,16 @@
 
 .hero-copy {
   width: 100%;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.hero-copy h1,
+.hero-copy p {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .mobile-menu-button,
@@ -916,7 +926,6 @@
   }
 
   .mobile-menu-button,
-  .mobile-fullscreen-button,
   .mobile-menu-panel {
     display: block;
   }
@@ -926,10 +935,6 @@
     top: 0;
     z-index: 30;
     min-width: 58px;
-  }
-
-  .mobile-fullscreen-button {
-    left: 0;
   }
 
   .mobile-menu-button {
@@ -1017,6 +1022,27 @@
     min-height: 0;
     overflow: hidden;
     padding-right: 0;
+  }
+
+  .play-layout-dimmed .arena-panel {
+    position: relative;
+  }
+
+  .play-layout-dimmed .arena-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 12;
+    pointer-events: none;
+    border-radius: 24px;
+    background: rgba(4, 10, 20, 0.34);
+    backdrop-filter: blur(1.5px) saturate(0.88);
+  }
+
+  .play-layout-dimmed .arena,
+  .play-layout-dimmed .mobile-control-line,
+  .play-layout-dimmed .feedback {
+    filter: brightness(0.72) saturate(0.88);
   }
 
   .select-card,
