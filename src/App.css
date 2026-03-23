@@ -1729,7 +1729,8 @@
     top: 10px;
     left: 10px;
     right: 10px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr minmax(150px, 54%) 1fr;
     align-items: stretch;
     gap: 6px;
   }
@@ -1777,6 +1778,7 @@
   }
 
   .arena-mini-time {
+    justify-self: start;
     flex: 0 0 104px;
     min-width: 104px;
     max-width: 104px;
@@ -1894,10 +1896,11 @@
   }
 
   .arena-target-picker {
+    grid-column: 2;
     position: relative;
-    flex: 1 1 0;
     min-width: 0;
-    max-width: none;
+    width: 100%;
+    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: stretch;
@@ -1913,6 +1916,7 @@
   }
 
   .arena-restart-button {
+    justify-self: end;
     pointer-events: auto;
   }
 
