@@ -53,6 +53,7 @@ const RECENT_WORD_MEMORY = 4
 const STREAK_ANNOUNCEMENT_MS = 1500
 const DEFAULT_MUSIC_ENABLED = false
 const DEFAULT_SFX_ENABLED = false
+const MOBILE_LAYOUT_MEDIA_QUERY = '(max-width: 720px), (pointer: coarse)'
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
@@ -614,6 +615,13 @@ const buildInitialGame = (languageId, cefrLevel) => {
 function App() {
   const [selection, setSelection] = useState(loadSettings)
   const [highScores, setHighScores] = useState(loadHighScores)
+  const [isMobileLayout, setIsMobileLayout] = useState(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return false
+    }
+
+    return window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY).matches
+  })
   const [game, setGame] = useState(() =>
     buildInitialGame(loadSettings().languageId, loadSettings().cefrLevel),
   )
@@ -629,6 +637,7 @@ function App() {
   const spawnCountRef = useRef(INITIAL_WORD_COUNT)
   const effectIdRef = useRef(0)
   const audioRef = useRef(null)
+  const arenaRef = useRef(null)
 
   useEffect(() => {
     gameRef.current = game
@@ -671,6 +680,22 @@ function App() {
   }, [selection.musicEnabled, selection.sfxEnabled])
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return undefined
+    }
+
+    const mediaQuery = window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY)
+    const syncLayout = () => setIsMobileLayout(mediaQuery.matches)
+
+    syncLayout()
+    mediaQuery.addEventListener('change', syncLayout)
+
+    return () => {
+      mediaQuery.removeEventListener('change', syncLayout)
+    }
+  }, [])
+
+  useEffect(() => {
     const highScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
     setHighScores((current) => {
       const previous = current[highScoreKey] ?? 0
@@ -700,6 +725,85 @@ function App() {
     [selection.cefrLevel, selection.languageId],
   )
 
+  const fireBullet = useCallback(() => {
+    const now = performance.now()
+    if (now - lastShotRef.current <= 180) {
+      return
+    }
+
+    lastShotRef.current = now
+    audioRef.current?.resume()
+    if (selection.sfxEnabled) {
+      audioRef.current?.playLaser()
+    }
+
+    setGame((current) => {
+      if (current.status === 'gameover') {
+        return current
+      }
+
+      return {
+        ...current,
+        bullets: [
+          ...current.bullets,
+          {
+            id: bulletIdRef.current++,
+            x: current.playerX,
+            y: 82,
+          },
+        ],
+      }
+    })
+  }, [selection.sfxEnabled])
+
+  const movePlayerToClientX = useCallback((clientX) => {
+    const arena = arenaRef.current
+    if (!arena) {
+      return
+    }
+
+    const bounds = arena.getBoundingClientRect()
+    const relativeX = clamp((clientX - bounds.left) / bounds.width, 0, 1)
+    const nextPlayerX = 8 + relativeX * 84
+
+    setGame((current) => ({
+      ...current,
+      playerX: nextPlayerX,
+    }))
+  }, [])
+
+  const handleArenaPointerDown = useCallback(
+    (event) => {
+      if (!isMobileLayout) {
+        return
+      }
+
+      if (event.pointerType === 'mouse' && window.innerWidth > 720) {
+        return
+      }
+
+      event.currentTarget.setPointerCapture?.(event.pointerId)
+      movePlayerToClientX(event.clientX)
+    },
+    [isMobileLayout, movePlayerToClientX],
+  )
+
+  const handleArenaPointerMove = useCallback(
+    (event) => {
+      if (!isMobileLayout) {
+        return
+      }
+
+      const isTouchLike = event.pointerType !== 'mouse' || window.innerWidth <= 720
+      if (!isTouchLike || (event.buttons === 0 && event.pointerType === 'mouse')) {
+        return
+      }
+
+      movePlayerToClientX(event.clientX)
+    },
+    [isMobileLayout, movePlayerToClientX],
+  )
+
   useEffect(() => {
     const onKeyDown = (event) => {
       const key = event.key.toLowerCase()
@@ -712,26 +816,7 @@ function App() {
       }
 
       if (event.key === ' ') {
-        const now = performance.now()
-        if (now - lastShotRef.current > 180) {
-          lastShotRef.current = now
-          audioRef.current?.resume()
-          if (selection.sfxEnabled) {
-            audioRef.current?.playLaser()
-          }
-          setGame((current) => ({
-            ...current,
-            bullets: [
-              ...current.bullets,
-              {
-                id: bulletIdRef.current++,
-                x: current.playerX,
-                y: 82,
-              },
-            ],
-            effects: current.effects,
-          }))
-        }
+        fireBullet()
       }
 
       if (key === 'enter') {
@@ -756,7 +841,7 @@ function App() {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('keyup', onKeyUp)
     }
-  }, [resetGame, selection.sfxEnabled])
+  }, [fireBullet, resetGame])
 
   useEffect(() => {
     if (game.status === 'gameover') {
@@ -1282,7 +1367,12 @@ function App() {
           <span>{targetCategory.description}</span>
         </div>
 
-        <div className="arena">
+        <div
+          ref={arenaRef}
+          className={`arena ${isMobileLayout ? 'arena-touch' : ''}`}
+          onPointerDown={handleArenaPointerDown}
+          onPointerMove={handleArenaPointerMove}
+        >
           <div className="starfield starfield-a" />
           <div className="starfield starfield-b" />
 
@@ -1360,6 +1450,18 @@ function App() {
           ) : null}
 
         </div>
+
+        {isMobileLayout ? (
+          <div className="mobile-controls">
+            <div className="mobile-control-copy">
+              <span>Touch controls</span>
+              <strong>Drag the ship in the arena, then tap fire.</strong>
+            </div>
+            <button className="mobile-fire-button" onClick={fireBullet}>
+              Fire
+            </button>
+          </div>
+        ) : null}
 
         <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
         </section>

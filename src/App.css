@@ -368,6 +368,10 @@
   border: 1px solid rgba(157, 192, 255, 0.16);
 }
 
+.arena-touch {
+  touch-action: none;
+}
+
 .arena::before {
   content: '';
   position: absolute;
@@ -713,6 +717,38 @@
   color: #bceffc;
 }
 
+.mobile-controls {
+  display: none;
+}
+
+.mobile-control-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.mobile-control-copy span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.mobile-control-copy strong {
+  font-size: 0.92rem;
+}
+
+.mobile-fire-button {
+  border: 0;
+  border-radius: 18px;
+  padding: 14px 18px;
+  font: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  color: #08111f;
+  background: linear-gradient(135deg, #ffd166, #f8f4a6);
+  box-shadow: 0 14px 28px rgba(255, 209, 102, 0.24);
+}
+
 .controls-panel {
   display: grid;
   grid-template-columns: 1fr;
@@ -814,15 +850,24 @@
 
 @media (max-width: 640px) {
   .game-shell {
-    gap: 8px;
+    height: auto;
+    min-height: 100svh;
+    overflow: auto;
+    gap: 10px;
   }
 
   .hero-panel {
     gap: 6px;
   }
 
+  .hero-panel h1 {
+    margin-bottom: 6px;
+    font-size: clamp(2.2rem, 10vw, 3.4rem);
+  }
+
   .intro {
     font-size: 0.84rem;
+    max-width: 36ch;
   }
 
   .play-layout {
@@ -831,13 +876,25 @@
       'arena'
       'left'
       'right';
-    overflow: auto;
-    padding-right: 2px;
+    gap: 10px;
+    overflow: visible;
+    padding-right: 0;
   }
 
-  .sidebar-left,
+  .sidebar-left {
+    grid-area: left;
+  }
+
   .sidebar-right {
-    grid-area: auto;
+    grid-area: right;
+  }
+
+  .sidebar-left {
+    gap: 10px;
+  }
+
+  .sidebar-right {
+    gap: 10px;
   }
 
   .select-card,
@@ -848,12 +905,14 @@
 
   .arena-panel {
     padding: 10px;
+    min-height: 72svh;
   }
 
   .arena-header {
     margin-bottom: 8px;
     gap: 8px;
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .restart-button {
@@ -878,6 +937,18 @@
     font-size: 1.15rem;
   }
 
+  .mobile-controls {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    background: rgba(6, 15, 28, 0.62);
+    border: 1px solid rgba(184, 192, 255, 0.12);
+    border-radius: 18px;
+    padding: 12px;
+  }
+
   .word-target {
     font-size: 0.78rem;
     padding: 7px 10px;
@@ -898,5 +969,30 @@
   .controls-panel,
   .setup-panel {
     gap: 8px;
+  }
+
+  .setup-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .curriculum-card {
+    grid-column: 1 / -1;
+  }
+
+  .controls-panel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .sound-button {
+    padding: 10px 6px;
+  }
+
+  .sound-button-sidebar {
+    grid-column: span 1;
   }
 }
