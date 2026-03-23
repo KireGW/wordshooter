@@ -1354,7 +1354,11 @@
     min-height: 100svh;
     overflow: hidden;
     gap: 4px;
-    padding: 4px;
+    padding:
+      calc(4px + env(safe-area-inset-top, 0px))
+      calc(4px + env(safe-area-inset-right, 0px))
+      calc(4px + env(safe-area-inset-bottom, 0px))
+      calc(4px + env(safe-area-inset-left, 0px));
   }
 
   .hero-panel {
@@ -1402,7 +1406,7 @@
 
   .mobile-menu-panel {
     position: absolute;
-    top: 64px;
+    top: calc(64px + env(safe-area-inset-top, 0px));
     left: 8px;
     right: 8px;
     z-index: 28;
@@ -1904,5 +1908,166 @@
 
   .sound-button-sidebar {
     grid-column: span 1;
+  }
+}
+
+@media (max-width: 430px) {
+  .game-shell {
+    gap: 3px;
+  }
+
+  .hero-panel {
+    grid-template-columns: 28px minmax(0, 1fr) 28px;
+    gap: 6px;
+  }
+
+  .hero-panel h1 {
+    font-size: clamp(1.58rem, 7vw, 2.05rem);
+  }
+
+  .hero-copy {
+    padding-top: 0;
+  }
+
+  .mobile-top-button {
+    min-width: 28px;
+    padding: 2px 1px;
+  }
+
+  .mobile-menu-panel {
+    left: 6px;
+    right: 6px;
+    max-height: min(72svh, 640px);
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .mobile-menu-panel .mobile-menu-intro {
+    padding-bottom: 8px;
+  }
+
+  .arena-panel {
+    padding: 8px;
+  }
+
+  .arena-overlay-top {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+
+  .arena-overlay-bottom {
+    left: 8px;
+    right: 8px;
+    bottom: 10px;
+  }
+
+  .arena-mini-card {
+    height: 52px;
+    padding: 7px 8px;
+    border-radius: 14px;
+    gap: 3px;
+  }
+
+  .arena-mini-card span {
+    font-size: 0.54rem;
+    letter-spacing: 0.06em;
+  }
+
+  .arena-mini-card strong {
+    font-size: 0.86rem;
+  }
+
+  .arena-mini-time {
+    flex-basis: 88px;
+    min-width: 88px;
+    max-width: 88px;
+    padding-inline: 8px;
+  }
+
+  .arena-mini-lives {
+    gap: 2px;
+  }
+
+  .arena-mini-lives .arena-mini-heart {
+    font-size: 0.78rem;
+  }
+
+  .arena-target-card {
+    padding: 8px 10px;
+  }
+
+  .arena-target-card span {
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+  }
+
+  .arena-target-card strong {
+    font-size: clamp(0.82rem, 3.4vw, 1rem);
+  }
+
+  .arena-restart-button {
+    height: 52px;
+    width: 74px;
+    min-width: 74px;
+    max-width: 74px;
+    padding: 6px 8px;
+    font-size: clamp(0.62rem, 2vw, 0.7rem);
+  }
+
+  .arena-mobile-stats {
+    gap: 6px;
+  }
+
+  .arena-mobile-stat {
+    padding: 4px 2px;
+  }
+
+  .arena-mobile-stat span {
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+  }
+
+  .arena-mobile-stat strong {
+    font-size: 0.8rem;
+  }
+
+  .word-target {
+    font-size: 0.74rem;
+    padding: 6px 9px;
+  }
+
+  .spaceship {
+    width: 54px;
+    height: 70px;
+    bottom: -2%;
+  }
+
+  .feedback {
+    min-height: 44px;
+    margin-top: 8px;
+    padding: 8px 9px;
+    font-size: 0.78rem;
+  }
+
+  .mobile-control-zone {
+    left: 8px;
+    right: 8px;
+    bottom: 52px;
+  }
+
+  .start-screen {
+    width: min(92%, 460px);
+    padding: 18px 16px;
+    gap: 12px;
+  }
+
+  .start-screen p {
+    font-size: 0.88rem;
+  }
+
+  .start-screen-settings {
+    gap: 10px;
   }
 }
