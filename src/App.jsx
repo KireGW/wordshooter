@@ -615,6 +615,7 @@ const buildInitialGame = (languageId, cefrLevel) => {
 function App() {
   const [selection, setSelection] = useState(loadSettings)
   const [highScores, setHighScores] = useState(loadHighScores)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isMobileLayout, setIsMobileLayout] = useState(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
       return false
@@ -694,6 +695,12 @@ function App() {
       mediaQuery.removeEventListener('change', syncLayout)
     }
   }, [])
+
+  useEffect(() => {
+    if (!isMobileLayout) {
+      setMobileMenuOpen(false)
+    }
+  }, [isMobileLayout])
 
   useEffect(() => {
     const highScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
@@ -1278,67 +1285,130 @@ function App() {
     }))
   }
 
+  const settingsPanel = (
+    <section className="setup-panel">
+      <label className="select-card">
+        <span>Language</span>
+        <select value={selection.languageId} onChange={handleLanguageChange}>
+          {languages.map((language) => (
+            <option key={language.id} value={language.id}>
+              {language.name}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="select-card">
+        <span>CEFR level</span>
+        <select value={selection.cefrLevel} onChange={handleLevelChange}>
+          {CEFR_LEVELS.map((level) => (
+            <option key={level} value={level}>
+              {level}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <div className="select-card curriculum-card">
+        <span>Curriculum focus</span>
+        <strong>{levelPack.label}</strong>
+        <p>{levelPack.categories.map((category) => category.label).join(' · ')}</p>
+      </div>
+    </section>
+  )
+
+  const controlsPanel = (
+    <section className="controls-panel">
+      <div className="control-chip">
+        <span>Move</span>
+        <strong>{isMobileLayout ? 'Drag in the arena' : 'A / D or Arrow keys'}</strong>
+      </div>
+      <div className="control-chip">
+        <span>Fire</span>
+        <strong>{isMobileLayout ? 'Tap Fire' : 'Space'}</strong>
+      </div>
+      <div className="control-chip">
+        <span>Progression</span>
+        <strong>Target rotates through CEFR-appropriate categories over time</strong>
+      </div>
+    </section>
+  )
+
+  const hudPanel = (
+    <section className="hud">
+      <div className="hud-card">
+        <span>Score</span>
+        <strong>{game.score}</strong>
+      </div>
+      <div className="hud-card">
+        <span>Streak</span>
+        <strong>{game.streak}</strong>
+      </div>
+      <div className="hud-card">
+        <span>Next switch</span>
+        <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
+      </div>
+      <div className="hud-card">
+        <span>High score</span>
+        <strong>{selectedHighScore}</strong>
+      </div>
+      <SoundToggleButton
+        enabled={selection.musicEnabled}
+        label="Music"
+        onClick={toggleMusic}
+      />
+      <SoundToggleButton
+        enabled={selection.sfxEnabled}
+        label="FX"
+        onClick={toggleSfx}
+      />
+    </section>
+  )
+
   return (
     <main className="game-shell">
       <section className="hero-panel">
-        <div>
+        <div className="hero-copy">
           <h1>Wordshooter</h1>
+          {!isMobileLayout ? (
           <p className="intro">
             Choose a language and CEFR level, then steer the ship and shoot only
             the vocabulary or grammar forms that match the active category.
           </p>
+          ) : null}
         </div>
+        {isMobileLayout ? (
+          <button
+            className="mobile-menu-button"
+            onClick={() => setMobileMenuOpen((current) => !current)}
+          >
+            {mobileMenuOpen ? 'Close' : 'Menu'}
+          </button>
+        ) : null}
       </section>
 
+      {isMobileLayout && mobileMenuOpen ? (
+        <section className="mobile-menu-panel">
+          <p className="intro mobile-menu-intro">
+            Choose a language and CEFR level, then steer the ship and shoot only
+            the vocabulary or grammar forms that match the active category.
+          </p>
+          {settingsPanel}
+          {controlsPanel}
+          {hudPanel}
+        </section>
+      ) : null}
+
       <section className="play-layout">
+        {!isMobileLayout ? (
         <aside className="sidebar sidebar-left">
-          <section className="setup-panel">
-            <label className="select-card">
-              <span>Language</span>
-              <select value={selection.languageId} onChange={handleLanguageChange}>
-                {languages.map((language) => (
-                  <option key={language.id} value={language.id}>
-                    {language.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="select-card">
-              <span>CEFR level</span>
-              <select value={selection.cefrLevel} onChange={handleLevelChange}>
-                {CEFR_LEVELS.map((level) => (
-                  <option key={level} value={level}>
-                    {level}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <div className="select-card curriculum-card">
-              <span>Curriculum focus</span>
-              <strong>{levelPack.label}</strong>
-              <p>{levelPack.categories.map((category) => category.label).join(' · ')}</p>
-            </div>
-          </section>
-
-          <section className="controls-panel">
-            <div className="control-chip">
-              <span>Move</span>
-              <strong>A / D or Arrow keys</strong>
-            </div>
-            <div className="control-chip">
-              <span>Fire</span>
-              <strong>Space</strong>
-            </div>
-            <div className="control-chip">
-              <span>Progression</span>
-              <strong>Target rotates through CEFR-appropriate categories over time</strong>
-            </div>
-          </section>
+          {settingsPanel}
+          {controlsPanel}
         </aside>
+        ) : null}
 
         <section className="arena-panel">
+        {!isMobileLayout ? (
         <div className="arena-header">
           <p className="arena-kicker">
             {LANGUAGE_PACKS[game.languageId].name} · {game.cefrLevel}
@@ -1347,7 +1417,9 @@ function App() {
             Restart run
           </button>
         </div>
+        ) : null}
 
+        {!isMobileLayout ? (
         <div className="round-progress">
           <div className="round-progress-copy">
             <span>Round time</span>
@@ -1360,12 +1432,15 @@ function App() {
             />
           </div>
         </div>
+        ) : null}
 
+        {!isMobileLayout ? (
         <div className="mission-card mission-card-inline">
           <p className="mission-label">Current target</p>
           <strong style={{ color: targetStyle.color }}>{targetCategory.label}</strong>
           <span>{targetCategory.description}</span>
         </div>
+        ) : null}
 
         <div
           ref={arenaRef}
@@ -1375,6 +1450,40 @@ function App() {
         >
           <div className="starfield starfield-a" />
           <div className="starfield starfield-b" />
+
+          {isMobileLayout ? (
+            <>
+              <div className="arena-overlay arena-overlay-top">
+                <div className="arena-mini-card arena-mini-time">
+                  <span>Round time</span>
+                  <strong>{Math.ceil(game.roundTimeMs / 1000)}s</strong>
+                  <div className="arena-mini-track" aria-hidden="true">
+                    <div
+                      className="arena-mini-fill"
+                      style={{ transform: `scaleX(${roundProgress})` }}
+                    />
+                  </div>
+                </div>
+                <div className="arena-mini-card arena-target-card">
+                  <span>Current target</span>
+                  <strong style={{ color: targetStyle.color }}>{targetCategory.label}</strong>
+                </div>
+                <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
+                  Restart
+                </button>
+              </div>
+
+              <div className="arena-overlay arena-overlay-bottom">
+                <div className="mobile-control-copy arena-touch-copy">
+                  <span>Touch controls</span>
+                  <strong>Drag with left thumb.</strong>
+                </div>
+                <button className="mobile-fire-button arena-fire-button" onClick={fireBullet}>
+                  Fire
+                </button>
+              </div>
+            </>
+          ) : null}
 
           {game.words.map((word) => {
             return (
@@ -1451,51 +1560,14 @@ function App() {
 
         </div>
 
-        {isMobileLayout ? (
-          <div className="mobile-controls">
-            <div className="mobile-control-copy">
-              <span>Touch controls</span>
-              <strong>Drag the ship in the arena, then tap fire.</strong>
-            </div>
-            <button className="mobile-fire-button" onClick={fireBullet}>
-              Fire
-            </button>
-          </div>
-        ) : null}
-
         <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
         </section>
 
+        {!isMobileLayout ? (
         <aside className="sidebar sidebar-right">
-          <section className="hud">
-            <div className="hud-card">
-              <span>Score</span>
-              <strong>{game.score}</strong>
-            </div>
-            <div className="hud-card">
-              <span>Streak</span>
-              <strong>{game.streak}</strong>
-            </div>
-            <div className="hud-card">
-              <span>Next switch</span>
-              <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
-            </div>
-            <div className="hud-card">
-              <span>High score</span>
-              <strong>{selectedHighScore}</strong>
-            </div>
-            <SoundToggleButton
-              enabled={selection.musicEnabled}
-              label="Music"
-              onClick={toggleMusic}
-            />
-            <SoundToggleButton
-              enabled={selection.sfxEnabled}
-              label="FX"
-              onClick={toggleSfx}
-            />
-          </section>
+          {hudPanel}
         </aside>
+        ) : null}
       </section>
     </main>
   )

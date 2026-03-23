@@ -50,6 +50,43 @@
   text-align: center;
 }
 
+.hero-copy {
+  width: 100%;
+}
+
+.mobile-menu-button,
+.mobile-menu-panel {
+  display: none;
+}
+
+.mobile-menu-button {
+  border: 1px solid rgba(184, 192, 255, 0.16);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #ecf7ff;
+  background: rgba(6, 15, 28, 0.74);
+  backdrop-filter: blur(14px);
+}
+
+.mobile-menu-panel {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 20px;
+  background: rgba(8, 17, 31, 0.92);
+  border: 1px solid rgba(184, 192, 255, 0.14);
+  box-shadow: var(--panel-shadow);
+  overflow: auto;
+}
+
+.mobile-menu-intro {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
 .eyebrow,
 .mission-label,
 .arena-kicker {
@@ -721,6 +758,10 @@
   display: none;
 }
 
+.arena-overlay {
+  display: none;
+}
+
 .mobile-control-copy {
   display: grid;
   gap: 4px;
@@ -850,51 +891,54 @@
 
 @media (max-width: 640px) {
   .game-shell {
-    height: auto;
+    height: 100svh;
     min-height: 100svh;
-    overflow: auto;
-    gap: 10px;
+    overflow: hidden;
+    gap: 8px;
+    padding: 8px;
   }
 
   .hero-panel {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
     gap: 6px;
+    text-align: center;
   }
 
   .hero-panel h1 {
-    margin-bottom: 6px;
-    font-size: clamp(2.2rem, 10vw, 3.4rem);
+    margin: 0 0 4px;
+    font-size: clamp(1.9rem, 8vw, 2.7rem);
+  }
+
+  .hero-copy {
+    min-width: 0;
+  }
+
+  .mobile-menu-button,
+  .mobile-menu-panel {
+    display: block;
+  }
+
+  .mobile-menu-button {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 
   .intro {
-    font-size: 0.84rem;
-    max-width: 36ch;
+    font-size: 0.78rem;
+    max-width: 34ch;
   }
 
   .play-layout {
     grid-template-columns: 1fr;
-    grid-template-areas:
-      'arena'
-      'left'
-      'right';
-    gap: 10px;
-    overflow: visible;
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: 'arena';
+    gap: 0;
+    min-height: 0;
+    overflow: hidden;
     padding-right: 0;
-  }
-
-  .sidebar-left {
-    grid-area: left;
-  }
-
-  .sidebar-right {
-    grid-area: right;
-  }
-
-  .sidebar-left {
-    gap: 10px;
-  }
-
-  .sidebar-right {
-    gap: 10px;
   }
 
   .select-card,
@@ -905,11 +949,138 @@
 
   .arena-panel {
     padding: 10px;
-    min-height: 72svh;
+    min-height: 0;
+    height: 100%;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .arena {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .arena-overlay {
+    position: absolute;
+    z-index: 6;
+    display: flex;
+    pointer-events: none;
+  }
+
+  .arena-overlay-top {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .arena-overlay-bottom {
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    justify-content: space-between;
+    align-items: end;
+    gap: 10px;
+  }
+
+  .arena-mini-card,
+  .arena-restart-button,
+  .arena-fire-button {
+    pointer-events: auto;
+  }
+
+  .arena-mini-card {
+    box-sizing: border-box;
+    padding: 8px 10px;
+    height: 56px;
+    border-radius: 16px;
+    background: rgba(6, 15, 28, 0.72);
+    border: 1px solid rgba(184, 192, 255, 0.14);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 10px 24px rgba(4, 10, 20, 0.24);
+    display: grid;
+    align-content: center;
+    gap: 4px;
+  }
+
+  .arena-mini-card span {
+    color: var(--muted);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  .arena-mini-card strong {
+    font-size: 0.94rem;
+    line-height: 1;
+  }
+
+  .arena-mini-time {
+    min-width: 104px;
+  }
+
+  .arena-mini-track {
+    height: 6px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .arena-mini-fill {
+    height: 100%;
+    width: 100%;
+    transform-origin: left center;
+    background: linear-gradient(90deg, #ffd166, #7bdff2);
+  }
+
+  .arena-target-card strong {
+    font-size: 1rem;
+  }
+
+  .arena-target-card {
+    text-align: center;
+    min-width: 0;
+    flex: 1 1 auto;
+    max-width: 180px;
+  }
+
+  .arena-restart-button {
+    box-sizing: border-box;
+    height: 56px;
+    padding: 7px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    font-size: 0.76rem;
+    box-shadow: 0 10px 20px rgba(255, 209, 102, 0.2);
+    flex: 0 0 auto;
+    align-self: stretch;
+  }
+
+  .arena-touch-copy {
+    padding: 8px 10px;
+    border-radius: 16px;
+    background: rgba(6, 15, 28, 0.62);
+    border: 1px solid rgba(184, 192, 255, 0.12);
+    backdrop-filter: blur(12px);
+    max-width: 132px;
+  }
+
+  .arena-touch-copy strong {
+    font-size: 0.78rem;
+  }
+
+  .arena-fire-button {
+    padding: 14px 18px;
+    min-width: 86px;
+    border-radius: 999px;
+    font-size: 0.95rem;
   }
 
   .arena-header {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     gap: 8px;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -926,27 +1097,32 @@
   }
 
   .mission-card-inline {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .mission-card {
-    padding: 10px 12px;
+    padding: 8px 10px;
   }
 
   .mission-card strong {
-    font-size: 1.15rem;
+    font-size: 1rem;
   }
 
-  .mobile-controls {
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 10px;
-    align-items: center;
-    background: rgba(6, 15, 28, 0.62);
-    border: 1px solid rgba(184, 192, 255, 0.12);
-    border-radius: 18px;
-    padding: 12px;
+  .mission-card span {
+    font-size: 0.78rem;
+  }
+
+  .round-progress {
+    margin-bottom: 6px;
+    gap: 6px;
+  }
+
+  .round-progress-copy {
+    font-size: 0.76rem;
+  }
+
+  .round-progress-copy strong {
+    font-size: 0.84rem;
   }
 
   .word-target {
@@ -962,7 +1138,9 @@
 
   .feedback {
     font-size: 0.82rem;
-    padding: 10px 12px;
+    padding: 9px 10px;
+    max-height: 74px;
+    overflow: auto;
   }
 
   .hud,
@@ -981,6 +1159,10 @@
 
   .controls-panel {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .control-chip:last-child {
+    grid-column: 1 / -1;
   }
 
   .hud {
