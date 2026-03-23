@@ -193,24 +193,24 @@ const getWordBudget = (isMobileLayout, viewportSize) => {
   const { width, height } = viewportSize
   if (width <= 390 || height <= 760) {
     return {
-      initialCount: 2,
-      minActiveWords: 2,
-      maxActiveWords: 3,
-    }
-  }
-
-  if (width <= 480 || height <= 860) {
-    return {
-      initialCount: 2,
+      initialCount: 3,
       minActiveWords: 3,
       maxActiveWords: 4,
     }
   }
 
+  if (width <= 480 || height <= 860) {
+    return {
+      initialCount: 3,
+      minActiveWords: 4,
+      maxActiveWords: 5,
+    }
+  }
+
   return {
-    initialCount: 3,
-    minActiveWords: 3,
-    maxActiveWords: 4,
+    initialCount: 4,
+    minActiveWords: 4,
+    maxActiveWords: 5,
   }
 }
 const getWordBoxMetrics = (text, isMobileLayout = false) => {
@@ -778,7 +778,7 @@ const makeWordFactory = (languageId, cefrLevel) => {
     recentWordsByCategory = {},
     yRange = { min: ACTIVE_SPAWN_Y_MIN, max: ACTIVE_SPAWN_Y_MAX },
   ) => {
-    const shouldFavorTarget = spawnCount % 3 === 0 || Math.random() < 0.5
+    const shouldFavorTarget = spawnCount % 5 === 0 || Math.random() < 0.34
     const fallbackPool = categoryOrder.filter((item) => item !== targetCategory)
     const categoryId = shouldFavorTarget
       ? targetCategory
@@ -1842,10 +1842,15 @@ function App() {
         {isMobileLayout ? (
           <button
             type="button"
-            className="mobile-top-button mobile-menu-button"
+            className={`mobile-top-button mobile-menu-button ${mobileMenuOpen ? 'is-open' : ''}`}
             onClick={() => setMobileMenuOpen((current) => !current)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
-            {mobileMenuOpen ? 'Close' : 'Menu'}
+            <span className="mobile-menu-icon" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
           </button>
         ) : null}
       </section>
