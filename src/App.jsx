@@ -18,6 +18,7 @@ const ARENA = {
 }
 
 const PLAYER_SPEED = 56
+const MOBILE_PLAYER_DRAG_SPEED = 72
 const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
 const WORD_MIN_SPEED = 4.7
@@ -863,6 +864,7 @@ function App() {
 
     return window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY).matches
   })
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [game, setGame] = useState(() =>
     buildInitialGame(
       loadSettings().languageId,
@@ -896,6 +898,7 @@ function App() {
   const audioRef = useRef(null)
   const arenaRef = useRef(null)
   const controlLineRef = useRef(null)
+  const mobilePlayerTargetXRef = useRef(null)
   const controlTouchStateRef = useRef({
     pointerId: null,
     startX: 0,
@@ -942,6 +945,25 @@ function App() {
     audioRef.current.setMasterMuted(!selection.musicEnabled && !selection.sfxEnabled)
     audioRef.current.setMusicMuted(!selection.musicEnabled)
   }, [selection.musicEnabled, selection.sfxEnabled])
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return undefined
+    }
+
+    const syncFullscreen = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement || document.webkitFullscreenElement))
+    }
+
+    syncFullscreen()
+    document.addEventListener('fullscreenchange', syncFullscreen)
+    document.addEventListener('webkitfullscreenchange', syncFullscreen)
+
+    return () => {
+      document.removeEventListener('fullscreenchange', syncFullscreen)
+      document.removeEventListener('webkitfullscreenchange', syncFullscreen)
+    }
+  }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -1016,6 +1038,7 @@ function App() {
       spawnCountRef.current = wordBudget.initialCount
       effectIdRef.current = 0
       keysRef.current.clear()
+      mobilePlayerTargetXRef.current = null
       setGame(buildInitialGame(nextLanguage, nextLevel, wordBudget, isMobileLayout))
     },
     [isMobileLayout, selection.cefrLevel, selection.languageId, wordBudget],
@@ -1052,51 +1075,37 @@ function App() {
     })
   }, [selection.sfxEnabled])
 
-  const movePlayerToClientX = useCallback((clientX, surface = arenaRef.current) => {
+  const getPlayerTargetXFromClientX = useCallback((clientX, surface = arenaRef.current) => {
     if (!surface) {
-      return
+      return null
     }
 
     const bounds = surface.getBoundingClientRect()
     const relativeX = clamp((clientX - bounds.left) / bounds.width, 0, 1)
-    const nextPlayerX = 8 + relativeX * 84
-
-    setGame((current) => ({
-      ...current,
-      playerX: nextPlayerX,
-    }))
+    return 8 + relativeX * 84
   }, [])
 
+  const setMobilePlayerTargetFromClientX = useCallback((clientX, surface = arenaRef.current) => {
+    const nextPlayerX = getPlayerTargetXFromClientX(clientX, surface)
+    if (nextPlayerX === null) {
+      return
+    }
+
+    mobilePlayerTargetXRef.current = nextPlayerX
+  }, [getPlayerTargetXFromClientX])
+
   const handleArenaPointerDown = useCallback(
-    (event) => {
-      if (!isMobileLayout) {
-        return
-      }
-
-      if (event.pointerType === 'mouse' && window.innerWidth > 720) {
-        return
-      }
-
-      event.currentTarget.setPointerCapture?.(event.pointerId)
-      movePlayerToClientX(event.clientX)
+    () => {
+      // Arena touches should not reposition the ship on mobile.
     },
-    [isMobileLayout, movePlayerToClientX],
+    [],
   )
 
   const handleArenaPointerMove = useCallback(
-    (event) => {
-      if (!isMobileLayout) {
-        return
-      }
-
-      const isTouchLike = event.pointerType !== 'mouse' || window.innerWidth <= 720
-      if (!isTouchLike || (event.buttons === 0 && event.pointerType === 'mouse')) {
-        return
-      }
-
-      movePlayerToClientX(event.clientX)
+    () => {
+      // Movement is handled by the control line on mobile.
     },
-    [isMobileLayout, movePlayerToClientX],
+    [],
   )
 
   const handleControlPointerDown = useCallback(
@@ -1112,9 +1121,8 @@ function App() {
         startY: event.clientY,
         moved: false,
       }
-      movePlayerToClientX(event.clientX, controlLineRef.current)
     },
-    [isMobileLayout, movePlayerToClientX],
+    [isMobileLayout],
   )
 
   const handleControlPointerMove = useCallback(
@@ -1127,11 +1135,10 @@ function App() {
       const deltaY = Math.abs(event.clientY - controlTouchStateRef.current.startY)
       if (deltaX > 6 || deltaY > 6) {
         controlTouchStateRef.current.moved = true
+        setMobilePlayerTargetFromClientX(event.clientX, controlLineRef.current)
       }
-
-      movePlayerToClientX(event.clientX, controlLineRef.current)
     },
-    [isMobileLayout, movePlayerToClientX],
+    [isMobileLayout, setMobilePlayerTargetFromClientX],
   )
 
   const handleControlPointerUp = useCallback(
@@ -1292,11 +1299,22 @@ function App() {
           playerDirection += 1
         }
 
-        const nextPlayerX = clamp(
+        let nextPlayerX = clamp(
           current.playerX + playerDirection * PLAYER_SPEED * delta,
           8,
           92,
         )
+
+        if (isMobileLayout && mobilePlayerTargetXRef.current !== null) {
+          const distanceToTarget = mobilePlayerTargetXRef.current - nextPlayerX
+          const maxStep = MOBILE_PLAYER_DRAG_SPEED * delta
+
+          if (Math.abs(distanceToTarget) <= maxStep) {
+            nextPlayerX = mobilePlayerTargetXRef.current
+          } else {
+            nextPlayerX += Math.sign(distanceToTarget) * maxStep
+          }
+        }
 
         let nextBullets = current.bullets
           .map((bullet) => ({
@@ -1674,6 +1692,32 @@ function App() {
     setLanguagePickerOpen(false)
   }
 
+  const toggleFullscreen = async () => {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    const root = document.documentElement
+    const isCurrentlyFullscreen =
+      Boolean(document.fullscreenElement || document.webkitFullscreenElement)
+
+    try {
+      if (isCurrentlyFullscreen) {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen()
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen()
+        }
+      } else if (root.requestFullscreen) {
+        await root.requestFullscreen()
+      } else if (root.webkitRequestFullscreen) {
+        await root.webkitRequestFullscreen()
+      }
+    } catch {
+      // Ignore fullscreen failures; mobile browsers differ in support.
+    }
+  }
+
   const settingsPanel = (
     <section className="setup-panel">
       <label className="select-card">
@@ -1769,6 +1813,15 @@ function App() {
   return (
     <main className="game-shell">
       <section className="hero-panel">
+        {isMobileLayout ? (
+          <button
+            type="button"
+            className="mobile-top-button mobile-fullscreen-button"
+            onClick={toggleFullscreen}
+          >
+            {isFullscreen ? 'Exit' : 'Full'}
+          </button>
+        ) : null}
         <div className="hero-copy">
           <h1>Wordshooter</h1>
           {!isMobileLayout ? (
@@ -1781,7 +1834,7 @@ function App() {
         {isMobileLayout ? (
           <button
             type="button"
-            className="mobile-menu-button"
+            className="mobile-top-button mobile-menu-button"
             onClick={() => setMobileMenuOpen((current) => !current)}
           >
             {mobileMenuOpen ? 'Close' : 'Menu'}
@@ -2004,6 +2057,7 @@ function App() {
           <div
             ref={controlLineRef}
             className="mobile-control-line"
+            data-label="Tap to fire"
             onPointerDown={handleControlPointerDown}
             onPointerMove={handleControlPointerMove}
             onPointerUp={handleControlPointerUp}
@@ -2012,7 +2066,6 @@ function App() {
             <span className="mobile-control-line-arrow mobile-control-line-arrow-left" aria-hidden="true">
               ←
             </span>
-            <span className="mobile-control-line-label">Tap to fire</span>
             <span className="mobile-control-line-arrow mobile-control-line-arrow-right" aria-hidden="true">
               →
             </span>
