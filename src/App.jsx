@@ -2800,10 +2800,6 @@ function App() {
                   <div className="arena-mini-card arena-target-card">
                     <span>{targetUiPack.currentTarget}</span>
                     <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
-                    <div className={`arena-target-countdown ${categoryCountdown ? 'is-imminent' : ''}`}>
-                      <span>{uiText.nextSwitch}</span>
-                      <strong>{nextSwitchDisplay}</strong>
-                    </div>
                   </div>
                 </div>
                 <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
@@ -2893,6 +2889,12 @@ function App() {
                 <div className="category-popup">
                   <span>{targetUiPack.newTarget}</span>
                   <strong>{targetUiCategory.label}</strong>
+                </div>
+              ) : null}
+
+              {isMobileLayout && categoryCountdown ? (
+                <div className="mobile-category-countdown" aria-hidden="true">
+                  <span>{categoryCountdown}</span>
                 </div>
               ) : null}
 

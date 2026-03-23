@@ -1114,6 +1114,28 @@
   min-width: 132px;
 }
 
+.mobile-category-countdown {
+  position: absolute;
+  z-index: 7;
+  pointer-events: none;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+}
+
+.mobile-category-countdown span {
+  display: block;
+  color: rgba(255, 209, 102, 0.94);
+  font-size: clamp(1.25rem, 6vw, 1.9rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 0 18px rgba(255, 209, 102, 0.24),
+    0 8px 20px rgba(4, 10, 20, 0.3);
+  animation: countdown-pop 280ms ease-out;
+}
+
 .overlay-actions {
   margin-top: 12px;
   display: flex;
@@ -1820,27 +1842,6 @@
     box-shadow:
       0 14px 30px rgba(4, 10, 20, 0.3),
       0 0 0 1px rgba(255, 209, 102, 0.08);
-  }
-
-  .arena-target-countdown {
-    display: inline-grid;
-    justify-items: center;
-    gap: 1px;
-    margin-top: 2px;
-  }
-
-  .arena-target-countdown span {
-    color: rgba(184, 198, 219, 0.8);
-    font-size: 0.48rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    line-height: 1.1;
-  }
-
-  .arena-target-countdown strong {
-    font-size: 0.76rem;
-    line-height: 1;
-    color: rgba(236, 247, 255, 0.86);
   }
 
   .arena-target-card span {
