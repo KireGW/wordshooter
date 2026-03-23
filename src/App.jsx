@@ -54,6 +54,118 @@ const STREAK_ANNOUNCEMENT_MS = 1500
 const DEFAULT_MUSIC_ENABLED = false
 const DEFAULT_SFX_ENABLED = false
 const MOBILE_LAYOUT_MEDIA_QUERY = '(max-width: 720px), (pointer: coarse)'
+const LANGUAGE_FLAGS = {
+  english: '🇬🇧',
+  french: '🇫🇷',
+  spanish: '🇪🇸',
+  italian: '🇮🇹',
+  german: '🇩🇪',
+  swedish: '🇸🇪',
+}
+const TARGET_UI_TRANSLATIONS = {
+  english: {
+    currentTarget: 'Current target',
+    newTarget: 'New target',
+    categories: {
+      noun: { label: 'Nouns', description: 'people, places, things, or ideas' },
+      verb: { label: 'Verbs', description: 'action or state words' },
+      adjective: { label: 'Adjectives', description: 'describing words' },
+      adverb: { label: 'Adverbs', description: 'words that modify actions or descriptions' },
+      pronoun: { label: 'Pronouns', description: 'replacement words like I, she, they' },
+      past: { label: 'Past Forms', description: 'forms used for completed past actions' },
+      future: { label: 'Future Forms', description: 'forms used to talk about the future' },
+      modal: { label: 'Modal Forms', description: 'forms for ability, obligation, or possibility' },
+      connective: { label: 'Connectives', description: 'linking words for longer sentences' },
+      subjunctive: { label: 'Subjunctive', description: 'forms for wishes, doubt, or hypotheticals' },
+      idiom: { label: 'Idioms', description: 'fixed advanced expressions' },
+    },
+  },
+  french: {
+    currentTarget: 'Cible actuelle',
+    newTarget: 'Nouvelle cible',
+    categories: {
+      noun: { label: 'Noms', description: 'personnes, lieux, choses ou idées' },
+      verb: { label: 'Verbes', description: "mots d'action ou d'état" },
+      adjective: { label: 'Adjectifs', description: 'mots qui décrivent' },
+      adverb: { label: 'Adverbes', description: "mots qui modifient l'action ou la description" },
+      pronoun: { label: 'Pronoms', description: 'mots de remplacement comme je, elle, ils' },
+      past: { label: 'Formes du passé', description: 'formes pour parler d’actions passées' },
+      future: { label: 'Formes du futur', description: 'formes pour parler du futur' },
+      modal: { label: 'Formes modales', description: 'formes de capacité, obligation ou possibilité' },
+      connective: { label: 'Connecteurs', description: 'mots qui relient les phrases' },
+      subjunctive: { label: 'Subjonctif', description: 'formes de souhait, doute ou hypothèse' },
+      idiom: { label: 'Expressions', description: 'expressions figées avancées' },
+    },
+  },
+  spanish: {
+    currentTarget: 'Objetivo actual',
+    newTarget: 'Nuevo objetivo',
+    categories: {
+      noun: { label: 'Sustantivos', description: 'personas, lugares, cosas o ideas' },
+      verb: { label: 'Verbos', description: 'palabras de acción o estado' },
+      adjective: { label: 'Adjetivos', description: 'palabras que describen' },
+      adverb: { label: 'Adverbios', description: 'palabras que modifican acciones o descripciones' },
+      pronoun: { label: 'Pronombres', description: 'palabras de reemplazo como yo, ella, ellos' },
+      past: { label: 'Formas del pasado', description: 'formas para acciones ya terminadas' },
+      future: { label: 'Formas del futuro', description: 'formas para hablar del futuro' },
+      modal: { label: 'Formas modales', description: 'formas de habilidad, obligación o posibilidad' },
+      connective: { label: 'Conectores', description: 'palabras para unir frases' },
+      subjunctive: { label: 'Subjuntivo', description: 'formas para deseo, duda o hipótesis' },
+      idiom: { label: 'Expresiones', description: 'expresiones fijas avanzadas' },
+    },
+  },
+  italian: {
+    currentTarget: 'Obiettivo attuale',
+    newTarget: 'Nuovo obiettivo',
+    categories: {
+      noun: { label: 'Sostantivi', description: 'persone, luoghi, cose o idee' },
+      verb: { label: 'Verbi', description: 'parole di azione o stato' },
+      adjective: { label: 'Aggettivi', description: 'parole che descrivono' },
+      adverb: { label: 'Avverbi', description: 'parole che modificano azioni o descrizioni' },
+      pronoun: { label: 'Pronomi', description: 'parole sostitutive come io, lei, loro' },
+      past: { label: 'Forme del passato', description: 'forme per azioni passate concluse' },
+      future: { label: 'Forme del futuro', description: 'forme per parlare del futuro' },
+      modal: { label: 'Forme modali', description: 'forme di capacità, obbligo o possibilità' },
+      connective: { label: 'Connettivi', description: 'parole che collegano frasi più lunghe' },
+      subjunctive: { label: 'Congiuntivo', description: 'forme per desiderio, dubbio o ipotesi' },
+      idiom: { label: 'Espressioni', description: 'espressioni fisse avanzate' },
+    },
+  },
+  german: {
+    currentTarget: 'Aktuelles Ziel',
+    newTarget: 'Neues Ziel',
+    categories: {
+      noun: { label: 'Nomen', description: 'Personen, Orte, Dinge oder Ideen' },
+      verb: { label: 'Verben', description: 'Handlungs- oder Zustandswörter' },
+      adjective: { label: 'Adjektive', description: 'beschreibende Wörter' },
+      adverb: { label: 'Adverbien', description: 'Wörter, die Handlungen oder Beschreibungen verändern' },
+      pronoun: { label: 'Pronomen', description: 'Stellvertreter wie ich, sie, sie' },
+      past: { label: 'Vergangenheitsformen', description: 'Formen für abgeschlossene Vergangenheitsaktionen' },
+      future: { label: 'Zukunftsformen', description: 'Formen für Aussagen über die Zukunft' },
+      modal: { label: 'Modalformen', description: 'Formen für Fähigkeit, Pflicht oder Möglichkeit' },
+      connective: { label: 'Konnektoren', description: 'Verbindungswörter für längere Sätze' },
+      subjunctive: { label: 'Konjunktiv', description: 'Formen für Wunsch, Zweifel oder Hypothesen' },
+      idiom: { label: 'Redewendungen', description: 'feste fortgeschrittene Ausdrücke' },
+    },
+  },
+  swedish: {
+    currentTarget: 'Nuvarande mål',
+    newTarget: 'Nytt mål',
+    categories: {
+      noun: { label: 'Substantiv', description: 'personer, platser, saker eller idéer' },
+      verb: { label: 'Verb', description: 'ord för handling eller tillstånd' },
+      adjective: { label: 'Adjektiv', description: 'ord som beskriver' },
+      adverb: { label: 'Adverb', description: 'ord som ändrar handlingar eller beskrivningar' },
+      pronoun: { label: 'Pronomen', description: 'ersättningsord som jag, hon, de' },
+      past: { label: 'Dåtidsformer', description: 'former för avslutade handlingar i dåtid' },
+      future: { label: 'Futurumformer', description: 'former för att tala om framtiden' },
+      modal: { label: 'Modala former', description: 'former för förmåga, skyldighet eller möjlighet' },
+      connective: { label: 'Sambandsord', description: 'ord som binder ihop längre meningar' },
+      subjunctive: { label: 'Konjunktiv', description: 'former för önskan, tvivel eller hypoteser' },
+      idiom: { label: 'Idiom', description: 'fasta avancerade uttryck' },
+    },
+  },
+}
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
@@ -616,6 +728,8 @@ function App() {
   const [selection, setSelection] = useState(loadSettings)
   const [highScores, setHighScores] = useState(loadHighScores)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [languagePickerOpen, setLanguagePickerOpen] = useState(false)
+  const [targetUiLanguage, setTargetUiLanguage] = useState('english')
   const [isMobileLayout, setIsMobileLayout] = useState(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
       return false
@@ -706,6 +820,7 @@ function App() {
   useEffect(() => {
     if (!isMobileLayout) {
       setMobileMenuOpen(false)
+      setLanguagePickerOpen(false)
     }
   }, [isMobileLayout])
 
@@ -1299,10 +1414,13 @@ function App() {
   }, [selection.sfxEnabled])
 
   const levelPack = getLevelPack(game.languageId, game.cefrLevel)
-  const categoryMap = getCategoryMap(game.languageId, game.cefrLevel)
-  const targetCategory = categoryMap[game.targetCategory]
   const targetStyle = CATEGORY_STYLES[game.targetCategory]
   const languages = getLanguageNames()
+  const targetUiPack =
+    TARGET_UI_TRANSLATIONS[targetUiLanguage] ?? TARGET_UI_TRANSLATIONS.english
+  const targetUiCategory =
+    targetUiPack.categories[game.targetCategory] ??
+    TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory]
   const roundProgress = game.roundTimeMs / ROUND_DURATION_MS
   const selectedHighScore =
     highScores[getHighScoreKey(selection.languageId, selection.cefrLevel)] ?? 0
@@ -1345,6 +1463,19 @@ function App() {
       ...current,
       sfxEnabled: !current.sfxEnabled,
     }))
+  }
+
+  const handleTargetLanguageToggle = () => {
+    if (!isMobileLayout) {
+      return
+    }
+
+    setLanguagePickerOpen((current) => !current)
+  }
+
+  const handleTargetLanguageSelect = (languageId) => {
+    setTargetUiLanguage(languageId)
+    setLanguagePickerOpen(false)
   }
 
   const settingsPanel = (
@@ -1441,6 +1572,7 @@ function App() {
         </div>
         {isMobileLayout ? (
           <button
+            type="button"
             className="mobile-menu-button"
             onClick={() => setMobileMenuOpen((current) => !current)}
           >
@@ -1498,9 +1630,9 @@ function App() {
 
         {!isMobileLayout ? (
         <div className="mission-card mission-card-inline">
-          <p className="mission-label">Current target</p>
-          <strong style={{ color: targetStyle.color }}>{targetCategory.label}</strong>
-          <span>{targetCategory.description}</span>
+          <p className="mission-label">{targetUiPack.currentTarget}</p>
+          <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
+          <span>{targetUiCategory.description}</span>
         </div>
         ) : null}
 
@@ -1526,9 +1658,34 @@ function App() {
                     />
                   </div>
                 </div>
-                <div className="arena-mini-card arena-target-card">
-                  <span>Current target</span>
-                  <strong style={{ color: targetStyle.color }}>{targetCategory.label}</strong>
+                <div className="arena-target-picker">
+                  <button
+                    type="button"
+                    className="arena-mini-card arena-target-card arena-target-button"
+                    onClick={handleTargetLanguageToggle}
+                  >
+                    <span>{targetUiPack.currentTarget}</span>
+                    <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
+                  </button>
+                  {languagePickerOpen ? (
+                    <div className="language-picker-popup">
+                      {languages.map((language) => (
+                        <button
+                          key={language.id}
+                          type="button"
+                          className={`language-picker-option ${
+                            selection.languageId === language.id ? 'language-picker-option-active' : ''
+                          }`}
+                          onClick={() => handleTargetLanguageSelect(language.id)}
+                        >
+                          <span className="language-picker-flag" aria-hidden="true">
+                            {LANGUAGE_FLAGS[language.id] ?? '🌐'}
+                          </span>
+                          <span>{language.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
                 <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
                   Restart
@@ -1591,8 +1748,8 @@ function App() {
 
           {game.categoryAnnouncementMs > 0 ? (
             <div className="category-popup">
-              <span>New target</span>
-              <strong>{game.categoryAnnouncement}</strong>
+              <span>{targetUiPack.newTarget}</span>
+              <strong>{targetUiCategory.label}</strong>
             </div>
           ) : null}
 

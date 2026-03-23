@@ -1,6 +1,7 @@
 .game-shell {
   min-height: 100svh;
   height: 100svh;
+  position: relative;
   padding: clamp(10px, 1.8vh, 18px) clamp(10px, 1.8vw, 20px);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -69,6 +70,8 @@
   color: #ecf7ff;
   background: rgba(6, 15, 28, 0.74);
   backdrop-filter: blur(14px);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-menu-panel {
@@ -84,6 +87,18 @@
 
 .mobile-control-line {
   display: none;
+}
+
+.arena,
+.word-target,
+.bullet,
+.spaceship,
+.hit-effect,
+.mobile-control-line,
+.mobile-menu-button {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .mobile-menu-intro {
@@ -896,6 +911,17 @@
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 30;
+  }
+
+  .mobile-menu-panel {
+    position: absolute;
+    top: 64px;
+    left: 8px;
+    right: 8px;
+    z-index: 28;
+    width: auto;
+    max-height: min(58svh, 540px);
   }
 
   .intro {
@@ -1005,6 +1031,60 @@
     min-width: 0;
     flex: 1 1 auto;
     max-width: 180px;
+  }
+
+  .arena-target-picker {
+    position: relative;
+    flex: 1 1 auto;
+    max-width: 180px;
+  }
+
+  .arena-target-button {
+    width: 100%;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .language-picker-popup {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(72vw, 220px);
+    padding: 8px;
+    display: grid;
+    gap: 6px;
+    border-radius: 16px;
+    background: rgba(6, 15, 28, 0.94);
+    border: 1px solid rgba(184, 192, 255, 0.16);
+    box-shadow: 0 16px 32px rgba(4, 10, 20, 0.34);
+    pointer-events: auto;
+    z-index: 8;
+  }
+
+  .language-picker-option {
+    border: 0;
+    border-radius: 12px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: inherit;
+    font-weight: 700;
+    color: #ecf7ff;
+    background: rgba(255, 255, 255, 0.05);
+    text-align: left;
+  }
+
+  .language-picker-option-active {
+    background: rgba(255, 209, 102, 0.16);
+  }
+
+  .language-picker-flag {
+    font-size: 1rem;
+    line-height: 1;
   }
 
   .arena-restart-button {

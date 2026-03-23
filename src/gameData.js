@@ -264,7 +264,7 @@ const LANGUAGE_LEVELS = {
       B1: {
         label: 'B1 Intermedio',
         categories: [
-          future(['viajare', 'vamos a salir', 'cambiara', 'volveras', 'llovera', 'vamos a aprender']),
+          future(['viajaré', 'vamos a salir', 'cambiará', 'volverás', 'lloverá', 'vamos a aprender']),
           connective(['aunque', 'porque', 'mientras', 'entonces', 'asi que', 'para que']),
           subjunctive(['quiero que vengas', 'es posible que sea', 'cuando tengas tiempo', 'ojala llueva', 'dudo que puedan', 'antes de que salgan']),
         ],
