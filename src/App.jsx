@@ -44,8 +44,8 @@ const HIGH_SCORE_STORAGE_KEY = 'wordshooter-highscores'
 const SETTINGS_STORAGE_KEY = 'wordshooter-settings'
 const RECENT_WORD_MEMORY = 4
 const STREAK_ANNOUNCEMENT_MS = 1500
-const DEFAULT_MUSIC_ENABLED = true
-const DEFAULT_SFX_ENABLED = true
+const DEFAULT_MUSIC_ENABLED = false
+const DEFAULT_SFX_ENABLED = false
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
