@@ -2062,7 +2062,7 @@ function App() {
             <div className="overlay">
               <p>{game.endReason === 'time' ? 'Round complete' : 'Game over'}</p>
               <h3>Score: {game.bestScore}</h3>
-              <span>Press Enter or restart to launch again.</span>
+              <span>{isMobileLayout ? 'Tap restart to play again.' : 'Press Enter or restart to launch again.'}</span>
             </div>
           ) : null}
 

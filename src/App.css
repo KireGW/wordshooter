@@ -2,7 +2,7 @@
   min-height: 100svh;
   height: 100svh;
   position: relative;
-  padding: clamp(10px, 1.8vh, 18px) clamp(10px, 1.8vw, 20px);
+  padding: clamp(6px, 1vh, 12px) clamp(4px, 0.8vw, 10px);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: clamp(8px, 1.2vh, 14px);
@@ -16,8 +16,8 @@
 .setup-panel,
 .play-layout,
 .sidebar {
-  width: min(1120px, 100%);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 .play-layout {
@@ -934,7 +934,7 @@
 
 @media (max-width: 900px) {
   .game-shell {
-    padding-inline: 10px;
+    padding-inline: 4px;
   }
 
   .play-layout {
@@ -964,7 +964,7 @@
     min-height: 100svh;
     overflow: hidden;
     gap: 4px;
-    padding: 8px;
+    padding: 4px;
   }
 
   .hero-panel {
