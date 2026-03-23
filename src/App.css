@@ -786,6 +786,28 @@
   animation: flame 180ms infinite alternate;
 }
 
+.ship-move-hint {
+  position: absolute;
+  top: 34%;
+  color: rgba(236, 247, 255, 0.86);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow:
+    0 0 16px rgba(123, 223, 242, 0.18),
+    0 6px 18px rgba(4, 10, 20, 0.34);
+  pointer-events: none;
+  animation: ship-hint-float 2000ms ease-out forwards;
+}
+
+.ship-move-hint-left {
+  right: calc(100% + 10px);
+}
+
+.ship-move-hint-right {
+  left: calc(100% + 10px);
+}
+
 .overlay {
   z-index: 6;
   pointer-events: none;
@@ -864,6 +886,29 @@
   border: 1px solid rgba(255, 209, 102, 0.45);
   box-shadow: 0 18px 46px rgba(0, 0, 0, 0.34);
   animation: announce-in 180ms ease-out;
+}
+
+.start-popup {
+  position: absolute;
+  z-index: 7;
+  pointer-events: none;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  animation: start-prompt-in 2000ms ease-out forwards;
+}
+
+.start-popup strong {
+  display: block;
+  color: #ecf7ff;
+  font-size: clamp(0.82rem, 1.7vw, 1rem);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow:
+    0 0 16px rgba(123, 223, 242, 0.2),
+    0 6px 18px rgba(4, 10, 20, 0.34);
 }
 
 .streak-popup {
@@ -1024,6 +1069,29 @@
   }
 }
 
+@keyframes ship-hint-float {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.92);
+    filter: blur(3px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  82% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(1.04);
+    filter: blur(4px);
+  }
+}
+
 @keyframes announce-in {
   from {
     opacity: 0;
@@ -1032,6 +1100,29 @@
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes start-prompt-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -42%) scale(0.96);
+    filter: blur(4px);
+  }
+  6% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0);
+  }
+  88% {
+    opacity: 1;
+    transform: translate(-50%, -52%) scale(1);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -58%) scale(1.02);
+    filter: blur(5px);
   }
 }
 
@@ -1524,6 +1615,16 @@
     box-sizing: border-box;
   }
 
+  .mobile-control-shell {
+    position: relative;
+    display: grid;
+    grid-template-rows: 0 auto;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
   .mobile-control-zone {
     position: relative;
     display: block;
@@ -1536,6 +1637,8 @@
     -webkit-touch-callout: none;
   }
 
+  .mobile-control-shell,
+  .mobile-control-shell *,
   .mobile-control-zone,
   .mobile-control-zone *,
   .mobile-control-zone * {

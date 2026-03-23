@@ -27,6 +27,7 @@ const DESKTOP_INITIAL_WORD_COUNT = 3
 const DESKTOP_MAX_ACTIVE_WORDS = 5
 const CATEGORY_SWITCH_MS = 15000
 const CATEGORY_ANNOUNCEMENT_MS = 1800
+const START_ANNOUNCEMENT_MS = 2000
 const MAX_LIVES = 5
 const INITIAL_LIVES = MAX_LIVES
 const HEART_SPAWN_MS = 18000
@@ -58,7 +59,7 @@ const BULLET_HITBOX_RADIUS_Y = 1.15
 const SHIP_LEVEL_HIT_Y = 80
 const SHIP_LEVEL_HITBOX_BONUS_X = 0.7
 const SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
-const MOBILE_ARENA_FIRE_Y_MIN = 78
+const MOBILE_ARENA_FIRE_Y_MIN = 74
 const WORD_OVERLAP_ALLOWANCE = 0.2
 const MAX_READABILITY_OVERLAP = 0.7
 const EFFECT_LIFETIME_MS = 550
@@ -202,6 +203,7 @@ const UI_TRANSLATIONS = {
     yourName: 'Your name',
     saveScore: 'Save score',
     scoreSaved: 'Score saved.',
+    tapToShoot: 'Tap to shoot',
     bonusUnlocked: 'Bonus unlocked',
     missionLoaded:
       'Mission loaded for {language} {level}. Shoot only the matching targets.',
@@ -243,6 +245,7 @@ const UI_TRANSLATIONS = {
     yourName: 'Votre nom',
     saveScore: 'Enregistrer',
     scoreSaved: 'Score enregistre.',
+    tapToShoot: 'Touchez pour tirer',
     bonusUnlocked: 'Bonus active',
     missionLoaded:
       'Mission chargee pour {language} {level}. Tirez seulement sur les bonnes cibles.',
@@ -284,6 +287,7 @@ const UI_TRANSLATIONS = {
     yourName: 'Tu nombre',
     saveScore: 'Guardar',
     scoreSaved: 'Puntuacion guardada.',
+    tapToShoot: 'Toca para disparar',
     bonusUnlocked: 'Bonus desbloqueado',
     missionLoaded:
       'Mision cargada para {language} {level}. Dispara solo a los objetivos correctos.',
@@ -325,6 +329,7 @@ const UI_TRANSLATIONS = {
     yourName: 'Il tuo nome',
     saveScore: 'Salva',
     scoreSaved: 'Punteggio salvato.',
+    tapToShoot: 'Tocca per sparare',
     bonusUnlocked: 'Bonus sbloccato',
     missionLoaded:
       'Missione caricata per {language} {level}. Spara solo ai bersagli giusti.',
@@ -366,6 +371,7 @@ const UI_TRANSLATIONS = {
     yourName: 'Dein Name',
     saveScore: 'Speichern',
     scoreSaved: 'Punktzahl gespeichert.',
+    tapToShoot: 'Tippen zum Schiessen',
     bonusUnlocked: 'Bonus aktiviert',
     missionLoaded:
       'Mission fuer {language} {level} geladen. Schiesse nur auf passende Ziele.',
@@ -407,6 +413,7 @@ const UI_TRANSLATIONS = {
     yourName: 'Ditt namn',
     saveScore: 'Spara',
     scoreSaved: 'Resultat sparat.',
+    tapToShoot: 'Knacka för att skjuta',
     bonusUnlocked: 'Bonus upplåst',
     missionLoaded:
       'Uppdrag laddat för {language} {level}. Skjut bara på rätt mål.',
@@ -1192,6 +1199,8 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     phase: 1,
     nextCategorySwitchMs: CATEGORY_SWITCH_MS,
     nextHeartSpawnMs: HEART_SPAWN_MS,
+    startAnnouncement: getUiText(languageId).tapToShoot,
+    startAnnouncementMs: START_ANNOUNCEMENT_MS,
     categoryAnnouncement: '',
     categoryAnnouncementMs: 0,
     streakAnnouncement: '',
@@ -1836,6 +1845,11 @@ function App() {
           0,
           current.categoryAnnouncementMs - delta * 1000,
         )
+        let startAnnouncement = current.startAnnouncement
+        let startAnnouncementMs = Math.max(
+          0,
+          current.startAnnouncementMs - delta * 1000,
+        )
         let streakAnnouncement = current.streakAnnouncement
         let streakAnnouncementMs = Math.max(
           0,
@@ -2114,6 +2128,8 @@ function App() {
             streakAnnouncementMs: 0,
             nextCategorySwitchMs: 0,
             nextHeartSpawnMs: 0,
+            startAnnouncement: '',
+            startAnnouncementMs: 0,
             endReason: 'lives',
             status: 'gameover',
             feedback: isMobileLayout
@@ -2141,6 +2157,8 @@ function App() {
           targetCategory,
           categoryAnnouncement,
           categoryAnnouncementMs,
+          startAnnouncement,
+          startAnnouncementMs,
           streakAnnouncement,
           streakAnnouncementMs,
           endReason: null,
@@ -2533,6 +2551,16 @@ function App() {
             style={{ left: `${(game.playerX / ARENA.width) * 100}%` }}
             onClick={handleShipClick}
           >
+            {game.startAnnouncementMs > 0 ? (
+              <>
+                <div className="ship-move-hint ship-move-hint-left" aria-hidden="true">
+                  ←
+                </div>
+                <div className="ship-move-hint ship-move-hint-right" aria-hidden="true">
+                  →
+                </div>
+              </>
+            ) : null}
             <div className="ship-cockpit" />
             <div className="ship-wing ship-wing-left" />
             <div className="ship-wing ship-wing-right" />
@@ -2544,6 +2572,12 @@ function App() {
             <div className="category-popup">
               <span>{targetUiPack.newTarget}</span>
               <strong>{targetUiCategory.label}</strong>
+            </div>
+          ) : null}
+
+          {game.startAnnouncementMs > 0 ? (
+            <div className="start-popup">
+              <strong>{game.startAnnouncement}</strong>
             </div>
           ) : null}
 
@@ -2592,15 +2626,18 @@ function App() {
         {isMobileLayout ? (
           <div
             ref={controlLineRef}
-            className="mobile-control-zone"
+            className="mobile-control-shell"
             onPointerDown={handleControlPointerDown}
             onPointerMove={handleControlPointerMove}
             onPointerUp={handleControlPointerUp}
             onPointerCancel={handleControlPointerUp}
-          />
-        ) : null}
-
-        <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
+          >
+            <div className="mobile-control-zone" />
+            <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
+          </div>
+        ) : (
+          <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
+        )}
         </section>
 
         {!isMobileLayout ? (
