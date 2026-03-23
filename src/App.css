@@ -947,6 +947,7 @@
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(14px);
   animation: overlay-in 220ms ease-out;
+  pointer-events: auto;
 }
 
 .start-screen p {
@@ -956,6 +957,13 @@
   line-height: 1.45;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.start-screen *,
+.start-screen select,
+.start-screen button,
+.start-screen label {
+  pointer-events: auto;
 }
 
 .start-screen-settings {

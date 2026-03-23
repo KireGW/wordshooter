@@ -2760,7 +2760,7 @@ function App() {
 
         </div>
 
-        {isMobileLayout ? (
+        {isMobileLayout && hasLaunchedInitialRun ? (
           <>
             <div
               ref={controlLineRef}
