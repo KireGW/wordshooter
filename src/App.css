@@ -950,6 +950,13 @@
   pointer-events: auto;
 }
 
+.arena:has(.start-screen) {
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 209, 102, 0.06), transparent 30%),
+    radial-gradient(circle at top, rgba(74, 132, 255, 0.12), transparent 42%),
+    linear-gradient(180deg, #071120 0%, #09192e 52%, #06101a 100%);
+}
+
 .start-screen p {
   margin: 0;
   color: var(--muted);
@@ -1560,6 +1567,10 @@
     justify-content: space-between;
     align-items: stretch;
     gap: 8px;
+  }
+
+  .arena-overlay-top-start {
+    justify-content: center;
   }
 
   .arena-overlay-bottom {

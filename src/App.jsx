@@ -2574,111 +2574,180 @@ function App() {
 
           {isMobileLayout ? (
             <>
-              <div className="arena-overlay arena-overlay-top">
-                <div className={`arena-mini-card arena-mini-time ${game.feedbackTone === 'bad' ? 'arena-mini-time-alert' : ''}`}>
-                  <span>{uiText.lives}</span>
-                  <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
-                    {lifeHearts.map((filled, index) => (
-                      <span key={index} className={`arena-mini-heart ${filled ? 'arena-mini-heart-filled' : ''}`}>
-                        {filled ? '♥' : '♡'}
-                      </span>
-                    ))}
+              {hasLaunchedInitialRun ? (
+                <>
+                  <div className="arena-overlay arena-overlay-top">
+                    <div className={`arena-mini-card arena-mini-time ${game.feedbackTone === 'bad' ? 'arena-mini-time-alert' : ''}`}>
+                      <span>{uiText.lives}</span>
+                      <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
+                        {lifeHearts.map((filled, index) => (
+                          <span key={index} className={`arena-mini-heart ${filled ? 'arena-mini-heart-filled' : ''}`}>
+                            {filled ? '♥' : '♡'}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="arena-target-picker">
+                      <div className="arena-mini-card arena-target-card">
+                        <span>{targetUiPack.currentTarget}</span>
+                        <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
+                      </div>
+                    </div>
+                    <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
+                      {uiText.restart}
+                    </button>
                   </div>
-                </div>
-                <div className="arena-target-picker">
-                  <div className="arena-mini-card arena-target-card">
-                    <span>{targetUiPack.currentTarget}</span>
-                    <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
-                  </div>
-                </div>
-                <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
-                  {uiText.restart}
-                </button>
-              </div>
 
-              <div className="arena-overlay arena-overlay-bottom">
-                <div className="arena-mobile-stats" aria-hidden="true">
-                  <div className="arena-mobile-stat">
-                    <span>{uiText.score}</span>
-                    <strong>{game.score}</strong>
+                  <div className="arena-overlay arena-overlay-bottom">
+                    <div className="arena-mobile-stats" aria-hidden="true">
+                      <div className="arena-mobile-stat">
+                        <span>{uiText.score}</span>
+                        <strong>{game.score}</strong>
+                      </div>
+                      <div className="arena-mobile-stat">
+                        <span>{uiText.streak}</span>
+                        <strong>{game.streak}</strong>
+                      </div>
+                      <div className="arena-mobile-stat">
+                        <span>{uiText.nextSwitch}</span>
+                        <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
+                      </div>
+                      <div className="arena-mobile-stat">
+                        <span>{uiText.highScore}</span>
+                        <strong>{selectedHighScore}</strong>
+                      </div>
+                    </div>
                   </div>
-                  <div className="arena-mobile-stat">
-                    <span>{uiText.streak}</span>
-                    <strong>{game.streak}</strong>
-                  </div>
-                  <div className="arena-mobile-stat">
-                    <span>{uiText.nextSwitch}</span>
-                    <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
-                  </div>
-                  <div className="arena-mobile-stat">
-                    <span>{uiText.highScore}</span>
-                    <strong>{selectedHighScore}</strong>
+                </>
+              ) : (
+                <div className="arena-overlay arena-overlay-top arena-overlay-top-start">
+                  <div className="arena-target-picker">
+                    <div className="arena-mini-card arena-target-card">
+                      <span>{targetUiPack.currentTarget}</span>
+                      <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
+                    </div>
                   </div>
                 </div>
-              </div>
-
+              )}
             </>
           ) : null}
 
-          {game.words.map((word) => {
-            return (
-              <div
-                key={word.id}
-                className="word-target"
-                style={{
-                  left: `${(word.x / ARENA.width) * 100}%`,
-                  top: `${(word.y / ARENA.height) * 100}%`,
-                }}
-              >
-                {word.text}
-              </div>
-            )
-          })}
+          {hasLaunchedInitialRun ? (
+            <>
+              {game.words.map((word) => {
+                return (
+                  <div
+                    key={word.id}
+                    className="word-target"
+                    style={{
+                      left: `${(word.x / ARENA.width) * 100}%`,
+                      top: `${(word.y / ARENA.height) * 100}%`,
+                    }}
+                  >
+                    {word.text}
+                  </div>
+                )
+              })}
 
-          {game.hearts.map((heart) => (
-            <div
-              key={heart.id}
-              className="heart-pickup"
-              style={{
-                left: `${(heart.x / ARENA.width) * 100}%`,
-                top: `${(heart.y / ARENA.height) * 100}%`,
-              }}
-            >
-              ♥
-            </div>
-          ))}
+              {game.hearts.map((heart) => (
+                <div
+                  key={heart.id}
+                  className="heart-pickup"
+                  style={{
+                    left: `${(heart.x / ARENA.width) * 100}%`,
+                    top: `${(heart.y / ARENA.height) * 100}%`,
+                  }}
+                >
+                  ♥
+                </div>
+              ))}
 
-          {game.effects.map((effect) => (
-            <div
-              key={effect.id}
-              className={`hit-effect hit-effect-${effect.tone}`}
-              style={{
-                left: `${(effect.x / ARENA.width) * 100}%`,
-                top: `${(effect.y / ARENA.height) * 100}%`,
-              }}
-            >
-              <div className="hit-burst" />
-              <span>{effect.label}</span>
-            </div>
-          ))}
+              {game.effects.map((effect) => (
+                <div
+                  key={effect.id}
+                  className={`hit-effect hit-effect-${effect.tone}`}
+                  style={{
+                    left: `${(effect.x / ARENA.width) * 100}%`,
+                    top: `${(effect.y / ARENA.height) * 100}%`,
+                  }}
+                >
+                  <div className="hit-burst" />
+                  <span>{effect.label}</span>
+                </div>
+              ))}
 
-          {game.bullets.map((bullet) => (
-            <div
-              key={bullet.id}
-              className="bullet"
-              style={{
-                left: `${(bullet.x / ARENA.width) * 100}%`,
-                top: `${(bullet.y / ARENA.height) * 100}%`,
-              }}
-            />
-          ))}
+              {game.bullets.map((bullet) => (
+                <div
+                  key={bullet.id}
+                  className="bullet"
+                  style={{
+                    left: `${(bullet.x / ARENA.width) * 100}%`,
+                    top: `${(bullet.y / ARENA.height) * 100}%`,
+                  }}
+                />
+              ))}
+
+              {game.categoryAnnouncementMs > 0 ? (
+                <div className="category-popup">
+                  <span>{targetUiPack.newTarget}</span>
+                  <strong>{targetUiCategory.label}</strong>
+                </div>
+              ) : null}
+
+              {game.startAnnouncementMs > 0 ? (
+                <div className="start-popup">
+                  <strong>{game.startAnnouncement}</strong>
+                </div>
+              ) : null}
+
+              {game.streakAnnouncementMs > 0 ? (
+                <div className="streak-popup">
+                  <span>{uiText.bonusUnlocked}</span>
+                  <strong>{game.streakAnnouncement}</strong>
+                </div>
+              ) : null}
+
+              {game.status === 'gameover' ? (
+                <div className="overlay">
+                  <p>{uiText.gameOver}</p>
+                  <h3>{uiText.score}: {game.bestScore}</h3>
+                  {qualifiesForHighScore && !hasSubmittedCurrentRun ? (
+                    <div className="highscore-entry">
+                      <label className="highscore-entry-label" htmlFor="highscore-name">
+                        {uiText.newLeaderboardEntry}
+                      </label>
+                      <input
+                        id="highscore-name"
+                        className="highscore-entry-input"
+                        type="text"
+                        maxLength={18}
+                        value={playerName}
+                        onChange={(event) => setPlayerName(event.target.value)}
+                        placeholder={uiText.yourName}
+                      />
+                      <button className="restart-button highscore-save-button" onClick={saveHighScoreEntry}>
+                        {uiText.saveScore}
+                      </button>
+                    </div>
+                  ) : null}
+                  <span>
+                    {hasSubmittedCurrentRun
+                      ? uiText.scoreSaved
+                      : isMobileLayout
+                        ? uiText.tapRestart
+                        : uiText.pressEnterRestart}
+                  </span>
+                </div>
+              ) : null}
+            </>
+          ) : null}
 
           <div
             className="spaceship"
             style={{ left: `${(game.playerX / ARENA.width) * 100}%` }}
-            onClick={handleShipClick}
+            onClick={hasLaunchedInitialRun ? handleShipClick : undefined}
           >
-            {game.startAnnouncementMs > 0 ? (
+            {hasLaunchedInitialRun && game.startAnnouncementMs > 0 ? (
               <>
                 <div className="ship-move-hint ship-move-hint-left" aria-hidden="true">
                   ←
@@ -2694,59 +2763,6 @@ function App() {
             <div className="ship-engine ship-engine-left" />
             <div className="ship-engine ship-engine-right" />
           </div>
-
-          {game.categoryAnnouncementMs > 0 ? (
-            <div className="category-popup">
-              <span>{targetUiPack.newTarget}</span>
-              <strong>{targetUiCategory.label}</strong>
-            </div>
-          ) : null}
-
-          {game.startAnnouncementMs > 0 ? (
-            <div className="start-popup">
-              <strong>{game.startAnnouncement}</strong>
-            </div>
-          ) : null}
-
-          {game.streakAnnouncementMs > 0 ? (
-            <div className="streak-popup">
-              <span>{uiText.bonusUnlocked}</span>
-              <strong>{game.streakAnnouncement}</strong>
-            </div>
-          ) : null}
-
-          {game.status === 'gameover' ? (
-            <div className="overlay">
-              <p>{uiText.gameOver}</p>
-              <h3>{uiText.score}: {game.bestScore}</h3>
-              {qualifiesForHighScore && !hasSubmittedCurrentRun ? (
-                <div className="highscore-entry">
-                  <label className="highscore-entry-label" htmlFor="highscore-name">
-                    {uiText.newLeaderboardEntry}
-                  </label>
-                  <input
-                    id="highscore-name"
-                    className="highscore-entry-input"
-                    type="text"
-                    maxLength={18}
-                    value={playerName}
-                    onChange={(event) => setPlayerName(event.target.value)}
-                    placeholder={uiText.yourName}
-                  />
-                  <button className="restart-button highscore-save-button" onClick={saveHighScoreEntry}>
-                    {uiText.saveScore}
-                  </button>
-                </div>
-              ) : null}
-              <span>
-                {hasSubmittedCurrentRun
-                  ? uiText.scoreSaved
-                  : isMobileLayout
-                    ? uiText.tapRestart
-                    : uiText.pressEnterRestart}
-              </span>
-            </div>
-          ) : null}
 
           {!hasLaunchedInitialRun ? (
             <div className="start-screen">
