@@ -2574,61 +2574,48 @@ function App() {
 
           {isMobileLayout ? (
             <>
-              {hasLaunchedInitialRun ? (
-                <>
-                  <div className="arena-overlay arena-overlay-top">
-                    <div className={`arena-mini-card arena-mini-time ${game.feedbackTone === 'bad' ? 'arena-mini-time-alert' : ''}`}>
-                      <span>{uiText.lives}</span>
-                      <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
-                        {lifeHearts.map((filled, index) => (
-                          <span key={index} className={`arena-mini-heart ${filled ? 'arena-mini-heart-filled' : ''}`}>
-                            {filled ? '♥' : '♡'}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="arena-target-picker">
-                      <div className="arena-mini-card arena-target-card">
-                        <span>{targetUiPack.currentTarget}</span>
-                        <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
-                      </div>
-                    </div>
-                    <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
-                      {uiText.restart}
-                    </button>
-                  </div>
-
-                  <div className="arena-overlay arena-overlay-bottom">
-                    <div className="arena-mobile-stats" aria-hidden="true">
-                      <div className="arena-mobile-stat">
-                        <span>{uiText.score}</span>
-                        <strong>{game.score}</strong>
-                      </div>
-                      <div className="arena-mobile-stat">
-                        <span>{uiText.streak}</span>
-                        <strong>{game.streak}</strong>
-                      </div>
-                      <div className="arena-mobile-stat">
-                        <span>{uiText.nextSwitch}</span>
-                        <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
-                      </div>
-                      <div className="arena-mobile-stat">
-                        <span>{uiText.highScore}</span>
-                        <strong>{selectedHighScore}</strong>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <div className="arena-overlay arena-overlay-top arena-overlay-top-start">
-                  <div className="arena-target-picker">
-                    <div className="arena-mini-card arena-target-card">
-                      <span>{targetUiPack.currentTarget}</span>
-                      <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
-                    </div>
+              <div className="arena-overlay arena-overlay-top">
+                <div className={`arena-mini-card arena-mini-time ${game.feedbackTone === 'bad' ? 'arena-mini-time-alert' : ''}`}>
+                  <span>{uiText.lives}</span>
+                  <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
+                    {lifeHearts.map((filled, index) => (
+                      <span key={index} className={`arena-mini-heart ${filled ? 'arena-mini-heart-filled' : ''}`}>
+                        {filled ? '♥' : '♡'}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              )}
+                <div className="arena-target-picker">
+                  <div className="arena-mini-card arena-target-card">
+                    <span>{targetUiPack.currentTarget}</span>
+                    <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
+                  </div>
+                </div>
+                <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
+                  {uiText.restart}
+                </button>
+              </div>
+
+              <div className="arena-overlay arena-overlay-bottom">
+                <div className="arena-mobile-stats" aria-hidden="true">
+                  <div className="arena-mobile-stat">
+                    <span>{uiText.score}</span>
+                    <strong>{game.score}</strong>
+                  </div>
+                  <div className="arena-mobile-stat">
+                    <span>{uiText.streak}</span>
+                    <strong>{game.streak}</strong>
+                  </div>
+                  <div className="arena-mobile-stat">
+                    <span>{uiText.nextSwitch}</span>
+                    <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
+                  </div>
+                  <div className="arena-mobile-stat">
+                    <span>{uiText.highScore}</span>
+                    <strong>{selectedHighScore}</strong>
+                  </div>
+                </div>
+              </div>
             </>
           ) : null}
 
