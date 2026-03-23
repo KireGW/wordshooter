@@ -639,6 +639,12 @@ function App() {
   const effectIdRef = useRef(0)
   const audioRef = useRef(null)
   const arenaRef = useRef(null)
+  const shipTouchStateRef = useRef({
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    moved: false,
+  })
 
   useEffect(() => {
     gameRef.current = game
@@ -809,6 +815,63 @@ function App() {
       movePlayerToClientX(event.clientX)
     },
     [isMobileLayout, movePlayerToClientX],
+  )
+
+  const handleShipPointerDown = useCallback(
+    (event) => {
+      if (!isMobileLayout) {
+        return
+      }
+
+      event.stopPropagation()
+      event.currentTarget.setPointerCapture?.(event.pointerId)
+      shipTouchStateRef.current = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        moved: false,
+      }
+    },
+    [isMobileLayout],
+  )
+
+  const handleShipPointerMove = useCallback(
+    (event) => {
+      if (!isMobileLayout || shipTouchStateRef.current.pointerId !== event.pointerId) {
+        return
+      }
+
+      const deltaX = Math.abs(event.clientX - shipTouchStateRef.current.startX)
+      const deltaY = Math.abs(event.clientY - shipTouchStateRef.current.startY)
+      if (deltaX > 6 || deltaY > 6) {
+        shipTouchStateRef.current.moved = true
+      }
+
+      movePlayerToClientX(event.clientX)
+    },
+    [isMobileLayout, movePlayerToClientX],
+  )
+
+  const handleShipPointerUp = useCallback(
+    (event) => {
+      if (!isMobileLayout || shipTouchStateRef.current.pointerId !== event.pointerId) {
+        return
+      }
+
+      event.stopPropagation()
+      const shouldFire = !shipTouchStateRef.current.moved
+      shipTouchStateRef.current = {
+        pointerId: null,
+        startX: 0,
+        startY: 0,
+        moved: false,
+      }
+
+      if (shouldFire) {
+        fireBullet()
+      }
+    },
+    [fireBullet, isMobileLayout],
   )
 
   useEffect(() => {
@@ -1321,11 +1384,11 @@ function App() {
     <section className="controls-panel">
       <div className="control-chip">
         <span>Move</span>
-        <strong>{isMobileLayout ? 'Drag in the arena' : 'A / D or Arrow keys'}</strong>
+        <strong>{isMobileLayout ? 'Drag the ship sideways' : 'A / D or Arrow keys'}</strong>
       </div>
       <div className="control-chip">
         <span>Fire</span>
-        <strong>{isMobileLayout ? 'Tap Fire' : 'Space'}</strong>
+        <strong>{isMobileLayout ? 'Tap the ship' : 'Space'}</strong>
       </div>
       <div className="control-chip">
         <span>Progression</span>
@@ -1473,15 +1536,6 @@ function App() {
                 </button>
               </div>
 
-              <div className="arena-overlay arena-overlay-bottom">
-                <div className="mobile-control-copy arena-touch-copy">
-                  <span>Touch controls</span>
-                  <strong>Drag with left thumb.</strong>
-                </div>
-                <button className="mobile-fire-button arena-fire-button" onClick={fireBullet}>
-                  Fire
-                </button>
-              </div>
             </>
           ) : null}
 
@@ -1528,6 +1582,10 @@ function App() {
           <div
             className="spaceship"
             style={{ left: `${(game.playerX / ARENA.width) * 100}%` }}
+            onPointerDown={handleShipPointerDown}
+            onPointerMove={handleShipPointerMove}
+            onPointerUp={handleShipPointerUp}
+            onPointerCancel={handleShipPointerUp}
           >
             <div className="ship-cockpit" />
             <div className="ship-wing ship-wing-left" />

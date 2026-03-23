@@ -754,40 +754,8 @@
   color: #bceffc;
 }
 
-.mobile-controls {
-  display: none;
-}
-
 .arena-overlay {
   display: none;
-}
-
-.mobile-control-copy {
-  display: grid;
-  gap: 4px;
-}
-
-.mobile-control-copy span {
-  color: var(--muted);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-}
-
-.mobile-control-copy strong {
-  font-size: 0.92rem;
-}
-
-.mobile-fire-button {
-  border: 0;
-  border-radius: 18px;
-  padding: 14px 18px;
-  font: inherit;
-  font-weight: 800;
-  font-size: 1rem;
-  color: #08111f;
-  background: linear-gradient(135deg, #ffd166, #f8f4a6);
-  box-shadow: 0 14px 28px rgba(255, 209, 102, 0.24);
 }
 
 .controls-panel {
@@ -975,18 +943,8 @@
     gap: 8px;
   }
 
-  .arena-overlay-bottom {
-    left: 10px;
-    right: 10px;
-    bottom: 12px;
-    justify-content: space-between;
-    align-items: end;
-    gap: 10px;
-  }
-
   .arena-mini-card,
-  .arena-restart-button,
-  .arena-fire-button {
+  .arena-restart-button {
     pointer-events: auto;
   }
 
@@ -1057,26 +1015,6 @@
     box-shadow: 0 10px 20px rgba(255, 209, 102, 0.2);
     flex: 0 0 auto;
     align-self: stretch;
-  }
-
-  .arena-touch-copy {
-    padding: 8px 10px;
-    border-radius: 16px;
-    background: rgba(6, 15, 28, 0.62);
-    border: 1px solid rgba(184, 192, 255, 0.12);
-    backdrop-filter: blur(12px);
-    max-width: 132px;
-  }
-
-  .arena-touch-copy strong {
-    font-size: 0.78rem;
-  }
-
-  .arena-fire-button {
-    padding: 14px 18px;
-    min-width: 86px;
-    border-radius: 999px;
-    font-size: 0.95rem;
   }
 
   .arena-header {
