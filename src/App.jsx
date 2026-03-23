@@ -27,12 +27,18 @@ const DESKTOP_INITIAL_WORD_COUNT = 3
 const DESKTOP_MAX_ACTIVE_WORDS = 5
 const CATEGORY_SWITCH_MS = 15000
 const CATEGORY_ANNOUNCEMENT_MS = 1800
-const ROUND_DURATION_MS = 90000
-const CORRECT_HIT_POINTS = 1
-const WRONG_HIT_POINTS = 1
-const MISSED_TARGET_POINTS = 1
+const INITIAL_LIVES = 3
+const MAX_LIVES = 4
+const HEART_SPAWN_MS = 18000
+const HEART_PICKUP_POINTS = 1
+const HEART_PICKUP_SIZE = 5.8
+const HEART_MIN_SPEED = 4.2
+const HEART_MAX_SPEED = 5.8
+const CORRECT_HIT_POINTS = 10
+const WRONG_HIT_POINTS = 10
+const MISSED_TARGET_POINTS = 10
 const STREAK_BONUS_THRESHOLD = 10
-const STREAK_BONUS_POINTS = 5
+const STREAK_BONUS_POINTS = 40
 const INITIAL_WORD_Y_MIN = -6
 const INITIAL_WORD_Y_MAX = 10
 const ACTIVE_SPAWN_Y_MIN = -8
@@ -65,14 +71,6 @@ const STREAK_ANNOUNCEMENT_MS = 1500
 const DEFAULT_MUSIC_ENABLED = false
 const DEFAULT_SFX_ENABLED = false
 const MOBILE_LAYOUT_MEDIA_QUERY = '(max-width: 720px), (pointer: coarse)'
-const LANGUAGE_FLAGS = {
-  english: '🇬🇧',
-  french: '🇫🇷',
-  spanish: '🇪🇸',
-  italian: '🇮🇹',
-  german: '🇩🇪',
-  swedish: '🇸🇪',
-}
 const TARGET_UI_TRANSLATIONS = {
   english: {
     currentTarget: 'Current target',
@@ -178,6 +176,165 @@ const TARGET_UI_TRANSLATIONS = {
   },
 }
 
+const UI_TRANSLATIONS = {
+  english: {
+    language: 'Language',
+    cefrLevel: 'CEFR level',
+    curriculumFocus: 'Curriculum focus',
+    progression: 'Progression',
+    progressionText: 'Target rotates through CEFR-appropriate categories over time',
+    leaderboard: 'Leaderboard',
+    noScores: 'No scores saved yet.',
+    score: 'Score',
+    streak: 'Streak',
+    nextSwitch: 'Next switch',
+    highScore: 'High score',
+    lives: 'Lives',
+    restart: 'Restart',
+    restartRun: 'Restart run',
+    intro:
+      'Choose a language and CEFR level, then steer the ship and shoot only the vocabulary or grammar forms that match the active category.',
+    gameOver: 'Game over',
+    roundComplete: 'Round complete',
+    tapRestart: 'Tap restart to play again.',
+    pressEnterRestart: 'Press Enter or restart to launch again.',
+    newLeaderboardEntry: 'New leaderboard entry',
+    yourName: 'Your name',
+    saveScore: 'Save score',
+    scoreSaved: 'Score saved.',
+  },
+  french: {
+    language: 'Langue',
+    cefrLevel: 'Niveau CECR',
+    curriculumFocus: 'Focus du programme',
+    progression: 'Progression',
+    progressionText: 'La cible tourne entre des categories adaptees au niveau CECR',
+    leaderboard: 'Classement',
+    noScores: 'Aucun score enregistre.',
+    score: 'Score',
+    streak: 'Serie',
+    nextSwitch: 'Prochain changement',
+    highScore: 'Meilleur score',
+    lives: 'Vies',
+    restart: 'Recommencer',
+    restartRun: 'Relancer',
+    intro:
+      'Choisissez une langue et un niveau CECR, puis dirigez le vaisseau et tirez seulement sur le vocabulaire ou les formes grammaticales qui correspondent a la categorie active.',
+    gameOver: 'Partie terminee',
+    roundComplete: 'Round termine',
+    tapRestart: 'Touchez relancer pour rejouer.',
+    pressEnterRestart: 'Appuyez sur Entree ou relancez pour rejouer.',
+    newLeaderboardEntry: 'Nouveau score',
+    yourName: 'Votre nom',
+    saveScore: 'Enregistrer',
+    scoreSaved: 'Score enregistre.',
+  },
+  spanish: {
+    language: 'Idioma',
+    cefrLevel: 'Nivel MCER',
+    curriculumFocus: 'Enfoque del curso',
+    progression: 'Progresion',
+    progressionText: 'El objetivo rota entre categorias adecuadas al nivel MCER',
+    leaderboard: 'Clasificacion',
+    noScores: 'Todavia no hay puntuaciones guardadas.',
+    score: 'Puntuacion',
+    streak: 'Racha',
+    nextSwitch: 'Proximo cambio',
+    highScore: 'Puntuacion maxima',
+    lives: 'Vidas',
+    restart: 'Reiniciar',
+    restartRun: 'Reiniciar partida',
+    intro:
+      'Elige un idioma y un nivel MCER, luego dirige la nave y dispara solo al vocabulario o a las formas gramaticales que coincidan con la categoria activa.',
+    gameOver: 'Fin de la partida',
+    roundComplete: 'Ronda completada',
+    tapRestart: 'Toca reiniciar para jugar otra vez.',
+    pressEnterRestart: 'Pulsa Enter o reinicia para volver a jugar.',
+    newLeaderboardEntry: 'Nueva puntuacion',
+    yourName: 'Tu nombre',
+    saveScore: 'Guardar',
+    scoreSaved: 'Puntuacion guardada.',
+  },
+  italian: {
+    language: 'Lingua',
+    cefrLevel: 'Livello QCER',
+    curriculumFocus: 'Focus del corso',
+    progression: 'Progressione',
+    progressionText: 'L obiettivo ruota tra categorie adatte al livello QCER',
+    leaderboard: 'Classifica',
+    noScores: 'Nessun punteggio salvato.',
+    score: 'Punteggio',
+    streak: 'Serie',
+    nextSwitch: 'Prossimo cambio',
+    highScore: 'Record',
+    lives: 'Vite',
+    restart: 'Riavvia',
+    restartRun: 'Riavvia partita',
+    intro:
+      'Scegli una lingua e un livello QCER, poi guida la nave e spara solo al vocabolario o alle forme grammaticali che corrispondono alla categoria attiva.',
+    gameOver: 'Game over',
+    roundComplete: 'Round completato',
+    tapRestart: 'Tocca riavvia per giocare ancora.',
+    pressEnterRestart: 'Premi Invio o riavvia per giocare ancora.',
+    newLeaderboardEntry: 'Nuovo punteggio',
+    yourName: 'Il tuo nome',
+    saveScore: 'Salva',
+    scoreSaved: 'Punteggio salvato.',
+  },
+  german: {
+    language: 'Sprache',
+    cefrLevel: 'GER-Niveau',
+    curriculumFocus: 'Lernfokus',
+    progression: 'Fortschritt',
+    progressionText: 'Das Ziel wechselt zwischen GER-passenden Kategorien',
+    leaderboard: 'Bestenliste',
+    noScores: 'Noch keine Punkte gespeichert.',
+    score: 'Punktzahl',
+    streak: 'Serie',
+    nextSwitch: 'Naechster Wechsel',
+    highScore: 'Highscore',
+    lives: 'Leben',
+    restart: 'Neustart',
+    restartRun: 'Runde neu starten',
+    intro:
+      'Waehle eine Sprache und ein GER-Niveau, steuere dann das Schiff und schiesse nur auf Woerter oder Grammatikformen, die zur aktiven Kategorie passen.',
+    gameOver: 'Spiel vorbei',
+    roundComplete: 'Runde beendet',
+    tapRestart: 'Tippe auf Neustart, um weiterzuspielen.',
+    pressEnterRestart: 'Druecke Enter oder starte neu, um weiterzuspielen.',
+    newLeaderboardEntry: 'Neuer Eintrag',
+    yourName: 'Dein Name',
+    saveScore: 'Speichern',
+    scoreSaved: 'Punktzahl gespeichert.',
+  },
+  swedish: {
+    language: 'Sprak',
+    cefrLevel: 'CEFR-niva',
+    curriculumFocus: 'Kursfokus',
+    progression: 'Progression',
+    progressionText: 'Malkategorin roterar mellan CEFR-anpassade kategorier',
+    leaderboard: 'Topplista',
+    noScores: 'Inga sparade resultat an.',
+    score: 'Poang',
+    streak: 'Streak',
+    nextSwitch: 'Nasta byte',
+    highScore: 'High score',
+    lives: 'Liv',
+    restart: 'Starta om',
+    restartRun: 'Starta om runda',
+    intro:
+      'Valj ett sprak och en CEFR-niva, styr sedan skeppet och skjut bara pa ord eller grammatiska former som matchar den aktiva kategorin.',
+    gameOver: 'Game over',
+    roundComplete: 'Rundan klar',
+    tapRestart: 'Tryck pa starta om for att spela igen.',
+    pressEnterRestart: 'Tryck Enter eller starta om for att spela igen.',
+    newLeaderboardEntry: 'Nytt topplisteresultat',
+    yourName: 'Ditt namn',
+    saveScore: 'Spara',
+    scoreSaved: 'Resultat sparat.',
+  },
+}
+
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
 const getCategorySwitchSafeY = (isMobileLayout) =>
@@ -238,6 +395,17 @@ const getWordBounds = (word, isMobileLayout = false) => {
     bottom: word.y + halfHeight,
     halfWidth,
     halfHeight,
+  }
+}
+
+const getHeartBounds = (heart) => {
+  const halfSize = HEART_PICKUP_SIZE / 2
+
+  return {
+    left: heart.x - halfSize,
+    right: heart.x + halfSize,
+    top: heart.y - halfSize,
+    bottom: heart.y + halfSize,
   }
 }
 
@@ -824,6 +992,13 @@ const makeSpecificCategoryWord = ({
   speed: WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + score * 0.12,
 })
 
+const makeHeartPickup = (id) => ({
+  id,
+  x: 14 + Math.random() * 72,
+  y: INITIAL_WORD_Y_MIN + Math.random() * 6,
+  speed: HEART_MIN_SPEED + Math.random() * HEART_MAX_SPEED,
+})
+
 const makeWordFactory = (languageId, cefrLevel) => {
   const categoryOrder = getCategoryOrder(languageId, cefrLevel)
   const categoryMap = getCategoryMap(languageId, cefrLevel)
@@ -836,11 +1011,7 @@ const makeWordFactory = (languageId, cefrLevel) => {
     recentWordsByCategory = {},
     yRange = { min: ACTIVE_SPAWN_Y_MIN, max: ACTIVE_SPAWN_Y_MAX },
   ) => {
-    const shouldFavorTarget = spawnCount % 5 === 0 || Math.random() < 0.34
-    const fallbackPool = categoryOrder.filter((item) => item !== targetCategory)
-    const categoryId = shouldFavorTarget
-      ? targetCategory
-      : pickRandom(fallbackPool.length > 0 ? fallbackPool : categoryOrder)
+    const categoryId = pickRandom(categoryOrder)
     return makeSpecificCategoryWord({
       id,
       categoryId,
@@ -885,14 +1056,16 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     playerX: 50,
     bullets: [],
     words: initialWords,
+    hearts: [],
     effects: [],
     recentWordsByCategory,
     score: 0,
     bestScore: 0,
+    lives: INITIAL_LIVES,
     streak: 0,
     phase: 1,
     nextCategorySwitchMs: CATEGORY_SWITCH_MS,
-    roundTimeMs: ROUND_DURATION_MS,
+    nextHeartSpawnMs: HEART_SPAWN_MS,
     categoryAnnouncement: '',
     categoryAnnouncementMs: 0,
     streakAnnouncement: '',
@@ -911,8 +1084,6 @@ function App() {
   const [playerName, setPlayerName] = useState(loadPlayerName)
   const [hasSubmittedCurrentRun, setHasSubmittedCurrentRun] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [languagePickerOpen, setLanguagePickerOpen] = useState(false)
-  const [targetUiLanguage, setTargetUiLanguage] = useState('english')
   const [viewportSize, setViewportSize] = useState(() => ({
     width: typeof window === 'undefined' ? 1280 : window.innerWidth,
     height: typeof window === 'undefined' ? 800 : window.innerHeight,
@@ -952,6 +1123,7 @@ function App() {
   const wordBudget = getWordBudget(isMobileLayout, viewportSize)
   const bulletIdRef = useRef(0)
   const wordIdRef = useRef(wordBudget.initialCount)
+  const heartIdRef = useRef(0)
   const spawnCountRef = useRef(wordBudget.initialCount)
   const effectIdRef = useRef(0)
   const audioRef = useRef(null)
@@ -1065,7 +1237,6 @@ function App() {
   useEffect(() => {
     if (!isMobileLayout) {
       setMobileMenuOpen(false)
-      setLanguagePickerOpen(false)
     }
   }, [isMobileLayout])
 
@@ -1076,6 +1247,7 @@ function App() {
       lastShotRef.current = 0
       bulletIdRef.current = 0
       wordIdRef.current = wordBudget.initialCount
+      heartIdRef.current = 0
       spawnCountRef.current = wordBudget.initialCount
       effectIdRef.current = 0
       keysRef.current.clear()
@@ -1471,7 +1643,6 @@ function App() {
           return current
         }
 
-        const categoryMap = getCategoryMap(current.languageId, current.cefrLevel)
         const makeWord = makeWordFactory(current.languageId, current.cefrLevel)
 
         let playerDirection = 0
@@ -1500,6 +1671,10 @@ function App() {
           ...word,
           y: word.y + word.speed * delta,
         }))
+        let nextHearts = current.hearts.map((heart) => ({
+          ...heart,
+          y: heart.y + heart.speed * delta,
+        }))
         nextWords = gentlyResolveUnreadableOverlap(nextWords, isMobileLayout)
         let nextEffects = current.effects
           .map((effect) => ({ ...effect, ttl: effect.ttl - delta * 1000 }))
@@ -1508,12 +1683,12 @@ function App() {
 
         let score = current.score
         let bestScore = current.bestScore
+        let lives = current.lives
         let streak = current.streak
         let feedback = current.feedback
         let feedbackTone = current.feedbackTone
         const phase = current.phase
         const targetCategory = current.targetCategory
-        const roundTimeMs = Math.max(0, current.roundTimeMs - delta * 1000)
         let categoryAnnouncement = current.categoryAnnouncement
         let categoryAnnouncementMs = Math.max(
           0,
@@ -1528,47 +1703,87 @@ function App() {
           0,
           current.nextCategorySwitchMs - delta * 1000,
         )
+        let nextHeartSpawnMs = Math.max(0, current.nextHeartSpawnMs - delta * 1000)
 
         const spentBullets = new Set()
         const destroyedWords = new Set()
+        const collectedHearts = new Set()
 
         nextBullets.forEach((bullet) => {
-          const hitWord = nextWords.find(
-            (word) => {
-              if (destroyedWords.has(word.id)) {
-                return false
-              }
+          const hitHeart = nextHearts.find((heart) => {
+            if (collectedHearts.has(heart.id)) {
+              return false
+            }
 
-              const isNearShipLevel = word.y >= SHIP_LEVEL_HIT_Y
-              const bounds = getWordBounds(word, isMobileLayout)
-              const rect = {
-                left:
-                  bounds.left -
-                  BULLET_HITBOX_RADIUS_X -
-                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
-                right:
-                  bounds.right +
-                  BULLET_HITBOX_RADIUS_X +
-                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
-                top:
-                  bounds.top -
-                  BULLET_HITBOX_RADIUS_Y -
-                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
-                bottom:
-                  bounds.bottom +
-                  BULLET_HITBOX_RADIUS_Y +
-                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
-              }
+            return segmentIntersectsRect(
+              bullet.x,
+              bullet.previousY ?? bullet.y,
+              bullet.x,
+              bullet.y,
+              getHeartBounds(heart),
+            )
+          })
 
-              return segmentIntersectsRect(
-                bullet.x,
-                bullet.previousY ?? bullet.y,
-                bullet.x,
-                bullet.y,
-                rect,
-              )
-            },
-          )
+          if (hitHeart) {
+            spentBullets.add(bullet.id)
+            collectedHearts.add(hitHeart.id)
+            const gainedLife = lives < MAX_LIVES
+            lives = Math.min(MAX_LIVES, lives + HEART_PICKUP_POINTS)
+            feedback = gainedLife
+              ? `Extra life collected. ${lives} lives remaining.`
+              : `Heart collected, but your lives are already full.`
+            feedbackTone = 'good'
+            nextEffects = [
+              ...nextEffects,
+              {
+                id: effectIdRef.current++,
+                x: hitHeart.x,
+                y: hitHeart.y,
+                tone: 'bonus',
+                label: gainedLife ? '+1 LIFE' : 'FULL',
+                ttl: EFFECT_LIFETIME_MS + 120,
+              },
+            ]
+            if (selection.sfxEnabled) {
+              audioRef.current?.playBonus()
+            }
+            return
+          }
+
+          const hitWord = nextWords.find((word) => {
+            if (destroyedWords.has(word.id)) {
+              return false
+            }
+
+            const isNearShipLevel = word.y >= SHIP_LEVEL_HIT_Y
+            const bounds = getWordBounds(word, isMobileLayout)
+            const rect = {
+              left:
+                bounds.left -
+                BULLET_HITBOX_RADIUS_X -
+                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
+              right:
+                bounds.right +
+                BULLET_HITBOX_RADIUS_X +
+                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
+              top:
+                bounds.top -
+                BULLET_HITBOX_RADIUS_Y -
+                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
+              bottom:
+                bounds.bottom +
+                BULLET_HITBOX_RADIUS_Y +
+                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
+            }
+
+            return segmentIntersectsRect(
+              bullet.x,
+              bullet.previousY ?? bullet.y,
+              bullet.x,
+              bullet.y,
+              rect,
+            )
+          })
 
           if (!hitWord) {
             return
@@ -1620,9 +1835,10 @@ function App() {
               }
             }
           } else {
-            score -= WRONG_HIT_POINTS
+            score = Math.max(0, score - WRONG_HIT_POINTS)
+            lives -= 1
             streak = 0
-            feedback = `"${hitWord.text}" belongs to ${categoryMap[hitWord.categoryId].label.toLowerCase()}, not your current target. -${WRONG_HIT_POINTS} point.`
+            feedback = `"${hitWord.text}" is the wrong category. -${WRONG_HIT_POINTS} points and -1 life.`
             feedbackTone = 'bad'
             nextEffects = [
               ...nextEffects,
@@ -1643,12 +1859,14 @@ function App() {
 
         nextBullets = nextBullets.filter((bullet) => !spentBullets.has(bullet.id))
         nextWords = nextWords.filter((word) => !destroyedWords.has(word.id))
+        nextHearts = nextHearts.filter((heart) => !collectedHearts.has(heart.id) && heart.y < 98)
 
         const slippedWords = nextWords.filter((word) => word.y >= 96)
         if (slippedWords.some((word) => word.categoryId === targetCategory)) {
-          score -= MISSED_TARGET_POINTS
+          score = Math.max(0, score - MISSED_TARGET_POINTS)
+          lives -= 1
           streak = 0
-          feedback = `A correct target escaped. -${MISSED_TARGET_POINTS} point.`
+          feedback = `A correct target escaped. -${MISSED_TARGET_POINTS} points and -1 life.`
           feedbackTone = 'bad'
           const missedTarget = slippedWords.find((word) => word.categoryId === targetCategory)
           if (missedTarget) {
@@ -1711,58 +1929,39 @@ function App() {
             )
           }
         }
-        if (score <= 0 && current.score > 0) {
+
+        if (nextHeartSpawnMs <= 0) {
+          nextHearts = [...nextHearts, makeHeartPickup(heartIdRef.current++)]
+          nextHeartSpawnMs = HEART_SPAWN_MS * (0.88 + Math.random() * 0.28)
+        }
+
+        if (lives <= 0) {
           return {
             ...current,
             playerX: nextPlayerX,
             bullets: [],
             words: nextWords,
+            hearts: nextHearts,
             effects: nextEffects,
             recentWordsByCategory,
-            score: 0,
+            score: Math.max(score, 0),
             bestScore,
-            streak: 0,
+            lives: 0,
+            streak,
             phase,
             targetCategory,
-            roundTimeMs,
             categoryAnnouncement: '',
             categoryAnnouncementMs: 0,
             streakAnnouncement: '',
             streakAnnouncementMs: 0,
             nextCategorySwitchMs: 0,
-            endReason: 'score',
+            nextHeartSpawnMs: 0,
+            endReason: 'lives',
             status: 'gameover',
             feedback: isMobileLayout
               ? `Game over. Highest score this run: ${bestScore}. Tap restart to try again.`
               : `Game over. Highest score this run: ${bestScore}. Press Enter or restart to try again.`,
             feedbackTone: 'bad',
-          }
-        }
-
-        if (roundTimeMs <= 0) {
-          return {
-            ...current,
-            playerX: nextPlayerX,
-            bullets: [],
-            words: nextWords,
-            effects: nextEffects,
-            score,
-            bestScore,
-            streak,
-            phase,
-            targetCategory,
-            roundTimeMs: 0,
-            categoryAnnouncement: '',
-            categoryAnnouncementMs: 0,
-            streakAnnouncement: '',
-            streakAnnouncementMs: 0,
-            nextCategorySwitchMs: 0,
-            endReason: 'time',
-            status: 'gameover',
-            feedback: isMobileLayout
-              ? `Round complete. Highest score this run: ${bestScore}. Tap restart to play again.`
-              : `Round complete. Highest score this run: ${bestScore}. Press Enter or restart to play again.`,
-            feedbackTone: 'good',
           }
         }
 
@@ -1773,14 +1972,15 @@ function App() {
           playerX: nextPlayerX,
           bullets: nextBullets,
           words: nextWords,
+          hearts: nextHearts,
           effects: nextEffects,
           recentWordsByCategory,
           score,
           bestScore,
+          lives,
           streak,
           phase,
           targetCategory,
-          roundTimeMs,
           categoryAnnouncement,
           categoryAnnouncementMs,
           streakAnnouncement,
@@ -1788,6 +1988,7 @@ function App() {
           endReason: null,
           status: 'playing',
           nextCategorySwitchMs,
+          nextHeartSpawnMs,
           feedback,
           feedbackTone,
         }
@@ -1806,12 +2007,13 @@ function App() {
   const levelPack = getLevelPack(game.languageId, game.cefrLevel)
   const targetStyle = CATEGORY_STYLES[game.targetCategory]
   const languages = getLanguageNames()
+  const uiLanguageId = selection.languageId
+  const uiText = UI_TRANSLATIONS[uiLanguageId] ?? UI_TRANSLATIONS.english
   const targetUiPack =
-    TARGET_UI_TRANSLATIONS[targetUiLanguage] ?? TARGET_UI_TRANSLATIONS.english
+    TARGET_UI_TRANSLATIONS[uiLanguageId] ?? TARGET_UI_TRANSLATIONS.english
   const targetUiCategory =
     targetUiPack.categories[game.targetCategory] ??
     TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory]
-  const roundProgress = game.roundTimeMs / ROUND_DURATION_MS
   const selectedHighScoreEntries =
     highScores[getHighScoreKey(selection.languageId, selection.cefrLevel)] ?? []
   const selectedHighScore = selectedHighScoreEntries[0]?.score ?? 0
@@ -1825,6 +2027,7 @@ function App() {
     game.bestScore > 0 &&
     (gameHighScoreEntries.length < HIGH_SCORE_LIMIT ||
       game.bestScore > lowestQualifyingScore)
+  const lifeHearts = Array.from({ length: MAX_LIVES }, (_, index) => index < game.lives)
 
   const handleLanguageChange = (event) => {
     const languageId = event.target.value
@@ -1866,23 +2069,10 @@ function App() {
     }))
   }
 
-  const handleTargetLanguageToggle = () => {
-    if (!isMobileLayout) {
-      return
-    }
-
-    setLanguagePickerOpen((current) => !current)
-  }
-
-  const handleTargetLanguageSelect = (languageId) => {
-    setTargetUiLanguage(languageId)
-    setLanguagePickerOpen(false)
-  }
-
   const settingsPanel = (
     <section className="setup-panel">
       <label className="select-card">
-        <span>Language</span>
+        <span>{uiText.language}</span>
         <select value={selection.languageId} onChange={handleLanguageChange}>
           {languages.map((language) => (
             <option key={language.id} value={language.id}>
@@ -1893,7 +2083,7 @@ function App() {
       </label>
 
       <label className="select-card">
-        <span>CEFR level</span>
+        <span>{uiText.cefrLevel}</span>
         <select value={selection.cefrLevel} onChange={handleLevelChange}>
           {CEFR_LEVELS.map((level) => (
             <option key={level} value={level}>
@@ -1904,7 +2094,7 @@ function App() {
       </label>
 
       <div className="select-card curriculum-card">
-        <span>Curriculum focus</span>
+        <span>{uiText.curriculumFocus}</span>
         <strong>{levelPack.label}</strong>
         <p>{levelPack.categories.map((category) => category.label).join(' · ')}</p>
       </div>
@@ -1914,8 +2104,8 @@ function App() {
   const controlsPanel = (
     <section className="controls-panel">
       <div className="control-chip">
-        <span>Progression</span>
-        <strong>Target rotates through CEFR-appropriate categories over time</strong>
+        <span>{uiText.progression}</span>
+        <strong>{uiText.progressionText}</strong>
       </div>
     </section>
   )
@@ -1923,19 +2113,19 @@ function App() {
   const statsPanel = (
     <>
       <div className="hud-card">
-        <span>Score</span>
+        <span>{uiText.score}</span>
         <strong>{game.score}</strong>
       </div>
       <div className="hud-card">
-        <span>Streak</span>
+        <span>{uiText.streak}</span>
         <strong>{game.streak}</strong>
       </div>
       <div className="hud-card">
-        <span>Next switch</span>
+        <span>{uiText.nextSwitch}</span>
         <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
       </div>
       <div className="hud-card">
-        <span>High score</span>
+        <span>{uiText.highScore}</span>
         <strong>{selectedHighScore}</strong>
       </div>
     </>
@@ -1945,7 +2135,7 @@ function App() {
     <>
       <SoundToggleButton
         enabled={selection.musicEnabled}
-        label="Music"
+        label={uiLanguageId === 'swedish' ? 'Musik' : uiLanguageId === 'french' ? 'Musique' : uiLanguageId === 'spanish' ? 'Musica' : uiLanguageId === 'italian' ? 'Musica' : uiLanguageId === 'german' ? 'Musik' : 'Music'}
         onClick={toggleMusic}
       />
       <SoundToggleButton
@@ -1958,7 +2148,7 @@ function App() {
 
   const leaderboardPanel = (
     <section className="highscore-card">
-      <span>Leaderboard</span>
+      <span>{uiText.leaderboard}</span>
       {selectedHighScoreEntries.length > 0 ? (
         <ol className="highscore-list">
           {selectedHighScoreEntries.map((entry, index) => (
@@ -1969,7 +2159,7 @@ function App() {
           ))}
         </ol>
       ) : (
-        <p className="highscore-empty">No scores saved yet.</p>
+        <p className="highscore-empty">{uiText.noScores}</p>
       )}
     </section>
   )
@@ -1993,8 +2183,7 @@ function App() {
           <h1>Wordshooter</h1>
           {!isMobileLayout ? (
           <p className="intro">
-            Choose a language and CEFR level, then steer the ship and shoot only
-            the vocabulary or grammar forms that match the active category.
+            {uiText.intro}
           </p>
           ) : null}
         </div>
@@ -2017,8 +2206,7 @@ function App() {
       {isMobileLayout && mobileMenuOpen ? (
       <section className="mobile-menu-panel">
           <p className="intro mobile-menu-intro">
-            Choose a language and CEFR level, then steer the ship and shoot only
-            the vocabulary or grammar forms that match the active category.
+            {uiText.intro}
           </p>
           {settingsPanel}
           {controlsPanel}
@@ -2042,22 +2230,22 @@ function App() {
             {LANGUAGE_PACKS[game.languageId].name} · {game.cefrLevel}
           </p>
           <button className="restart-button" onClick={() => resetGame()}>
-            Restart run
+            {uiText.restartRun}
           </button>
         </div>
         ) : null}
 
         {!isMobileLayout ? (
-        <div className="round-progress">
-          <div className="round-progress-copy">
-            <span>Round time</span>
-            <strong>{Math.ceil(game.roundTimeMs / 1000)}s</strong>
+        <div className="lives-panel">
+          <div className="lives-panel-copy">
+            <span>{uiText.lives}</span>
           </div>
-          <div className="round-progress-track" aria-hidden="true">
-            <div
-              className="round-progress-fill"
-              style={{ transform: `scaleX(${roundProgress})` }}
-            />
+          <div className="lives-row" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
+            {lifeHearts.map((filled, index) => (
+              <span key={index} className={`life-heart ${filled ? 'life-heart-filled' : ''}`}>
+                ♥
+              </span>
+            ))}
           </div>
         </div>
         ) : null}
@@ -2085,65 +2273,42 @@ function App() {
             <>
               <div className="arena-overlay arena-overlay-top">
                 <div className="arena-mini-card arena-mini-time">
-                  <span>Round time</span>
-                  <strong>{Math.ceil(game.roundTimeMs / 1000)}s</strong>
-                  <div className="arena-mini-track" aria-hidden="true">
-                    <div
-                      className="arena-mini-fill"
-                      style={{ transform: `scaleX(${roundProgress})` }}
-                    />
+                  <span>{uiText.lives}</span>
+                  <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
+                    {lifeHearts.map((filled, index) => (
+                      <span key={index} className={`arena-mini-heart ${filled ? 'arena-mini-heart-filled' : ''}`}>
+                        ♥
+                      </span>
+                    ))}
                   </div>
                 </div>
                 <div className="arena-target-picker">
-                  <button
-                    type="button"
-                    className="arena-mini-card arena-target-card arena-target-button"
-                    onClick={handleTargetLanguageToggle}
-                  >
+                  <div className="arena-mini-card arena-target-card">
                     <span>{targetUiPack.currentTarget}</span>
                     <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
-                  </button>
-                  {languagePickerOpen ? (
-                    <div className="language-picker-popup">
-                      {languages.map((language) => (
-                        <button
-                          key={language.id}
-                          type="button"
-                          className={`language-picker-option ${
-                            selection.languageId === language.id ? 'language-picker-option-active' : ''
-                          }`}
-                          onClick={() => handleTargetLanguageSelect(language.id)}
-                        >
-                          <span className="language-picker-flag" aria-hidden="true">
-                            {LANGUAGE_FLAGS[language.id] ?? '🌐'}
-                          </span>
-                          <span>{language.name}</span>
-                        </button>
-                      ))}
-                    </div>
-                  ) : null}
+                  </div>
                 </div>
                 <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
-                  Restart
+                  {uiText.restart}
                 </button>
               </div>
 
               <div className="arena-overlay arena-overlay-bottom">
                 <div className="arena-mobile-stats" aria-hidden="true">
                   <div className="arena-mobile-stat">
-                    <span>Score</span>
+                    <span>{uiText.score}</span>
                     <strong>{game.score}</strong>
                   </div>
                   <div className="arena-mobile-stat">
-                    <span>Streak</span>
+                    <span>{uiText.streak}</span>
                     <strong>{game.streak}</strong>
                   </div>
                   <div className="arena-mobile-stat">
-                    <span>Next switch</span>
+                    <span>{uiText.nextSwitch}</span>
                     <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
                   </div>
                   <div className="arena-mobile-stat">
-                    <span>High score</span>
+                    <span>{uiText.highScore}</span>
                     <strong>{selectedHighScore}</strong>
                   </div>
                 </div>
@@ -2166,6 +2331,19 @@ function App() {
               </div>
             )
           })}
+
+          {game.hearts.map((heart) => (
+            <div
+              key={heart.id}
+              className="heart-pickup"
+              style={{
+                left: `${(heart.x / ARENA.width) * 100}%`,
+                top: `${(heart.y / ARENA.height) * 100}%`,
+              }}
+            >
+              ♥
+            </div>
+          ))}
 
           {game.effects.map((effect) => (
             <div
@@ -2220,12 +2398,12 @@ function App() {
 
           {game.status === 'gameover' ? (
             <div className="overlay">
-              <p>{game.endReason === 'time' ? 'Round complete' : 'Game over'}</p>
-              <h3>Score: {game.bestScore}</h3>
+              <p>{uiText.gameOver}</p>
+              <h3>{uiText.score}: {game.bestScore}</h3>
               {qualifiesForHighScore && !hasSubmittedCurrentRun ? (
                 <div className="highscore-entry">
                   <label className="highscore-entry-label" htmlFor="highscore-name">
-                    New leaderboard entry
+                    {uiText.newLeaderboardEntry}
                   </label>
                   <input
                     id="highscore-name"
@@ -2234,19 +2412,19 @@ function App() {
                     maxLength={18}
                     value={playerName}
                     onChange={(event) => setPlayerName(event.target.value)}
-                    placeholder="Your name"
+                    placeholder={uiText.yourName}
                   />
                   <button className="restart-button highscore-save-button" onClick={saveHighScoreEntry}>
-                    Save score
+                    {uiText.saveScore}
                   </button>
                 </div>
               ) : null}
               <span>
                 {hasSubmittedCurrentRun
-                  ? 'Score saved.'
+                  ? uiText.scoreSaved
                   : isMobileLayout
-                    ? 'Tap restart to play again.'
-                    : 'Press Enter or restart to launch again.'}
+                    ? uiText.tapRestart
+                    : uiText.pressEnterRestart}
               </span>
             </div>
           ) : null}

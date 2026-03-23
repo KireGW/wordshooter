@@ -217,13 +217,13 @@
   margin-bottom: 10px;
 }
 
-.round-progress {
+.lives-panel {
   margin-bottom: 10px;
   display: grid;
   gap: 8px;
 }
 
-.round-progress-copy {
+.lives-panel-copy {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -232,25 +232,22 @@
   color: var(--muted);
 }
 
-.round-progress-copy strong {
-  color: #ecf7ff;
-  font-size: 0.95rem;
+.lives-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.round-progress-track {
-  height: 10px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(153, 191, 255, 0.14);
+.life-heart {
+  font-size: 1.3rem;
+  line-height: 1;
+  color: rgba(236, 247, 255, 0.2);
+  text-shadow: none;
 }
 
-.round-progress-fill {
-  height: 100%;
-  width: 100%;
-  transform-origin: left center;
-  background: linear-gradient(90deg, #ffd166, #7bdff2);
-  box-shadow: 0 0 18px rgba(123, 223, 242, 0.22);
+.life-heart-filled {
+  color: #ff718f;
+  text-shadow: 0 0 16px rgba(255, 113, 143, 0.35);
 }
 
 .mission-card strong {
@@ -628,6 +625,19 @@
   border-radius: 999px;
   background: linear-gradient(180deg, #f8f4a6, #ffd166);
   box-shadow: 0 0 16px rgba(255, 209, 102, 0.65);
+}
+
+.heart-pickup {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  line-height: 1;
+  color: #ff7ea2;
+  text-shadow:
+    0 0 12px rgba(255, 126, 162, 0.5),
+    0 0 24px rgba(255, 126, 162, 0.24);
+  z-index: 5;
+  pointer-events: none;
 }
 
 .hit-effect {
@@ -1120,8 +1130,8 @@
     margin-bottom: 0;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(184, 192, 255, 0.12);
-    text-align: center;
-    justify-self: center;
+    text-align: left;
+    justify-self: stretch;
   }
 
   .mobile-menu-panel .setup-panel,
@@ -1282,6 +1292,23 @@
     min-width: 104px;
   }
 
+  .arena-mini-lives {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .arena-mini-heart {
+    font-size: 0.92rem;
+    line-height: 1;
+    color: rgba(236, 247, 255, 0.22);
+  }
+
+  .arena-mini-heart-filled {
+    color: #ff718f;
+    text-shadow: 0 0 12px rgba(255, 113, 143, 0.32);
+  }
+
   .arena-mobile-stats {
     width: 100%;
     display: grid;
@@ -1310,20 +1337,6 @@
     font-size: 0.86rem;
     line-height: 1;
     font-weight: 700;
-  }
-
-  .arena-mini-track {
-    height: 6px;
-    border-radius: 999px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .arena-mini-fill {
-    height: 100%;
-    width: 100%;
-    transform-origin: left center;
-    background: linear-gradient(90deg, #ffd166, #7bdff2);
   }
 
   .arena-target-card strong {
@@ -1443,17 +1456,17 @@
     font-size: 0.78rem;
   }
 
-  .round-progress {
+  .lives-panel {
     margin-bottom: 6px;
     gap: 6px;
   }
 
-  .round-progress-copy {
+  .lives-panel-copy {
     font-size: 0.76rem;
   }
 
-  .round-progress-copy strong {
-    font-size: 0.84rem;
+  .life-heart {
+    font-size: 1.1rem;
   }
 
   .word-target {
