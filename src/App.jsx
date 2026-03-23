@@ -901,6 +901,7 @@ function App() {
     pointerId: null,
     startX: 0,
     startY: 0,
+    startPlayerX: 50,
     moved: false,
     active: false,
   })
@@ -908,6 +909,7 @@ function App() {
     pointerId: null,
     startX: 0,
     startY: 0,
+    startPlayerX: 50,
     moved: false,
   })
 
@@ -1028,6 +1030,7 @@ function App() {
         pointerId: null,
         startX: 0,
         startY: 0,
+        startPlayerX: 50,
         moved: false,
         active: false,
       }
@@ -1035,6 +1038,7 @@ function App() {
         pointerId: null,
         startX: 0,
         startY: 0,
+        startPlayerX: 50,
         moved: false,
       }
       setGame(buildInitialGame(nextLanguage, nextLevel, wordBudget, isMobileLayout))
@@ -1088,6 +1092,24 @@ function App() {
     }))
   }, [])
 
+  const movePlayerByRelativeDrag = useCallback(
+    (clientX, startClientX, startPlayerX, surface = arenaRef.current) => {
+      if (!surface) {
+        return
+      }
+
+      const bounds = surface.getBoundingClientRect()
+      const relativeDelta = ((clientX - startClientX) / bounds.width) * 84
+      const nextPlayerX = clamp(startPlayerX + relativeDelta, 8, 92)
+
+      setGame((current) => ({
+        ...current,
+        playerX: nextPlayerX,
+      }))
+    },
+    [],
+  )
+
   const handleArenaPointerDown = useCallback(
     (event) => {
       if (!isMobileLayout) {
@@ -1100,6 +1122,7 @@ function App() {
           pointerId: event.pointerId,
           startX: event.clientX,
           startY: event.clientY,
+          startPlayerX: gameRef.current.playerX,
           moved: false,
           active: true,
         }
@@ -1118,6 +1141,7 @@ function App() {
         pointerId: event.pointerId,
         startX: event.clientX,
         startY: event.clientY,
+        startPlayerX: gameRef.current.playerX,
         moved: false,
         active: isBottomControlZone,
       }
@@ -1140,10 +1164,19 @@ function App() {
 
       if (deltaX > 6 || deltaY > 6) {
         arenaTouchStateRef.current.moved = true
-        movePlayerToClientX(event.clientX, arenaRef.current)
+        if (isMobileLayout) {
+          movePlayerByRelativeDrag(
+            event.clientX,
+            arenaTouchStateRef.current.startX,
+            arenaTouchStateRef.current.startPlayerX,
+            arenaRef.current,
+          )
+        } else {
+          movePlayerToClientX(event.clientX, arenaRef.current)
+        }
       }
     },
-    [movePlayerToClientX],
+    [isMobileLayout, movePlayerByRelativeDrag, movePlayerToClientX],
   )
 
   const handleArenaPointerUp = useCallback(
@@ -1159,6 +1192,7 @@ function App() {
         pointerId: null,
         startX: 0,
         startY: 0,
+        startPlayerX: 50,
         moved: false,
         active: false,
       }
@@ -1181,6 +1215,7 @@ function App() {
         pointerId: event.pointerId,
         startX: event.clientX,
         startY: event.clientY,
+        startPlayerX: gameRef.current.playerX,
         moved: false,
       }
     },
@@ -1197,10 +1232,15 @@ function App() {
       const deltaY = Math.abs(event.clientY - controlTouchStateRef.current.startY)
       if (deltaX > 6 || deltaY > 6) {
         controlTouchStateRef.current.moved = true
-        movePlayerToClientX(event.clientX, controlLineRef.current)
+        movePlayerByRelativeDrag(
+          event.clientX,
+          controlTouchStateRef.current.startX,
+          controlTouchStateRef.current.startPlayerX,
+          controlLineRef.current,
+        )
       }
     },
-    [isMobileLayout, movePlayerToClientX],
+    [isMobileLayout, movePlayerByRelativeDrag],
   )
 
   const handleControlPointerUp = useCallback(
@@ -1214,6 +1254,7 @@ function App() {
         pointerId: null,
         startX: 0,
         startY: 0,
+        startPlayerX: 50,
         moved: false,
       }
 
@@ -1611,7 +1652,9 @@ function App() {
             nextCategorySwitchMs: 0,
             endReason: 'score',
             status: 'gameover',
-            feedback: `Game over. Highest score this run: ${bestScore}. Press Enter or restart to try again.`,
+            feedback: isMobileLayout
+              ? `Game over. Highest score this run: ${bestScore}. Tap restart to try again.`
+              : `Game over. Highest score this run: ${bestScore}. Press Enter or restart to try again.`,
             feedbackTone: 'bad',
           }
         }
@@ -1636,7 +1679,9 @@ function App() {
             nextCategorySwitchMs: 0,
             endReason: 'time',
             status: 'gameover',
-            feedback: `Round complete. Highest score this run: ${bestScore}. Press Enter or restart to play again.`,
+            feedback: isMobileLayout
+              ? `Round complete. Highest score this run: ${bestScore}. Tap restart to play again.`
+              : `Round complete. Highest score this run: ${bestScore}. Press Enter or restart to play again.`,
             feedbackTone: 'good',
           }
         }
