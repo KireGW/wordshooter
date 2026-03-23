@@ -27,6 +27,7 @@ const DESKTOP_INITIAL_WORD_COUNT = 3
 const DESKTOP_MAX_ACTIVE_WORDS = 5
 const CATEGORY_SWITCH_MS = 15000
 const CATEGORY_ANNOUNCEMENT_MS = 1800
+const LIFE_LOSS_ANNOUNCEMENT_MS = 1100
 const MAX_LIVES = 5
 const INITIAL_LIVES = MAX_LIVES
 const HEART_SPAWN_MS = 18000
@@ -1068,6 +1069,8 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     nextHeartSpawnMs: HEART_SPAWN_MS,
     categoryAnnouncement: '',
     categoryAnnouncementMs: 0,
+    lifeLossAnnouncement: '',
+    lifeLossAnnouncementMs: 0,
     streakAnnouncement: '',
     streakAnnouncementMs: 0,
     endReason: null,
@@ -1694,6 +1697,11 @@ function App() {
           0,
           current.categoryAnnouncementMs - delta * 1000,
         )
+        let lifeLossAnnouncement = current.lifeLossAnnouncement
+        let lifeLossAnnouncementMs = Math.max(
+          0,
+          current.lifeLossAnnouncementMs - delta * 1000,
+        )
         let streakAnnouncement = current.streakAnnouncement
         let streakAnnouncementMs = Math.max(
           0,
@@ -1847,10 +1855,12 @@ function App() {
                 x: hitWord.x,
                 y: hitWord.y,
                 tone: 'bad',
-                label: `-${WRONG_HIT_POINTS}`,
+                label: `-${WRONG_HIT_POINTS} / -1 LIFE`,
                 ttl: EFFECT_LIFETIME_MS,
               },
             ]
+            lifeLossAnnouncement = '-1 life'
+            lifeLossAnnouncementMs = LIFE_LOSS_ANNOUNCEMENT_MS
             if (selection.sfxEnabled) {
               audioRef.current?.playFailure()
             }
@@ -1877,11 +1887,13 @@ function App() {
                 x: missedTarget.x,
                 y: 92,
                 tone: 'bad',
-                label: `-${MISSED_TARGET_POINTS}`,
+                label: `-${MISSED_TARGET_POINTS} / -1 LIFE`,
                 ttl: EFFECT_LIFETIME_MS,
               },
             ]
           }
+          lifeLossAnnouncement = '-1 life'
+          lifeLossAnnouncementMs = LIFE_LOSS_ANNOUNCEMENT_MS
           if (selection.sfxEnabled) {
             audioRef.current?.playFailure()
           }
@@ -1955,6 +1967,8 @@ function App() {
             targetCategory,
             categoryAnnouncement: '',
             categoryAnnouncementMs: 0,
+            lifeLossAnnouncement: '',
+            lifeLossAnnouncementMs: 0,
             streakAnnouncement: '',
             streakAnnouncementMs: 0,
             nextCategorySwitchMs: 0,
@@ -1986,6 +2000,8 @@ function App() {
           targetCategory,
           categoryAnnouncement,
           categoryAnnouncementMs,
+          lifeLossAnnouncement,
+          lifeLossAnnouncementMs,
           streakAnnouncement,
           streakAnnouncementMs,
           endReason: null,
@@ -2389,6 +2405,13 @@ function App() {
             <div className="category-popup">
               <span>{targetUiPack.newTarget}</span>
               <strong>{targetUiCategory.label}</strong>
+            </div>
+          ) : null}
+
+          {game.lifeLossAnnouncementMs > 0 ? (
+            <div className="life-loss-popup">
+              <span>Warning</span>
+              <strong>{game.lifeLossAnnouncement}</strong>
             </div>
           ) : null}
 
