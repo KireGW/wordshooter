@@ -52,6 +52,7 @@ const BULLET_HITBOX_RADIUS_Y = 1.15
 const SHIP_LEVEL_HIT_Y = 80
 const SHIP_LEVEL_HITBOX_BONUS_X = 0.7
 const SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
+const MOBILE_ARENA_FIRE_Y_MIN = 82
 const WORD_OVERLAP_ALLOWANCE = 0.2
 const MAX_READABILITY_OVERLAP = 0.7
 const EFFECT_LIFETIME_MS = 550
@@ -896,6 +897,13 @@ function App() {
   const audioRef = useRef(null)
   const arenaRef = useRef(null)
   const controlLineRef = useRef(null)
+  const arenaTouchStateRef = useRef({
+    pointerId: null,
+    startX: 0,
+    startY: 0,
+    moved: false,
+    active: false,
+  })
   const controlTouchStateRef = useRef({
     pointerId: null,
     startX: 0,
@@ -1016,6 +1024,19 @@ function App() {
       spawnCountRef.current = wordBudget.initialCount
       effectIdRef.current = 0
       keysRef.current.clear()
+      arenaTouchStateRef.current = {
+        pointerId: null,
+        startX: 0,
+        startY: 0,
+        moved: false,
+        active: false,
+      }
+      controlTouchStateRef.current = {
+        pointerId: null,
+        startX: 0,
+        startY: 0,
+        moved: false,
+      }
       setGame(buildInitialGame(nextLanguage, nextLevel, wordBudget, isMobileLayout))
     },
     [isMobileLayout, selection.cefrLevel, selection.languageId, wordBudget],
@@ -1068,17 +1089,85 @@ function App() {
   }, [])
 
   const handleArenaPointerDown = useCallback(
-    () => {
-      // Arena touches should not reposition the ship on mobile.
+    (event) => {
+      if (!isMobileLayout) {
+        if (event.pointerType !== 'mouse' || event.button !== 0) {
+          return
+        }
+
+        event.currentTarget.setPointerCapture?.(event.pointerId)
+        arenaTouchStateRef.current = {
+          pointerId: event.pointerId,
+          startX: event.clientX,
+          startY: event.clientY,
+          moved: false,
+          active: true,
+        }
+        return
+      }
+
+      if (event.pointerType === 'mouse' && window.innerWidth > 720) {
+        return
+      }
+
+      const bounds = event.currentTarget.getBoundingClientRect()
+      const relativeY = ((event.clientY - bounds.top) / bounds.height) * 100
+
+      const isBottomControlZone = relativeY >= MOBILE_ARENA_FIRE_Y_MIN
+      arenaTouchStateRef.current = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        moved: false,
+        active: isBottomControlZone,
+      }
+
+      if (isBottomControlZone) {
+        event.currentTarget.setPointerCapture?.(event.pointerId)
+      }
     },
-    [],
+    [isMobileLayout],
   )
 
   const handleArenaPointerMove = useCallback(
-    () => {
-      // Movement is handled by the control line on mobile.
+    (event) => {
+      if (arenaTouchStateRef.current.pointerId !== event.pointerId || !arenaTouchStateRef.current.active) {
+        return
+      }
+
+      const deltaX = Math.abs(event.clientX - arenaTouchStateRef.current.startX)
+      const deltaY = Math.abs(event.clientY - arenaTouchStateRef.current.startY)
+
+      if (deltaX > 6 || deltaY > 6) {
+        arenaTouchStateRef.current.moved = true
+        movePlayerToClientX(event.clientX, arenaRef.current)
+      }
     },
-    [],
+    [movePlayerToClientX],
+  )
+
+  const handleArenaPointerUp = useCallback(
+    (event) => {
+      if (arenaTouchStateRef.current.pointerId !== event.pointerId) {
+        return
+      }
+
+      const shouldFire =
+        arenaTouchStateRef.current.active && !arenaTouchStateRef.current.moved
+
+      arenaTouchStateRef.current = {
+        pointerId: null,
+        startX: 0,
+        startY: 0,
+        moved: false,
+        active: false,
+      }
+
+      if (shouldFire) {
+        fireBullet()
+      }
+    },
+    [fireBullet],
   )
 
   const handleControlPointerDown = useCallback(
@@ -1689,14 +1778,6 @@ function App() {
   const controlsPanel = (
     <section className="controls-panel">
       <div className="control-chip">
-        <span>Move</span>
-        <strong>{isMobileLayout ? 'Drag on the control line' : 'A / D or Arrow keys'}</strong>
-      </div>
-      <div className="control-chip">
-        <span>Fire</span>
-        <strong>{isMobileLayout ? 'Tap the control line' : 'Space'}</strong>
-      </div>
-      <div className="control-chip">
         <span>Progression</span>
         <strong>Target rotates through CEFR-appropriate categories over time</strong>
       </div>
@@ -1829,6 +1910,8 @@ function App() {
           className={`arena ${isMobileLayout ? 'arena-touch' : ''}`}
           onPointerDown={handleArenaPointerDown}
           onPointerMove={handleArenaPointerMove}
+          onPointerUp={handleArenaPointerUp}
+          onPointerCancel={handleArenaPointerUp}
         >
           <div className="starfield starfield-a" />
           <div className="starfield starfield-b" />
