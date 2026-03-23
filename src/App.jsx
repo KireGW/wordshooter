@@ -57,7 +57,9 @@ const WORD_OVERLAP_ALLOWANCE = 0.2
 const MAX_READABILITY_OVERLAP = 0.7
 const EFFECT_LIFETIME_MS = 550
 const HIGH_SCORE_STORAGE_KEY = 'wordshooter-highscores'
+const PLAYER_NAME_STORAGE_KEY = 'wordshooter-player-name'
 const SETTINGS_STORAGE_KEY = 'wordshooter-settings'
+const HIGH_SCORE_LIMIT = 5
 const RECENT_WORD_MEMORY = 4
 const STREAK_ANNOUNCEMENT_MS = 1500
 const DEFAULT_MUSIC_ENABLED = false
@@ -391,6 +393,50 @@ const getNextCategoryId = (categoryOrder, currentCategoryId) => {
 
 const getHighScoreKey = (languageId, cefrLevel) => `${languageId}:${cefrLevel}`
 
+const sanitizeHighScoreName = (value) => {
+  const trimmed = value.trim().replace(/\s+/g, ' ')
+  return trimmed.slice(0, 18) || 'Player'
+}
+
+const normalizeHighScores = (value) => {
+  if (!value || typeof value !== 'object') {
+    return {}
+  }
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, entry]) => {
+      if (typeof entry === 'number') {
+        return [
+          key,
+          [
+            {
+              name: 'Local best',
+              score: entry,
+              achievedAt: null,
+            },
+          ],
+        ]
+      }
+
+      if (!Array.isArray(entry)) {
+        return [key, []]
+      }
+
+      const normalizedEntries = entry
+        .filter((item) => item && typeof item.score === 'number')
+        .map((item) => ({
+          name: sanitizeHighScoreName(typeof item.name === 'string' ? item.name : 'Player'),
+          score: item.score,
+          achievedAt: typeof item.achievedAt === 'string' ? item.achievedAt : null,
+        }))
+        .sort((first, second) => second.score - first.score)
+        .slice(0, HIGH_SCORE_LIMIT)
+
+      return [key, normalizedEntries]
+    }),
+  )
+}
+
 const loadHighScores = () => {
   if (typeof window === 'undefined') {
     return {}
@@ -398,9 +444,21 @@ const loadHighScores = () => {
 
   try {
     const raw = window.localStorage.getItem(HIGH_SCORE_STORAGE_KEY)
-    return raw ? JSON.parse(raw) : {}
+    return raw ? normalizeHighScores(JSON.parse(raw)) : {}
   } catch {
     return {}
+  }
+}
+
+const loadPlayerName = () => {
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
+  try {
+    return window.localStorage.getItem(PLAYER_NAME_STORAGE_KEY) ?? ''
+  } catch {
+    return ''
   }
 }
 
@@ -850,6 +908,8 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
 function App() {
   const [selection, setSelection] = useState(loadSettings)
   const [highScores, setHighScores] = useState(loadHighScores)
+  const [playerName, setPlayerName] = useState(loadPlayerName)
+  const [hasSubmittedCurrentRun, setHasSubmittedCurrentRun] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false)
   const [targetUiLanguage, setTargetUiLanguage] = useState('english')
@@ -945,6 +1005,14 @@ function App() {
   }, [selection])
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    window.localStorage.setItem(PLAYER_NAME_STORAGE_KEY, playerName)
+  }, [playerName])
+
+  useEffect(() => {
     if (!audioRef.current) {
       return
     }
@@ -1001,21 +1069,6 @@ function App() {
     }
   }, [isMobileLayout])
 
-  useEffect(() => {
-    const highScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
-    setHighScores((current) => {
-      const previous = current[highScoreKey] ?? 0
-      if (game.bestScore <= previous) {
-        return current
-      }
-
-      return {
-        ...current,
-        [highScoreKey]: game.bestScore,
-      }
-    })
-  }, [game.bestScore, game.cefrLevel, game.languageId])
-
   const resetGame = useCallback(
     (nextLanguage = selection.languageId, nextLevel = selection.cefrLevel) => {
       lastFrameRef.current = 0
@@ -1026,6 +1079,7 @@ function App() {
       spawnCountRef.current = wordBudget.initialCount
       effectIdRef.current = 0
       keysRef.current.clear()
+      setHasSubmittedCurrentRun(false)
       arenaTouchStateRef.current = {
         pointerId: null,
         startX: 0,
@@ -1045,6 +1099,32 @@ function App() {
     },
     [isMobileLayout, selection.cefrLevel, selection.languageId, wordBudget],
   )
+
+  const saveHighScoreEntry = useCallback(() => {
+    if (game.status !== 'gameover' || game.bestScore <= 0 || hasSubmittedCurrentRun) {
+      return
+    }
+
+    const highScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
+    const nextEntry = {
+      name: sanitizeHighScoreName(playerName),
+      score: game.bestScore,
+      achievedAt: new Date().toISOString(),
+    }
+
+    setHighScores((current) => {
+      const existingEntries = current[highScoreKey] ?? []
+      const nextEntries = [...existingEntries, nextEntry]
+        .sort((first, second) => second.score - first.score)
+        .slice(0, HIGH_SCORE_LIMIT)
+
+      return {
+        ...current,
+        [highScoreKey]: nextEntries,
+      }
+    })
+    setHasSubmittedCurrentRun(true)
+  }, [game.bestScore, game.cefrLevel, game.languageId, game.status, hasSubmittedCurrentRun, playerName])
 
   const fireBullet = useCallback(() => {
     const now = performance.now()
@@ -1732,8 +1812,19 @@ function App() {
     targetUiPack.categories[game.targetCategory] ??
     TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory]
   const roundProgress = game.roundTimeMs / ROUND_DURATION_MS
-  const selectedHighScore =
-    highScores[getHighScoreKey(selection.languageId, selection.cefrLevel)] ?? 0
+  const selectedHighScoreEntries =
+    highScores[getHighScoreKey(selection.languageId, selection.cefrLevel)] ?? []
+  const selectedHighScore = selectedHighScoreEntries[0]?.score ?? 0
+  const gameHighScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
+  const gameHighScoreEntries = highScores[gameHighScoreKey] ?? []
+  const lowestQualifyingScore =
+    gameHighScoreEntries.length > 0
+      ? gameHighScoreEntries[gameHighScoreEntries.length - 1].score
+      : 0
+  const qualifiesForHighScore =
+    game.bestScore > 0 &&
+    (gameHighScoreEntries.length < HIGH_SCORE_LIMIT ||
+      game.bestScore > lowestQualifyingScore)
 
   const handleLanguageChange = (event) => {
     const languageId = event.target.value
@@ -1865,15 +1956,38 @@ function App() {
     </>
   )
 
+  const leaderboardPanel = (
+    <section className="highscore-card">
+      <span>Leaderboard</span>
+      {selectedHighScoreEntries.length > 0 ? (
+        <ol className="highscore-list">
+          {selectedHighScoreEntries.map((entry, index) => (
+            <li key={`${entry.name}-${entry.score}-${index}`}>
+              <strong>{entry.name}</strong>
+              <span>{entry.score}</span>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p className="highscore-empty">No scores saved yet.</p>
+      )}
+    </section>
+  )
+
   const hudPanel = (
     <section className="hud">
       {statsPanel}
       {soundPanel}
+      {leaderboardPanel}
     </section>
   )
 
   return (
-    <main className="game-shell">
+    <main
+      className="game-shell"
+      onContextMenu={(event) => event.preventDefault()}
+      onDragStart={(event) => event.preventDefault()}
+    >
       <section className="hero-panel">
         <div className="hero-copy">
           <h1>Wordshooter</h1>
@@ -1909,6 +2023,7 @@ function App() {
           {settingsPanel}
           {controlsPanel}
           <section className="hud mobile-menu-sound-panel">{soundPanel}</section>
+          {leaderboardPanel}
         </section>
       ) : null}
 
@@ -2107,7 +2222,32 @@ function App() {
             <div className="overlay">
               <p>{game.endReason === 'time' ? 'Round complete' : 'Game over'}</p>
               <h3>Score: {game.bestScore}</h3>
-              <span>{isMobileLayout ? 'Tap restart to play again.' : 'Press Enter or restart to launch again.'}</span>
+              {qualifiesForHighScore && !hasSubmittedCurrentRun ? (
+                <div className="highscore-entry">
+                  <label className="highscore-entry-label" htmlFor="highscore-name">
+                    New leaderboard entry
+                  </label>
+                  <input
+                    id="highscore-name"
+                    className="highscore-entry-input"
+                    type="text"
+                    maxLength={18}
+                    value={playerName}
+                    onChange={(event) => setPlayerName(event.target.value)}
+                    placeholder="Your name"
+                  />
+                  <button className="restart-button highscore-save-button" onClick={saveHighScoreEntry}>
+                    Save score
+                  </button>
+                </div>
+              ) : null}
+              <span>
+                {hasSubmittedCurrentRun
+                  ? 'Score saved.'
+                  : isMobileLayout
+                    ? 'Tap restart to play again.'
+                    : 'Press Enter or restart to launch again.'}
+              </span>
             </div>
           ) : null}
 
