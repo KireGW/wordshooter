@@ -22,8 +22,9 @@ const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
 const WORD_MIN_SPEED = 4.7
 const WORD_MAX_SPEED = 8.1
-const MIN_ACTIVE_WORDS = 4
-const INITIAL_WORD_COUNT = 3
+const DESKTOP_MIN_ACTIVE_WORDS = 4
+const DESKTOP_INITIAL_WORD_COUNT = 3
+const DESKTOP_MAX_ACTIVE_WORDS = 5
 const CATEGORY_SWITCH_MS = 15000
 const CATEGORY_ANNOUNCEMENT_MS = 1800
 const ROUND_DURATION_MS = 90000
@@ -36,11 +37,18 @@ const INITIAL_WORD_Y_MIN = -6
 const INITIAL_WORD_Y_MAX = 10
 const ACTIVE_SPAWN_Y_MIN = -8
 const ACTIVE_SPAWN_Y_MAX = 9
-const CATEGORY_SWITCH_SAFE_Y = 66
-const CATEGORY_SWITCH_RESPAWN_Y_MAX = 18
+const DESKTOP_CATEGORY_SWITCH_SAFE_Y = 58
+const MOBILE_CATEGORY_SWITCH_SAFE_Y = 52
+const CATEGORY_SWITCH_RESPAWN_Y_MAX = 10
 const WORD_BOX_HEIGHT = 6
 const WORD_CHAR_WIDTH = 1.15
 const WORD_BOX_PADDING = 3.2
+const MOBILE_WORD_BOX_HEIGHT = 6.8
+const MOBILE_WORD_CHAR_WIDTH = 1.22
+const MOBILE_WORD_BOX_PADDING = 4.3
+const WORD_BOX_BORDER_ALLOWANCE = 0.45
+const BULLET_HITBOX_RADIUS_X = 0.65
+const BULLET_HITBOX_RADIUS_Y = 1.15
 const SHIP_LEVEL_HIT_Y = 80
 const SHIP_LEVEL_HITBOX_BONUS_X = 0.7
 const SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
@@ -169,10 +177,56 @@ const TARGET_UI_TRANSLATIONS = {
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
-const getWordBoxWidth = (text) => text.length * WORD_CHAR_WIDTH + WORD_BOX_PADDING
-const getWordBounds = (word) => {
-  const halfWidth = getWordBoxWidth(word.text) / 2
-  const halfHeight = WORD_BOX_HEIGHT / 2
+const getCategorySwitchSafeY = (isMobileLayout) =>
+  isMobileLayout ? MOBILE_CATEGORY_SWITCH_SAFE_Y : DESKTOP_CATEGORY_SWITCH_SAFE_Y
+
+const getWordBudget = (isMobileLayout, viewportSize) => {
+  if (!isMobileLayout) {
+    return {
+      initialCount: DESKTOP_INITIAL_WORD_COUNT,
+      minActiveWords: DESKTOP_MIN_ACTIVE_WORDS,
+      maxActiveWords: DESKTOP_MAX_ACTIVE_WORDS,
+    }
+  }
+
+  const { width, height } = viewportSize
+  if (width <= 390 || height <= 760) {
+    return {
+      initialCount: 2,
+      minActiveWords: 2,
+      maxActiveWords: 3,
+    }
+  }
+
+  if (width <= 480 || height <= 860) {
+    return {
+      initialCount: 2,
+      minActiveWords: 3,
+      maxActiveWords: 4,
+    }
+  }
+
+  return {
+    initialCount: 3,
+    minActiveWords: 3,
+    maxActiveWords: 4,
+  }
+}
+const getWordBoxMetrics = (text, isMobileLayout = false) => {
+  const charWidth = isMobileLayout ? MOBILE_WORD_CHAR_WIDTH : WORD_CHAR_WIDTH
+  const boxPadding = isMobileLayout ? MOBILE_WORD_BOX_PADDING : WORD_BOX_PADDING
+  const boxHeight = isMobileLayout ? MOBILE_WORD_BOX_HEIGHT : WORD_BOX_HEIGHT
+
+  return {
+    width: text.length * charWidth + boxPadding + WORD_BOX_BORDER_ALLOWANCE * 2,
+    height: boxHeight + WORD_BOX_BORDER_ALLOWANCE * 2,
+  }
+}
+
+const getWordBounds = (word, isMobileLayout = false) => {
+  const metrics = getWordBoxMetrics(word.text, isMobileLayout)
+  const halfWidth = metrics.width / 2
+  const halfHeight = metrics.height / 2
 
   return {
     left: word.x - halfWidth,
@@ -184,9 +238,70 @@ const getWordBounds = (word) => {
   }
 }
 
-const wordsOverlap = (firstWord, secondWord, padding = 1.4) => {
-  const first = getWordBounds(firstWord)
-  const second = getWordBounds(secondWord)
+const segmentIntersectsRect = (x1, y1, x2, y2, rect) => {
+  const minX = Math.min(x1, x2)
+  const maxX = Math.max(x1, x2)
+  const minY = Math.min(y1, y2)
+  const maxY = Math.max(y1, y2)
+
+  if (
+    maxX < rect.left ||
+    minX > rect.right ||
+    maxY < rect.top ||
+    minY > rect.bottom
+  ) {
+    return false
+  }
+
+  if (
+    (x1 >= rect.left && x1 <= rect.right && y1 >= rect.top && y1 <= rect.bottom) ||
+    (x2 >= rect.left && x2 <= rect.right && y2 >= rect.top && y2 <= rect.bottom)
+  ) {
+    return true
+  }
+
+  const dx = x2 - x1
+  const dy = y2 - y1
+  let tMin = 0
+  let tMax = 1
+
+  const clip = (p, q) => {
+    if (p === 0) {
+      return q >= 0
+    }
+
+    const t = q / p
+    if (p < 0) {
+      if (t > tMax) {
+        return false
+      }
+      if (t > tMin) {
+        tMin = t
+      }
+    } else {
+      if (t < tMin) {
+        return false
+      }
+      if (t < tMax) {
+        tMax = t
+      }
+    }
+
+    return true
+  }
+
+  return (
+    clip(-dx, x1 - rect.left) &&
+    clip(dx, rect.right - x1) &&
+    clip(-dy, y1 - rect.top) &&
+    clip(dy, rect.bottom - y1) &&
+    tMin <= tMax
+  )
+}
+
+const wordsOverlap = (firstWord, secondWord, isMobileLayout = false, padding = 1.4) => {
+  const first = getWordBounds(firstWord, isMobileLayout)
+  const second = getWordBounds(secondWord, isMobileLayout)
   const allowedHorizontalOverlap =
     Math.min(first.right - first.left, second.right - second.left) *
     WORD_OVERLAP_ALLOWANCE
@@ -199,13 +314,13 @@ const wordsOverlap = (firstWord, secondWord, padding = 1.4) => {
   )
 }
 
-const gentlyResolveUnreadableOverlap = (words) => {
+const gentlyResolveUnreadableOverlap = (words, isMobileLayout = false) => {
   const adjusted = words.map((word) => ({ ...word }))
 
   for (let i = 0; i < adjusted.length; i += 1) {
     for (let j = i + 1; j < adjusted.length; j += 1) {
-      const first = getWordBounds(adjusted[i])
-      const second = getWordBounds(adjusted[j])
+      const first = getWordBounds(adjusted[i], isMobileLayout)
+      const second = getWordBounds(adjusted[j], isMobileLayout)
       const overlapX =
         Math.min(first.right, second.right) - Math.max(first.left, second.left)
       const overlapY =
@@ -240,9 +355,16 @@ const gentlyResolveUnreadableOverlap = (words) => {
   return adjusted
 }
 
-const placeWordWithoutOverlap = (candidate, existingWords, maxAttempts = 8) => {
+const placeWordWithoutOverlap = (
+  candidate,
+  existingWords,
+  isMobileLayout = false,
+  maxAttempts = 8,
+) => {
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
-    const collides = existingWords.some((word) => wordsOverlap(candidate, word))
+    const collides = existingWords.some((word) =>
+      wordsOverlap(candidate, word, isMobileLayout),
+    )
     if (!collides) {
       return candidate
     }
@@ -671,14 +793,14 @@ const makeWordFactory = (languageId, cefrLevel) => {
   }
 }
 
-const buildInitialGame = (languageId, cefrLevel) => {
+const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = false) => {
   const levelPack = getLevelPack(languageId, cefrLevel)
   const targetCategory = pickRandom(levelPack.categories).id
   const makeWord = makeWordFactory(languageId, cefrLevel)
   const initialWords = []
   let recentWordsByCategory = {}
 
-  for (let index = 0; index < INITIAL_WORD_COUNT; index += 1) {
+  for (let index = 0; index < wordBudget.initialCount; index += 1) {
     const candidate = makeWord(
       index,
       targetCategory,
@@ -690,7 +812,7 @@ const buildInitialGame = (languageId, cefrLevel) => {
         max: INITIAL_WORD_Y_MAX,
       },
     )
-    initialWords.push(placeWordWithoutOverlap(candidate, initialWords))
+    initialWords.push(placeWordWithoutOverlap(candidate, initialWords, isMobileLayout))
     recentWordsByCategory = rememberRecentWord(
       recentWordsByCategory,
       candidate.categoryId,
@@ -730,6 +852,10 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false)
   const [targetUiLanguage, setTargetUiLanguage] = useState('english')
+  const [viewportSize, setViewportSize] = useState(() => ({
+    width: typeof window === 'undefined' ? 1280 : window.innerWidth,
+    height: typeof window === 'undefined' ? 800 : window.innerHeight,
+  }))
   const [isMobileLayout, setIsMobileLayout] = useState(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
       return false
@@ -738,7 +864,22 @@ function App() {
     return window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY).matches
   })
   const [game, setGame] = useState(() =>
-    buildInitialGame(loadSettings().languageId, loadSettings().cefrLevel),
+    buildInitialGame(
+      loadSettings().languageId,
+      loadSettings().cefrLevel,
+      getWordBudget(
+        typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+          ? window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY).matches
+          : false,
+        {
+          width: typeof window === 'undefined' ? 1280 : window.innerWidth,
+          height: typeof window === 'undefined' ? 800 : window.innerHeight,
+        },
+      ),
+      typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        ? window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY).matches
+        : false,
+    ),
   )
 
   const gameRef = useRef(game)
@@ -747,9 +888,10 @@ function App() {
   const lastFrameRef = useRef(0)
   const lastSpawnRef = useRef(0)
   const lastShotRef = useRef(0)
+  const wordBudget = getWordBudget(isMobileLayout, viewportSize)
   const bulletIdRef = useRef(0)
-  const wordIdRef = useRef(INITIAL_WORD_COUNT)
-  const spawnCountRef = useRef(INITIAL_WORD_COUNT)
+  const wordIdRef = useRef(wordBudget.initialCount)
+  const spawnCountRef = useRef(wordBudget.initialCount)
   const effectIdRef = useRef(0)
   const audioRef = useRef(null)
   const arenaRef = useRef(null)
@@ -807,13 +949,38 @@ function App() {
     }
 
     const mediaQuery = window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY)
-    const syncLayout = () => setIsMobileLayout(mediaQuery.matches)
+    const syncLayout = () => {
+      setIsMobileLayout(mediaQuery.matches)
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
 
     syncLayout()
     mediaQuery.addEventListener('change', syncLayout)
 
     return () => {
       mediaQuery.removeEventListener('change', syncLayout)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
+    const handleResize = () => {
+      setViewportSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      })
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
@@ -845,13 +1012,13 @@ function App() {
       lastSpawnRef.current = 0
       lastShotRef.current = 0
       bulletIdRef.current = 0
-      wordIdRef.current = INITIAL_WORD_COUNT
-      spawnCountRef.current = INITIAL_WORD_COUNT
+      wordIdRef.current = wordBudget.initialCount
+      spawnCountRef.current = wordBudget.initialCount
       effectIdRef.current = 0
       keysRef.current.clear()
-      setGame(buildInitialGame(nextLanguage, nextLevel))
+      setGame(buildInitialGame(nextLanguage, nextLevel, wordBudget, isMobileLayout))
     },
-    [selection.cefrLevel, selection.languageId],
+    [isMobileLayout, selection.cefrLevel, selection.languageId, wordBudget],
   )
 
   const fireBullet = useCallback(() => {
@@ -988,6 +1155,14 @@ function App() {
     [fireBullet, isMobileLayout],
   )
 
+  const handleShipClick = useCallback(
+    (event) => {
+      event.stopPropagation()
+      fireBullet()
+    },
+    [fireBullet],
+  )
+
   useEffect(() => {
     const onKeyDown = (event) => {
       const key = event.key.toLowerCase()
@@ -1041,11 +1216,12 @@ function App() {
         const categoryOrder = getCategoryOrder(current.languageId, current.cefrLevel)
         const categoryMap = getCategoryMap(current.languageId, current.cefrLevel)
         const nextCategory = getNextCategoryId(categoryOrder, current.targetCategory)
+        const categorySwitchSafeY = getCategorySwitchSafeY(isMobileLayout)
         const wordsTooLowForNewTarget = current.words.filter(
-          (word) => word.categoryId === nextCategory && word.y >= CATEGORY_SWITCH_SAFE_Y,
+          (word) => word.categoryId === nextCategory && word.y >= categorySwitchSafeY,
         )
         const preservedWords = current.words.filter(
-          (word) => !(word.categoryId === nextCategory && word.y >= CATEGORY_SWITCH_SAFE_Y),
+          (word) => !(word.categoryId === nextCategory && word.y >= categorySwitchSafeY),
         )
         let adjustedWords = [...preservedWords]
         let recentWordsByCategory = current.recentWordsByCategory
@@ -1060,6 +1236,7 @@ function App() {
               recentWordsByCategory,
             }),
             adjustedWords,
+            isMobileLayout,
           )
           adjustedWords.push(replacement)
           recentWordsByCategory = rememberRecentWord(
@@ -1087,7 +1264,7 @@ function App() {
     return () => {
       window.clearInterval(intervalId)
     }
-  }, [game.cefrLevel, game.languageId, game.status])
+  }, [game.cefrLevel, game.languageId, game.status, isMobileLayout])
 
   useEffect(() => {
     const tick = (timestamp) => {
@@ -1122,14 +1299,18 @@ function App() {
         )
 
         let nextBullets = current.bullets
-          .map((bullet) => ({ ...bullet, y: bullet.y - BULLET_SPEED * delta }))
+          .map((bullet) => ({
+            ...bullet,
+            previousY: bullet.y,
+            y: bullet.y - BULLET_SPEED * delta,
+          }))
           .filter((bullet) => bullet.y > -5)
 
         let nextWords = current.words.map((word) => ({
           ...word,
           y: word.y + word.speed * delta,
         }))
-        nextWords = gentlyResolveUnreadableOverlap(nextWords)
+        nextWords = gentlyResolveUnreadableOverlap(nextWords, isMobileLayout)
         let nextEffects = current.effects
           .map((effect) => ({ ...effect, ttl: effect.ttl - delta * 1000 }))
           .filter((effect) => effect.ttl > 0)
@@ -1169,17 +1350,32 @@ function App() {
               }
 
               const isNearShipLevel = word.y >= SHIP_LEVEL_HIT_Y
-              const halfWidth =
-                getWordBoxWidth(word.text) / 2 +
-                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0)
-              const halfHeight =
-                WORD_BOX_HEIGHT / 2 + (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0)
+              const bounds = getWordBounds(word, isMobileLayout)
+              const rect = {
+                left:
+                  bounds.left -
+                  BULLET_HITBOX_RADIUS_X -
+                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
+                right:
+                  bounds.right +
+                  BULLET_HITBOX_RADIUS_X +
+                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0),
+                top:
+                  bounds.top -
+                  BULLET_HITBOX_RADIUS_Y -
+                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
+                bottom:
+                  bounds.bottom +
+                  BULLET_HITBOX_RADIUS_Y +
+                  (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0),
+              }
 
-              return (
-                bullet.x >= word.x - halfWidth &&
-                bullet.x <= word.x + halfWidth &&
-                bullet.y >= word.y - halfHeight &&
-                bullet.y <= word.y + halfHeight
+              return segmentIntersectsRect(
+                bullet.x,
+                bullet.previousY ?? bullet.y,
+                bullet.x,
+                bullet.y,
+                rect,
               )
             },
           )
@@ -1286,10 +1482,10 @@ function App() {
 
         const spawnDue = timestamp - lastSpawnRef.current >= WORD_SPAWN_MS
 
-        if (spawnDue || nextWords.length < MIN_ACTIVE_WORDS) {
+        if (spawnDue || nextWords.length < wordBudget.minActiveWords) {
           lastSpawnRef.current = timestamp
 
-          while (nextWords.length < MIN_ACTIVE_WORDS) {
+          while (nextWords.length < wordBudget.minActiveWords) {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
@@ -1298,7 +1494,7 @@ function App() {
               spawnCountRef.current,
               recentWordsByCategory,
             )
-            const placedWord = placeWordWithoutOverlap(candidate, nextWords)
+            const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
               recentWordsByCategory,
@@ -1307,7 +1503,7 @@ function App() {
             )
           }
 
-          if (spawnDue) {
+          if (spawnDue && nextWords.length < wordBudget.maxActiveWords) {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
@@ -1316,7 +1512,7 @@ function App() {
               spawnCountRef.current,
               recentWordsByCategory,
             )
-            const placedWord = placeWordWithoutOverlap(candidate, nextWords)
+            const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
               recentWordsByCategory,
@@ -1411,7 +1607,7 @@ function App() {
     return () => {
       window.cancelAnimationFrame(rafRef.current)
     }
-  }, [selection.sfxEnabled])
+  }, [isMobileLayout, selection.sfxEnabled, wordBudget])
 
   const levelPack = getLevelPack(game.languageId, game.cefrLevel)
   const targetStyle = CATEGORY_STYLES[game.targetCategory]
@@ -1527,8 +1723,8 @@ function App() {
     </section>
   )
 
-  const hudPanel = (
-    <section className="hud">
+  const statsPanel = (
+    <>
       <div className="hud-card">
         <span>Score</span>
         <strong>{game.score}</strong>
@@ -1545,6 +1741,11 @@ function App() {
         <span>High score</span>
         <strong>{selectedHighScore}</strong>
       </div>
+    </>
+  )
+
+  const soundPanel = (
+    <>
       <SoundToggleButton
         enabled={selection.musicEnabled}
         label="Music"
@@ -1555,6 +1756,13 @@ function App() {
         label="FX"
         onClick={toggleSfx}
       />
+    </>
+  )
+
+  const hudPanel = (
+    <section className="hud">
+      {statsPanel}
+      {soundPanel}
     </section>
   )
 
@@ -1582,14 +1790,14 @@ function App() {
       </section>
 
       {isMobileLayout && mobileMenuOpen ? (
-        <section className="mobile-menu-panel">
+      <section className="mobile-menu-panel">
           <p className="intro mobile-menu-intro">
             Choose a language and CEFR level, then steer the ship and shoot only
             the vocabulary or grammar forms that match the active category.
           </p>
           {settingsPanel}
           {controlsPanel}
-          {hudPanel}
+          <section className="hud mobile-menu-sound-panel">{soundPanel}</section>
         </section>
       ) : null}
 
@@ -1692,6 +1900,27 @@ function App() {
                 </button>
               </div>
 
+              <div className="arena-overlay arena-overlay-bottom">
+                <div className="arena-mobile-stats" aria-hidden="true">
+                  <div className="arena-mobile-stat">
+                    <span>Score</span>
+                    <strong>{game.score}</strong>
+                  </div>
+                  <div className="arena-mobile-stat">
+                    <span>Streak</span>
+                    <strong>{game.streak}</strong>
+                  </div>
+                  <div className="arena-mobile-stat">
+                    <span>Next switch</span>
+                    <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
+                  </div>
+                  <div className="arena-mobile-stat">
+                    <span>High score</span>
+                    <strong>{selectedHighScore}</strong>
+                  </div>
+                </div>
+              </div>
+
             </>
           ) : null}
 
@@ -1738,6 +1967,7 @@ function App() {
           <div
             className="spaceship"
             style={{ left: `${(game.playerX / ARENA.width) * 100}%` }}
+            onClick={handleShipClick}
           >
             <div className="ship-cockpit" />
             <div className="ship-wing ship-wing-left" />

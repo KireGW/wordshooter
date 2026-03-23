@@ -83,6 +83,8 @@
   border: 1px solid rgba(184, 192, 255, 0.14);
   box-shadow: var(--panel-shadow);
   overflow: auto;
+  display: grid;
+  gap: 12px;
 }
 
 .mobile-control-line {
@@ -246,7 +248,7 @@
   border-radius: 24px;
   padding: 14px;
   display: grid;
-  grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto minmax(0, 1fr) 68px;
 }
 
 .arena-header {
@@ -751,11 +753,22 @@
 }
 
 .feedback {
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
   margin-top: 10px;
   padding: 12px 14px;
   border-radius: 14px;
   font-weight: 600;
   font-size: 0.9rem;
+  line-height: 1.35;
+  display: flex;
+  align-items: center;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .feedback-good {
@@ -922,6 +935,64 @@
     z-index: 28;
     width: auto;
     max-height: min(58svh, 540px);
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .mobile-menu-panel .mobile-menu-intro {
+    margin-bottom: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(184, 192, 255, 0.12);
+  }
+
+  .mobile-menu-panel .setup-panel,
+  .mobile-menu-panel .controls-panel,
+  .mobile-menu-panel .hud {
+    width: 100%;
+    margin: 0;
+    gap: 10px;
+  }
+
+  .mobile-menu-panel .setup-panel {
+    grid-template-columns: 1fr;
+    margin-bottom: 6px;
+  }
+
+  .mobile-menu-panel .curriculum-card {
+    grid-column: auto;
+    padding-bottom: 14px;
+  }
+
+  .mobile-menu-panel .controls-panel {
+    grid-template-columns: 1fr;
+    margin-top: 2px;
+  }
+
+  .mobile-menu-panel .control-chip:last-child {
+    grid-column: auto;
+  }
+
+  .mobile-menu-panel .hud {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mobile-menu-sound-panel {
+    gap: 10px;
+  }
+
+  .mobile-menu-panel .sound-button-sidebar {
+    grid-column: 1 / -1;
+  }
+
+  .mobile-menu-panel .select-card,
+  .mobile-menu-panel .hud-card,
+  .mobile-menu-panel .control-chip {
+    min-width: 0;
+  }
+
+  .mobile-menu-panel .curriculum-card p,
+  .mobile-menu-panel .control-chip strong {
+    line-height: 1.35;
   }
 
   .intro {
@@ -949,7 +1020,8 @@
     padding: 10px;
     min-height: 0;
     height: 100%;
-    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 10px;
+    grid-template-rows: minmax(0, 1fr) 34px 58px;
   }
 
   .arena {
@@ -971,6 +1043,13 @@
     justify-content: space-between;
     align-items: stretch;
     gap: 8px;
+  }
+
+  .arena-overlay-bottom {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    justify-content: center;
   }
 
   .arena-mini-card,
@@ -1006,6 +1085,36 @@
 
   .arena-mini-time {
     min-width: 104px;
+  }
+
+  .arena-mobile-stats {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  .arena-mobile-stat {
+    display: grid;
+    gap: 2px;
+    padding: 6px 4px;
+    text-align: center;
+    color: rgba(236, 247, 255, 0.92);
+    text-shadow: 0 4px 18px rgba(4, 10, 20, 0.6);
+  }
+
+  .arena-mobile-stat span {
+    color: rgba(184, 198, 219, 0.8);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .arena-mobile-stat strong {
+    font-size: 0.86rem;
+    line-height: 1;
+    font-weight: 700;
   }
 
   .arena-mini-track {
@@ -1159,17 +1268,18 @@
   }
 
   .feedback {
+    height: 100%;
+    min-height: 0;
     font-size: 0.82rem;
+    margin-top: 0;
     padding: 9px 10px;
-    max-height: 74px;
-    overflow: auto;
   }
 
   .mobile-control-line {
     position: relative;
     display: block;
     height: 34px;
-    margin-top: 10px;
+    margin-top: 0;
     border-radius: 999px;
     background:
       linear-gradient(
