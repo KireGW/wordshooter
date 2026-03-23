@@ -1612,9 +1612,9 @@
   }
 
   .arena-mini-time {
-    flex: 0 0 88px;
-    min-width: 88px;
-    max-width: 88px;
+    flex: 0 0 104px;
+    min-width: 104px;
+    max-width: 104px;
     padding: 6px 8px;
     background: rgba(6, 15, 28, 0.56);
     border-color: rgba(184, 192, 255, 0.1);
@@ -1637,13 +1637,15 @@
   .arena-mini-lives {
     display: flex;
     align-items: center;
-    gap: 3px;
-    min-width: 0;
+    gap: 2px;
+    min-width: 82px;
+    width: 82px;
     flex-wrap: nowrap;
+    justify-content: flex-start;
   }
 
   .arena-mini-lives .arena-mini-heart {
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     line-height: 1;
     color: rgba(236, 247, 255, 0.14);
     letter-spacing: 0;
@@ -1991,18 +1993,20 @@
   }
 
   .arena-mini-time {
-    flex-basis: 82px;
-    min-width: 82px;
-    max-width: 82px;
+    flex-basis: 100px;
+    min-width: 100px;
+    max-width: 100px;
     padding-inline: 7px;
   }
 
   .arena-mini-lives {
-    gap: 2px;
+    gap: 1px;
+    min-width: 76px;
+    width: 76px;
   }
 
   .arena-mini-lives .arena-mini-heart {
-    font-size: 0.74rem;
+    font-size: 0.68rem;
   }
 
   .arena-target-card {
