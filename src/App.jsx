@@ -27,7 +27,6 @@ const DESKTOP_INITIAL_WORD_COUNT = 3
 const DESKTOP_MAX_ACTIVE_WORDS = 5
 const CATEGORY_SWITCH_MS = 15000
 const CATEGORY_ANNOUNCEMENT_MS = 1800
-const LIFE_LOSS_ANNOUNCEMENT_MS = 1100
 const MAX_LIVES = 5
 const INITIAL_LIVES = MAX_LIVES
 const HEART_SPAWN_MS = 18000
@@ -203,6 +202,21 @@ const UI_TRANSLATIONS = {
     yourName: 'Your name',
     saveScore: 'Save score',
     scoreSaved: 'Score saved.',
+    bonusUnlocked: 'Bonus unlocked',
+    missionLoaded:
+      'Mission loaded for {language} {level}. Shoot only the matching targets.',
+    newTargetCategory: 'New target category: {category}.',
+    shootCategory: 'Shoot {category}',
+    extraLifeCollected: 'Extra life collected. {lives} lives remaining.',
+    heartFull: 'Heart collected, but your lives are already full.',
+    correctHit: '"{word}" is correct. +{points} points.',
+    streakBonus: 'Streak bonus! {streak} correct hits in a row. +{points} points.',
+    wrongCategory: '"{word}" is the wrong category. -{points} points and -1 life.',
+    targetEscaped: 'A correct target escaped. -{points} points and -1 life.',
+    effectLifeLoss: '-{points} / -1 LIFE',
+    effectLifeGain: '+1 LIFE',
+    effectFull: 'FULL',
+    streakWords: '{streak} word streak bonus!',
   },
   french: {
     language: 'Langue',
@@ -229,6 +243,21 @@ const UI_TRANSLATIONS = {
     yourName: 'Votre nom',
     saveScore: 'Enregistrer',
     scoreSaved: 'Score enregistre.',
+    bonusUnlocked: 'Bonus active',
+    missionLoaded:
+      'Mission chargee pour {language} {level}. Tirez seulement sur les bonnes cibles.',
+    newTargetCategory: 'Nouvelle categorie cible : {category}.',
+    shootCategory: 'Tirez sur {category}',
+    extraLifeCollected: 'Vie supplementaire gagnee. Il reste {lives} vies.',
+    heartFull: 'Coeur recupere, mais vos vies sont deja au maximum.',
+    correctHit: '"{word}" est correct. +{points} points.',
+    streakBonus: 'Bonus de serie ! {streak} reponses justes de suite. +{points} points.',
+    wrongCategory: '"{word}" est dans la mauvaise categorie. -{points} points et -1 vie.',
+    targetEscaped: 'Une bonne cible s est echappee. -{points} points et -1 vie.',
+    effectLifeLoss: '-{points} / -1 VIE',
+    effectLifeGain: '+1 VIE',
+    effectFull: 'MAX',
+    streakWords: 'Bonus serie de {streak} mots !',
   },
   spanish: {
     language: 'Idioma',
@@ -255,6 +284,21 @@ const UI_TRANSLATIONS = {
     yourName: 'Tu nombre',
     saveScore: 'Guardar',
     scoreSaved: 'Puntuacion guardada.',
+    bonusUnlocked: 'Bonus desbloqueado',
+    missionLoaded:
+      'Mision cargada para {language} {level}. Dispara solo a los objetivos correctos.',
+    newTargetCategory: 'Nueva categoria objetivo: {category}.',
+    shootCategory: 'Dispara a {category}',
+    extraLifeCollected: 'Vida extra conseguida. Te quedan {lives} vidas.',
+    heartFull: 'Corazon recogido, pero ya tienes todas las vidas.',
+    correctHit: '"{word}" es correcto. +{points} puntos.',
+    streakBonus: 'Bonus de racha. {streak} aciertos seguidos. +{points} puntos.',
+    wrongCategory: '"{word}" es la categoria incorrecta. -{points} puntos y -1 vida.',
+    targetEscaped: 'Se escapo un objetivo correcto. -{points} puntos y -1 vida.',
+    effectLifeLoss: '-{points} / -1 VIDA',
+    effectLifeGain: '+1 VIDA',
+    effectFull: 'MAX',
+    streakWords: 'Bonus por racha de {streak} palabras',
   },
   italian: {
     language: 'Lingua',
@@ -281,6 +325,21 @@ const UI_TRANSLATIONS = {
     yourName: 'Il tuo nome',
     saveScore: 'Salva',
     scoreSaved: 'Punteggio salvato.',
+    bonusUnlocked: 'Bonus sbloccato',
+    missionLoaded:
+      'Missione caricata per {language} {level}. Spara solo ai bersagli giusti.',
+    newTargetCategory: 'Nuova categoria bersaglio: {category}.',
+    shootCategory: 'Spara a {category}',
+    extraLifeCollected: 'Vita extra ottenuta. Ti restano {lives} vite.',
+    heartFull: 'Cuore raccolto, ma le vite sono gia al massimo.',
+    correctHit: '"{word}" e corretto. +{points} punti.',
+    streakBonus: 'Bonus serie! {streak} colpi giusti di fila. +{points} punti.',
+    wrongCategory: '"{word}" e la categoria sbagliata. -{points} punti e -1 vita.',
+    targetEscaped: 'Un bersaglio corretto e scappato. -{points} punti e -1 vita.',
+    effectLifeLoss: '-{points} / -1 VITA',
+    effectLifeGain: '+1 VITA',
+    effectFull: 'MAX',
+    streakWords: 'Bonus serie da {streak} parole!',
   },
   german: {
     language: 'Sprache',
@@ -307,6 +366,21 @@ const UI_TRANSLATIONS = {
     yourName: 'Dein Name',
     saveScore: 'Speichern',
     scoreSaved: 'Punktzahl gespeichert.',
+    bonusUnlocked: 'Bonus aktiviert',
+    missionLoaded:
+      'Mission fuer {language} {level} geladen. Schiesse nur auf passende Ziele.',
+    newTargetCategory: 'Neue Zielkategorie: {category}.',
+    shootCategory: 'Schiesse auf {category}',
+    extraLifeCollected: 'Extraleben eingesammelt. Noch {lives} Leben uebrig.',
+    heartFull: 'Herz eingesammelt, aber deine Leben sind bereits voll.',
+    correctHit: '"{word}" ist korrekt. +{points} Punkte.',
+    streakBonus: 'Serienbonus! {streak} richtige Treffer in Folge. +{points} Punkte.',
+    wrongCategory: '"{word}" ist die falsche Kategorie. -{points} Punkte und -1 Leben.',
+    targetEscaped: 'Ein richtiges Ziel ist entkommen. -{points} Punkte und -1 Leben.',
+    effectLifeLoss: '-{points} / -1 LEBEN',
+    effectLifeGain: '+1 LEBEN',
+    effectFull: 'VOLL',
+    streakWords: '{streak}er-Serienbonus!',
   },
   swedish: {
     language: 'Sprak',
@@ -333,8 +407,28 @@ const UI_TRANSLATIONS = {
     yourName: 'Ditt namn',
     saveScore: 'Spara',
     scoreSaved: 'Resultat sparat.',
+    bonusUnlocked: 'Bonus upplast',
+    missionLoaded:
+      'Uppdrag laddat for {language} {level}. Skjut bara pa ratt mal.',
+    newTargetCategory: 'Ny malkategori: {category}.',
+    shootCategory: 'Skjut pa {category}',
+    extraLifeCollected: 'Extra liv insamlat. Du har {lives} liv kvar.',
+    heartFull: 'Hjarta uppsamlat, men du har redan fullt med liv.',
+    correctHit: '"{word}" ar ratt. +{points} poang.',
+    streakBonus: 'Streakbonus! {streak} ratta i rad. +{points} poang.',
+    wrongCategory: '"{word}" ar fel kategori. -{points} poang och -1 liv.',
+    targetEscaped: 'Ett ratt mal kom undan. -{points} poang och -1 liv.',
+    effectLifeLoss: '-{points} / -1 LIV',
+    effectLifeGain: '+1 LIV',
+    effectFull: 'FULLT',
+    streakWords: '{streak} i rad-bonus!',
   },
 }
+
+const getUiText = (languageId) => UI_TRANSLATIONS[languageId] ?? UI_TRANSLATIONS.english
+
+const formatUiText = (template, values = {}) =>
+  template.replace(/\{(\w+)\}/g, (_, key) => `${values[key] ?? ''}`)
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
@@ -1069,14 +1163,15 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     nextHeartSpawnMs: HEART_SPAWN_MS,
     categoryAnnouncement: '',
     categoryAnnouncementMs: 0,
-    lifeLossAnnouncement: '',
-    lifeLossAnnouncementMs: 0,
     streakAnnouncement: '',
     streakAnnouncementMs: 0,
     endReason: null,
     status: 'playing',
     targetCategory,
-    feedback: `Mission loaded for ${LANGUAGE_PACKS[languageId].name} ${cefrLevel}. Shoot only the matching targets.`,
+    feedback: formatUiText(getUiText(languageId).missionLoaded, {
+      language: LANGUAGE_PACKS[languageId].name,
+      level: cefrLevel,
+    }),
     feedbackTone: 'neutral',
   }
 }
@@ -1580,6 +1675,7 @@ function App() {
 
         const categoryOrder = getCategoryOrder(current.languageId, current.cefrLevel)
         const categoryMap = getCategoryMap(current.languageId, current.cefrLevel)
+        const uiText = getUiText(current.languageId)
         const nextCategory = getNextCategoryId(categoryOrder, current.targetCategory)
         const categorySwitchSafeY = getCategorySwitchSafeY(isMobileLayout)
         const wordsTooLowForNewTarget = current.words.filter(
@@ -1618,9 +1714,13 @@ function App() {
           phase: current.phase + 1,
           targetCategory: nextCategory,
           nextCategorySwitchMs: CATEGORY_SWITCH_MS,
-          categoryAnnouncement: `Shoot ${categoryMap[nextCategory].pluralLabel}`,
+          categoryAnnouncement: formatUiText(uiText.shootCategory, {
+            category: categoryMap[nextCategory].pluralLabel,
+          }),
           categoryAnnouncementMs: CATEGORY_ANNOUNCEMENT_MS,
-          feedback: `New target category: ${categoryMap[nextCategory].label}.`,
+          feedback: formatUiText(uiText.newTargetCategory, {
+            category: categoryMap[nextCategory].label,
+          }),
           feedbackTone: 'neutral',
         }
       })
@@ -1646,6 +1746,7 @@ function App() {
           return current
         }
 
+        const uiText = getUiText(current.languageId)
         const makeWord = makeWordFactory(current.languageId, current.cefrLevel)
 
         let playerDirection = 0
@@ -1697,11 +1798,6 @@ function App() {
           0,
           current.categoryAnnouncementMs - delta * 1000,
         )
-        let lifeLossAnnouncement = current.lifeLossAnnouncement
-        let lifeLossAnnouncementMs = Math.max(
-          0,
-          current.lifeLossAnnouncementMs - delta * 1000,
-        )
         let streakAnnouncement = current.streakAnnouncement
         let streakAnnouncementMs = Math.max(
           0,
@@ -1738,8 +1834,8 @@ function App() {
             const gainedLife = lives < MAX_LIVES
             lives = Math.min(MAX_LIVES, lives + HEART_PICKUP_POINTS)
             feedback = gainedLife
-              ? `Extra life collected. ${lives} lives remaining.`
-              : `Heart collected, but your lives are already full.`
+              ? formatUiText(uiText.extraLifeCollected, { lives })
+              : uiText.heartFull
             feedbackTone = 'good'
             nextEffects = [
               ...nextEffects,
@@ -1748,7 +1844,7 @@ function App() {
                 x: hitHeart.x,
                 y: hitHeart.y,
                 tone: 'bonus',
-                label: gainedLife ? '+1 LIFE' : 'FULL',
+                label: gainedLife ? uiText.effectLifeGain : uiText.effectFull,
                 ttl: EFFECT_LIFETIME_MS + 120,
               },
             ]
@@ -1804,7 +1900,10 @@ function App() {
             score += CORRECT_HIT_POINTS
             bestScore = Math.max(bestScore, score)
             streak += 1
-            feedback = `"${hitWord.text}" is correct. +${CORRECT_HIT_POINTS} points.`
+            feedback = formatUiText(uiText.correctHit, {
+              word: hitWord.text,
+              points: CORRECT_HIT_POINTS,
+            })
             feedbackTone = 'good'
             nextEffects = [
               ...nextEffects,
@@ -1824,7 +1923,10 @@ function App() {
             if (streak > 0 && streak % STREAK_BONUS_THRESHOLD === 0) {
               score += STREAK_BONUS_POINTS
               bestScore = Math.max(bestScore, score)
-              feedback = `Streak bonus! ${streak} correct hits in a row. +${STREAK_BONUS_POINTS} points.`
+              feedback = formatUiText(uiText.streakBonus, {
+                streak,
+                points: STREAK_BONUS_POINTS,
+              })
               nextEffects = [
                 ...nextEffects,
                 {
@@ -1836,7 +1938,7 @@ function App() {
                   ttl: EFFECT_LIFETIME_MS + 180,
                 },
               ]
-              streakAnnouncement = `${streak} word streak bonus!`
+              streakAnnouncement = formatUiText(uiText.streakWords, { streak })
               streakAnnouncementMs = STREAK_ANNOUNCEMENT_MS
               if (selection.sfxEnabled) {
                 audioRef.current?.playBonus()
@@ -1846,7 +1948,10 @@ function App() {
             score = Math.max(0, score - WRONG_HIT_POINTS)
             lives -= 1
             streak = 0
-            feedback = `"${hitWord.text}" is the wrong category. -${WRONG_HIT_POINTS} points and -1 life.`
+            feedback = formatUiText(uiText.wrongCategory, {
+              word: hitWord.text,
+              points: WRONG_HIT_POINTS,
+            })
             feedbackTone = 'bad'
             nextEffects = [
               ...nextEffects,
@@ -1855,12 +1960,12 @@ function App() {
                 x: hitWord.x,
                 y: hitWord.y,
                 tone: 'bad',
-                label: `-${WRONG_HIT_POINTS} / -1 LIFE`,
+                label: formatUiText(uiText.effectLifeLoss, {
+                  points: WRONG_HIT_POINTS,
+                }),
                 ttl: EFFECT_LIFETIME_MS,
               },
             ]
-            lifeLossAnnouncement = '-1 life'
-            lifeLossAnnouncementMs = LIFE_LOSS_ANNOUNCEMENT_MS
             if (selection.sfxEnabled) {
               audioRef.current?.playFailure()
             }
@@ -1876,7 +1981,9 @@ function App() {
           score = Math.max(0, score - MISSED_TARGET_POINTS)
           lives -= 1
           streak = 0
-          feedback = `A correct target escaped. -${MISSED_TARGET_POINTS} points and -1 life.`
+          feedback = formatUiText(uiText.targetEscaped, {
+            points: MISSED_TARGET_POINTS,
+          })
           feedbackTone = 'bad'
           const missedTarget = slippedWords.find((word) => word.categoryId === targetCategory)
           if (missedTarget) {
@@ -1887,13 +1994,13 @@ function App() {
                 x: missedTarget.x,
                 y: 92,
                 tone: 'bad',
-                label: `-${MISSED_TARGET_POINTS} / -1 LIFE`,
+                label: formatUiText(uiText.effectLifeLoss, {
+                  points: MISSED_TARGET_POINTS,
+                }),
                 ttl: EFFECT_LIFETIME_MS,
               },
             ]
           }
-          lifeLossAnnouncement = '-1 life'
-          lifeLossAnnouncementMs = LIFE_LOSS_ANNOUNCEMENT_MS
           if (selection.sfxEnabled) {
             audioRef.current?.playFailure()
           }
@@ -1967,8 +2074,6 @@ function App() {
             targetCategory,
             categoryAnnouncement: '',
             categoryAnnouncementMs: 0,
-            lifeLossAnnouncement: '',
-            lifeLossAnnouncementMs: 0,
             streakAnnouncement: '',
             streakAnnouncementMs: 0,
             nextCategorySwitchMs: 0,
@@ -1976,8 +2081,8 @@ function App() {
             endReason: 'lives',
             status: 'gameover',
             feedback: isMobileLayout
-              ? `Game over. Highest score this run: ${bestScore}. Tap restart to try again.`
-              : `Game over. Highest score this run: ${bestScore}. Press Enter or restart to try again.`,
+              ? `${uiText.gameOver}. ${uiText.score}: ${bestScore}. ${uiText.tapRestart}`
+              : `${uiText.gameOver}. ${uiText.score}: ${bestScore}. ${uiText.pressEnterRestart}`,
             feedbackTone: 'bad',
           }
         }
@@ -2000,8 +2105,6 @@ function App() {
           targetCategory,
           categoryAnnouncement,
           categoryAnnouncementMs,
-          lifeLossAnnouncement,
-          lifeLossAnnouncementMs,
           streakAnnouncement,
           streakAnnouncementMs,
           endReason: null,
@@ -2027,7 +2130,7 @@ function App() {
   const targetStyle = CATEGORY_STYLES[game.targetCategory]
   const languages = getLanguageNames()
   const uiLanguageId = selection.languageId
-  const uiText = UI_TRANSLATIONS[uiLanguageId] ?? UI_TRANSLATIONS.english
+  const uiText = getUiText(uiLanguageId)
   const targetUiPack =
     TARGET_UI_TRANSLATIONS[uiLanguageId] ?? TARGET_UI_TRANSLATIONS.english
   const targetUiCategory =
@@ -2255,7 +2358,7 @@ function App() {
         ) : null}
 
         {!isMobileLayout ? (
-        <div className="lives-panel">
+        <div className={`lives-panel ${game.feedbackTone === 'bad' ? 'lives-panel-alert' : ''}`}>
           <div className="lives-panel-copy">
             <span>{uiText.lives}</span>
           </div>
@@ -2291,7 +2394,7 @@ function App() {
           {isMobileLayout ? (
             <>
               <div className="arena-overlay arena-overlay-top">
-                <div className="arena-mini-card arena-mini-time">
+                <div className={`arena-mini-card arena-mini-time ${game.feedbackTone === 'bad' ? 'arena-mini-time-alert' : ''}`}>
                   <span>{uiText.lives}</span>
                   <div className="arena-mini-lives" aria-label={`${game.lives} ${uiText.lives.toLowerCase()}`}>
                     {lifeHearts.map((filled, index) => (
@@ -2408,16 +2511,9 @@ function App() {
             </div>
           ) : null}
 
-          {game.lifeLossAnnouncementMs > 0 ? (
-            <div className="life-loss-popup">
-              <span>Warning</span>
-              <strong>{game.lifeLossAnnouncement}</strong>
-            </div>
-          ) : null}
-
           {game.streakAnnouncementMs > 0 ? (
             <div className="streak-popup">
-              <span>Bonus unlocked</span>
+              <span>{uiText.bonusUnlocked}</span>
               <strong>{game.streakAnnouncement}</strong>
             </div>
           ) : null}
@@ -2460,19 +2556,20 @@ function App() {
         {isMobileLayout ? (
           <div
             ref={controlLineRef}
-            className="mobile-control-line"
-            data-label="Tap to fire"
+            className="mobile-control-zone"
             onPointerDown={handleControlPointerDown}
             onPointerMove={handleControlPointerMove}
             onPointerUp={handleControlPointerUp}
             onPointerCancel={handleControlPointerUp}
           >
-            <span className="mobile-control-line-arrow mobile-control-line-arrow-left" aria-hidden="true">
-              ←
-            </span>
-            <span className="mobile-control-line-arrow mobile-control-line-arrow-right" aria-hidden="true">
-              →
-            </span>
+            <div className="mobile-control-line" data-label="Tap to fire">
+              <span className="mobile-control-line-arrow mobile-control-line-arrow-left" aria-hidden="true">
+                ←
+              </span>
+              <span className="mobile-control-line-arrow mobile-control-line-arrow-right" aria-hidden="true">
+                →
+              </span>
+            </div>
           </div>
         ) : null}
 
