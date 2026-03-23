@@ -93,6 +93,63 @@ const deepFreeze = (value) => {
 }
 
 export const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+export const CEFR_VOCAB_TARGETS = {
+  A1: { cumulative: 600, addedSincePrevious: 600 },
+  A2: { cumulative: 1600, addedSincePrevious: 1000 },
+  B1: { cumulative: 3600, addedSincePrevious: 2000 },
+  B2: { cumulative: 7600, addedSincePrevious: 4000 },
+  C1: { cumulative: 11600, addedSincePrevious: 4000 },
+  C2: { cumulative: 19600, addedSincePrevious: 8000 },
+}
+
+const normalizeWord = (word) => word.trim().toLocaleLowerCase()
+const uniqueWords = (words) => {
+  const seen = new Set()
+
+  return words.filter((word) => {
+    const key = normalizeWord(word)
+    if (seen.has(key)) {
+      return false
+    }
+    seen.add(key)
+    return true
+  })
+}
+
+const compileLevelsWithUniqueProgression = (levels) => {
+  const seenByCategory = new Map()
+
+  return Object.fromEntries(
+    CEFR_LEVELS.map((levelId) => {
+      const level = levels[levelId]
+      const categories = level.categories.map((category) => {
+        const seenWords = seenByCategory.get(category.id) ?? new Set()
+        const dedupedWords = uniqueWords(category.words)
+        const exclusiveWords = dedupedWords.filter(
+          (word) => !seenWords.has(normalizeWord(word)),
+        )
+        const nextWords = exclusiveWords.length > 0 ? exclusiveWords : dedupedWords
+
+        nextWords.forEach((word) => seenWords.add(normalizeWord(word)))
+        seenByCategory.set(category.id, seenWords)
+
+        return {
+          ...category,
+          words: nextWords,
+        }
+      })
+
+      return [
+        levelId,
+        {
+          ...level,
+          categories,
+          vocabTarget: CEFR_VOCAB_TARGETS[levelId],
+        },
+      ]
+    }),
+  )
+}
 
 // Keep language-specific curricula isolated here so global gameplay changes
 // do not require editing the language content directly.
@@ -101,19 +158,19 @@ const LANGUAGE_LEVELS = {
     name: 'English',
     levels: {
       A1: createLevel('A1 Beginner', [
-          nouns(['house', 'book', 'teacher', 'water', 'city', 'friend', 'garden', 'school', 'family', 'window']),
-          verbs(['go', 'eat', 'make', 'live', 'read', 'play', 'walk', 'open', 'watch', 'write']),
-          adjectives(['big', 'small', 'happy', 'cold', 'young', 'easy', 'warm', 'clean', 'short', 'bright']),
+          nouns(['house', 'book', 'teacher', 'water', 'city', 'friend', 'garden', 'school', 'family', 'window', 'room', 'door', 'table', 'chair', 'street', 'dog', 'cat', 'mother', 'father', 'child', 'apple', 'bread', 'car', 'bus', 'sun', 'rain', 'day', 'night', 'bag', 'phone']),
+          verbs(['go', 'eat', 'make', 'live', 'read', 'play', 'walk', 'open', 'watch', 'write', 'come', 'drink', 'sleep', 'sit', 'stand', 'speak', 'listen', 'work', 'study', 'help', 'start', 'stop', 'cook', 'call', 'wait', 'carry', 'drive', 'love', 'learn', 'use']),
+          adjectives(['big', 'small', 'happy', 'cold', 'young', 'easy', 'warm', 'clean', 'short', 'bright', 'old', 'new', 'good', 'bad', 'fast', 'slow', 'hot', 'sweet', 'strong', 'quiet', 'loud', 'kind', 'busy', 'ready', 'full', 'empty', 'dark', 'early', 'late', 'friendly']),
         ]),
       A2: createLevel('A2 Elementary', [
-          pronouns(['someone', 'anyone', 'nothing', 'myself', 'themselves', 'each', 'everything', 'another', 'everybody', 'something']),
-          adverbs(['always', 'sometimes', 'carefully', 'often', 'quickly', 'already', 'usually', 'finally', 'outside', 'slowly']),
-          past(['went', 'saw', 'made', 'studied', 'called', 'arrived', 'bought', 'learned', 'brought', 'finished']),
+          pronouns(['someone', 'anyone', 'nothing', 'myself', 'themselves', 'each', 'everything', 'another', 'everybody', 'something', 'nobody', 'yourself', 'ourselves', 'herself', 'himself', 'these', 'those', 'one another', 'several', 'either', 'neither', 'someone else', 'whatever', 'whoever']),
+          adverbs(['always', 'sometimes', 'carefully', 'often', 'quickly', 'already', 'usually', 'finally', 'outside', 'slowly', 'inside', 'yesterday', 'today', 'tomorrow', 'really', 'almost', 'together', 'alone', 'upstairs', 'downstairs', 'soon', 'later', 'everywhere', 'anywhere']),
+          past(['went', 'saw', 'made', 'studied', 'called', 'arrived', 'bought', 'learned', 'brought', 'finished', 'found', 'left', 'heard', 'met', 'lost', 'sent', 'took', 'gave', 'spent', 'forgot', 'felt', 'won', 'sold', 'decided']),
         ]),
       B1: createLevel('B1 Intermediate', [
-          future(['will travel', 'going to study', 'will improve', 'is going to rain', 'will decide', 'will return', 'will probably win', 'are going to move', 'will be easier', 'will soon change']),
-          connective(['although', 'however', 'because', 'unless', 'while', 'therefore', 'since', 'even though', 'as soon as', 'instead']),
-          subjunctive(['if I were', 'I suggest that he be', 'it is vital that she arrive', 'I asked that they stay', 'they recommended that we wait', 'I insist that he go', 'it is essential that we leave', 'I demand that she listen', 'if he were here', 'they propose that it remain']),
+          future(['will travel', 'going to study', 'will improve', 'is going to rain', 'will decide', 'will return', 'will probably win', 'are going to move', 'will be easier', 'will soon change', 'will keep trying', 'is going to open', 'will need help', 'are going to build', 'will become clear', 'will take time', 'is going to start', 'will stay longer', 'will likely grow', 'are going to meet']),
+          connective(['although', 'however', 'because', 'unless', 'while', 'therefore', 'since', 'even though', 'as soon as', 'instead', 'meanwhile', 'in case', 'for example', 'on the other hand', 'as a result', 'otherwise', 'in order to', 'after that', 'before that', 'at least']),
+          subjunctive(['if I were', 'I suggest that he be', 'it is vital that she arrive', 'I asked that they stay', 'they recommended that we wait', 'I insist that he go', 'it is essential that we leave', 'I demand that she listen', 'if he were here', 'they propose that it remain', 'I would rather that she stay', 'it is important that he understand', 'they asked that we be ready', 'I wish it were easier', 'if she were more patient', 'the teacher insisted that they finish', 'we requested that he join', 'it is necessary that she speak', 'I would prefer that they come early', 'the doctor advised that he rest']),
         ]),
       B2: createLevel('B2 Upper Intermediate', [
           modal(['might have gone', 'should have told', 'must be joking', 'could have seen', 'would rather stay', 'ought to know']),
@@ -350,25 +407,25 @@ const LANGUAGE_LEVELS = {
       A1: {
         label: 'A1 Nybörjare',
         categories: [
-          nouns(['hus', 'bok', 'vän', 'stad', 'vatten', 'skola', 'familj', 'fönster', 'trädgård', 'gata']),
-          verbs(['gå', 'äta', 'tala', 'bo', 'ha', 'leka', 'skriva', 'öppna', 'titta', 'lära']),
-          adjectives(['stor', 'liten', 'glad', 'kall', 'ny', 'enkel', 'varm', 'ren', 'kort', 'ljus']),
+          nouns(['hus', 'bok', 'vän', 'stad', 'vatten', 'skola', 'familj', 'fönster', 'trädgård', 'gata', 'rum', 'dörr', 'bord', 'stol', 'hund', 'katt', 'mamma', 'pappa', 'barn', 'äpple', 'bröd', 'bil', 'buss', 'sol', 'regn', 'dag', 'natt', 'väska', 'telefon', 'kök']),
+          verbs(['gå', 'äta', 'tala', 'bo', 'ha', 'leka', 'skriva', 'öppna', 'titta', 'lära', 'komma', 'dricka', 'sova', 'sitta', 'stå', 'lyssna', 'arbeta', 'studera', 'hjälpa', 'börja', 'sluta', 'laga', 'ringa', 'vänta', 'bära', 'köra', 'älska', 'använda', 'läsa', 'resa']),
+          adjectives(['stor', 'liten', 'glad', 'kall', 'ny', 'enkel', 'varm', 'ren', 'kort', 'ljus', 'gammal', 'bra', 'dålig', 'snabb', 'långsam', 'het', 'söt', 'stark', 'tyst', 'hög', 'snäll', 'upptagen', 'redo', 'full', 'tom', 'mörk', 'tidig', 'sen', 'vänlig', 'billig']),
         ],
       },
       A2: {
         label: 'A2 Grundläggande',
         categories: [
-          pronouns(['någon', 'ingen', 'vi', 'de', 'denna', 'var och en', 'alla', 'något', 'den andre', 'vem som helst']),
-          adverbs(['alltid', 'ofta', 'redan', 'nästan', 'snabbt', 'tillsammans', 'utomhus', 'långsamt', 'senare', 'vanligtvis']),
-          past(['gick', 'såg', 'gjorde', 'studerade', 'kom fram', 'förstod', 'köpte', 'hämtade', 'valde', 'stannade']),
+          pronouns(['någon', 'ingen', 'vi', 'de', 'denna', 'var och en', 'alla', 'något', 'den andre', 'vem som helst', 'någon annan', 'ingenting', 'sig själv', 'oss själva', 'dem själva', 'sådan', 'sådana', 'båda', 'endera', 'varken', 'flera', 'några', 'allt', 'varje']),
+          adverbs(['alltid', 'ofta', 'redan', 'nästan', 'snabbt', 'tillsammans', 'utomhus', 'långsamt', 'senare', 'vanligtvis', 'inomhus', 'igår', 'idag', 'imorgon', 'verkligen', 'ensam', 'ovanpå', 'nedanför', 'snart', 'därefter', 'överallt', 'någonstans', 'hemma', 'borta']),
+          past(['gick', 'såg', 'gjorde', 'studerade', 'kom fram', 'förstod', 'köpte', 'hämtade', 'valde', 'stannade', 'fann', 'lämnade', 'hörde', 'träffade', 'tappade', 'skickade', 'tog', 'gav', 'spenderade', 'glömde', 'kände', 'vann', 'sålde', 'bestämde']),
         ],
       },
       B1: {
         label: 'B1 Mellannivå',
         categories: [
-          future(['ska resa', 'kommer att lära', 'ska stanna', 'kommer tillbaka', 'ska regna', 'ska förändra']),
-          connective(['fastän', 'eftersom', 'medan', 'därför', 'så att', 'innan']),
-          modal(['skulle vilja', 'kan nog gå', 'borde förstå', 'måste vänta', 'får inte glömma', 'kunde hjälpa']),
+          future(['ska resa', 'kommer att lära', 'ska stanna', 'kommer tillbaka', 'ska regna', 'ska förändra', 'ska fortsätta', 'kommer att öppna', 'ska behöva hjälp', 'ska bygga', 'kommer att bli tydligare', 'ska ta tid', 'kommer att börja', 'ska stanna längre', 'kommer troligen att växa', 'ska träffas', 'kommer att fungera bättre', 'ska försöka igen', 'kommer snart att ändras', 'ska flytta']),
+          connective(['fastän', 'eftersom', 'medan', 'därför', 'så att', 'innan', 'dessutom', 'samtidigt', 'i fall', 'till exempel', 'å andra sidan', 'som resultat', 'annars', 'för att', 'efter det', 'före det', 'åtminstone', 'trots att', 'så snart som', 'under tiden']),
+          modal(['skulle vilja', 'kan nog gå', 'borde förstå', 'måste vänta', 'får inte glömma', 'kunde hjälpa', 'skulle kunna prova', 'måste nog åka', 'borde ha frågat', 'kan tänka mig', 'får gärna stanna', 'skulle behöva vila', 'måste hinna klart', 'kunde kanske förklara', 'borde försöka igen', 'kan råka bli fel', 'får lov att gå', 'skulle vilja veta', 'måste ha missat', 'kunde ha sagt det']),
         ],
       },
       B2: {
@@ -403,7 +460,7 @@ export const LANGUAGE_PACKS = deepFreeze(
   Object.fromEntries(
     Object.entries(LANGUAGE_LEVELS).map(([id, pack]) => [
       id,
-      createLanguagePack(pack.name, pack.levels),
+      createLanguagePack(pack.name, compileLevelsWithUniqueProgression(pack.levels)),
     ]),
   ),
 )

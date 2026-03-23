@@ -20,8 +20,8 @@ const ARENA = {
 const PLAYER_SPEED = 56
 const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
-const WORD_MIN_SPEED = 5.5
-const WORD_MAX_SPEED = 9.5
+const WORD_MIN_SPEED = 4.7
+const WORD_MAX_SPEED = 8.1
 const MIN_ACTIVE_WORDS = 4
 const INITIAL_WORD_COUNT = 3
 const CATEGORY_SWITCH_MS = 15000
@@ -34,9 +34,16 @@ const STREAK_BONUS_THRESHOLD = 10
 const STREAK_BONUS_POINTS = 5
 const INITIAL_WORD_Y_MIN = -6
 const INITIAL_WORD_Y_MAX = 10
+const ACTIVE_SPAWN_Y_MIN = -8
+const ACTIVE_SPAWN_Y_MAX = 9
+const CATEGORY_SWITCH_SAFE_Y = 66
+const CATEGORY_SWITCH_RESPAWN_Y_MAX = 18
 const WORD_BOX_HEIGHT = 6
 const WORD_CHAR_WIDTH = 1.15
 const WORD_BOX_PADDING = 3.2
+const SHIP_LEVEL_HIT_Y = 80
+const SHIP_LEVEL_HITBOX_BONUS_X = 0.7
+const SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
 const WORD_OVERLAP_ALLOWANCE = 0.2
 const MAX_READABILITY_OVERLAP = 0.7
 const EFFECT_LIFETIME_MS = 550
@@ -130,7 +137,7 @@ const placeWordWithoutOverlap = (candidate, existingWords, maxAttempts = 8) => {
     candidate = {
       ...candidate,
       x: 12 + Math.random() * 76,
-      y: Math.max(-8, candidate.y + 3 + Math.random() * 6),
+      y: clamp(candidate.y + 2 + Math.random() * 4, ACTIVE_SPAWN_Y_MIN, ACTIVE_SPAWN_Y_MAX + 3),
     }
   }
 
@@ -499,6 +506,30 @@ const SoundToggleButton = ({ enabled, label, onClick }) => (
   </button>
 )
 
+const pickCategoryWordText = (categoryMap, categoryId, recentWordsByCategory = {}) => {
+  const category = categoryMap[categoryId]
+  const recentWords = recentWordsByCategory[categoryId] ?? []
+  const availableWords = category.words.filter((word) => !recentWords.includes(word))
+
+  return pickRandom(availableWords.length > 0 ? availableWords : category.words)
+}
+
+const makeSpecificCategoryWord = ({
+  id,
+  categoryId,
+  score,
+  categoryMap,
+  recentWordsByCategory = {},
+  yRange = { min: INITIAL_WORD_Y_MIN, max: CATEGORY_SWITCH_RESPAWN_Y_MAX },
+}) => ({
+  id,
+  text: pickCategoryWordText(categoryMap, categoryId, recentWordsByCategory),
+  categoryId,
+  x: 12 + Math.random() * 76,
+  y: yRange.min + Math.random() * (yRange.max - yRange.min),
+  speed: WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + score * 0.12,
+})
+
 const makeWordFactory = (languageId, cefrLevel) => {
   const categoryOrder = getCategoryOrder(languageId, cefrLevel)
   const categoryMap = getCategoryMap(languageId, cefrLevel)
@@ -509,26 +540,21 @@ const makeWordFactory = (languageId, cefrLevel) => {
     score,
     spawnCount,
     recentWordsByCategory = {},
-    yRange = { min: 8, max: 36 },
+    yRange = { min: ACTIVE_SPAWN_Y_MIN, max: ACTIVE_SPAWN_Y_MAX },
   ) => {
     const shouldFavorTarget = spawnCount % 3 === 0 || Math.random() < 0.5
     const fallbackPool = categoryOrder.filter((item) => item !== targetCategory)
     const categoryId = shouldFavorTarget
       ? targetCategory
       : pickRandom(fallbackPool.length > 0 ? fallbackPool : categoryOrder)
-    const category = categoryMap[categoryId]
-    const recentWords = recentWordsByCategory[categoryId] ?? []
-    const availableWords = category.words.filter((word) => !recentWords.includes(word))
-    const text = pickRandom(availableWords.length > 0 ? availableWords : category.words)
-
-    return {
+    return makeSpecificCategoryWord({
       id,
-      text,
       categoryId,
-      x: 12 + Math.random() * 76,
-      y: yRange.min + Math.random() * (yRange.max - yRange.min),
-      speed: WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + score * 0.12,
-    }
+      score,
+      categoryMap,
+      recentWordsByCategory,
+      yRange,
+    })
   }
 }
 
@@ -746,9 +772,38 @@ function App() {
         const categoryOrder = getCategoryOrder(current.languageId, current.cefrLevel)
         const categoryMap = getCategoryMap(current.languageId, current.cefrLevel)
         const nextCategory = getNextCategoryId(categoryOrder, current.targetCategory)
+        const wordsTooLowForNewTarget = current.words.filter(
+          (word) => word.categoryId === nextCategory && word.y >= CATEGORY_SWITCH_SAFE_Y,
+        )
+        const preservedWords = current.words.filter(
+          (word) => !(word.categoryId === nextCategory && word.y >= CATEGORY_SWITCH_SAFE_Y),
+        )
+        let adjustedWords = [...preservedWords]
+        let recentWordsByCategory = current.recentWordsByCategory
+
+        wordsTooLowForNewTarget.forEach(() => {
+          const replacement = placeWordWithoutOverlap(
+            makeSpecificCategoryWord({
+              id: wordIdRef.current++,
+              categoryId: nextCategory,
+              score: current.score,
+              categoryMap,
+              recentWordsByCategory,
+            }),
+            adjustedWords,
+          )
+          adjustedWords.push(replacement)
+          recentWordsByCategory = rememberRecentWord(
+            recentWordsByCategory,
+            replacement.categoryId,
+            replacement.text,
+          )
+        })
 
         return {
           ...current,
+          words: adjustedWords,
+          recentWordsByCategory,
           phase: current.phase + 1,
           targetCategory: nextCategory,
           nextCategorySwitchMs: CATEGORY_SWITCH_MS,
@@ -844,8 +899,12 @@ function App() {
                 return false
               }
 
-              const halfWidth = getWordBoxWidth(word.text) / 2
-              const halfHeight = WORD_BOX_HEIGHT / 2
+              const isNearShipLevel = word.y >= SHIP_LEVEL_HIT_Y
+              const halfWidth =
+                getWordBoxWidth(word.text) / 2 +
+                (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_X : 0)
+              const halfHeight =
+                WORD_BOX_HEIGHT / 2 + (isNearShipLevel ? SHIP_LEVEL_HITBOX_BONUS_Y : 0)
 
               return (
                 bullet.x >= word.x - halfWidth &&
