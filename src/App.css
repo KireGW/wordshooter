@@ -929,6 +929,10 @@
   animation: overlay-in 220ms ease-out;
 }
 
+.overlay-interactive {
+  pointer-events: auto;
+}
+
 .start-screen {
   position: absolute;
   z-index: 8;

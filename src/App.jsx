@@ -2519,7 +2519,7 @@ function App() {
       ) : null}
 
       <section className={`play-layout ${isMobileLayout && mobileMenuOpen ? 'play-layout-dimmed' : ''}`}>
-        {!isMobileLayout && hasLaunchedInitialRun ? (
+        {!isMobileLayout ? (
         <aside className="sidebar sidebar-left">
           {settingsPanel}
           {controlsPanel}
@@ -2695,7 +2695,7 @@ function App() {
               ) : null}
 
               {game.status === 'gameover' ? (
-                <div className="overlay">
+                <div className="overlay overlay-interactive">
                   <p>{uiText.gameOver}</p>
                   <h3>{uiText.score}: {game.bestScore}</h3>
                   {qualifiesForHighScore && !hasSubmittedCurrentRun ? (
@@ -2763,7 +2763,7 @@ function App() {
 
         </div>
 
-        {isMobileLayout && hasLaunchedInitialRun ? (
+        {isMobileLayout && hasLaunchedInitialRun && game.status !== 'gameover' ? (
           <>
             <div
               ref={controlLineRef}
@@ -2780,7 +2780,7 @@ function App() {
         )}
         </section>
 
-        {!isMobileLayout && hasLaunchedInitialRun ? (
+        {!isMobileLayout ? (
         <aside className="sidebar sidebar-right">
           {hudPanel}
         </aside>
