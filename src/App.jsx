@@ -211,7 +211,7 @@ const TARGET_UI_TRANSLATIONS = {
 
 const UI_TRANSLATIONS = {
   english: {
-    language: 'Language',
+    language: 'Game language',
     targetLanguage: 'Show instructions in',
     languageHelp: 'Words and grammar in the game use this language.',
     targetLanguageHelp: 'Current target and other guidance use this language.',
@@ -226,10 +226,12 @@ const UI_TRANSLATIONS = {
     streak: 'Streak',
     nextSwitch: 'New category in',
     highScore: 'High score',
+    showHighScore: 'Show high score',
     lives: 'Lives',
     restart: 'Restart',
     restartRun: 'Restart run',
     newGame: 'New game',
+    playAgain: 'Play again',
     intro:
       'Choose a language and CEFR level, then steer the ship and shoot only the vocabulary or grammar forms that match the active category.',
     gameOver: 'Game over',
@@ -259,7 +261,7 @@ const UI_TRANSLATIONS = {
     streakWords: '{streak} word streak bonus!',
   },
   french: {
-    language: 'Langue',
+    language: 'Langue du jeu',
     targetLanguage: 'Afficher les instructions en',
     languageHelp: 'Les mots et la grammaire du jeu utilisent cette langue.',
     targetLanguageHelp: 'La cible actuelle et les autres instructions utilisent cette langue.',
@@ -274,10 +276,12 @@ const UI_TRANSLATIONS = {
     streak: 'Serie',
     nextSwitch: 'Nouvelle categorie dans',
     highScore: 'Meilleur score',
+    showHighScore: 'Voir le high score',
     lives: 'Vies',
     restart: 'Recommencer',
     restartRun: 'Relancer',
     newGame: 'Nouveau jeu',
+    playAgain: 'Rejouer',
     intro:
       'Choisissez une langue et un niveau CECR, puis dirigez le vaisseau et tirez seulement sur le vocabulaire ou les formes grammaticales qui correspondent a la categorie active.',
     gameOver: 'Partie terminee',
@@ -307,7 +311,7 @@ const UI_TRANSLATIONS = {
     streakWords: 'Bonus serie de {streak} mots !',
   },
   spanish: {
-    language: 'Idioma',
+    language: 'Idioma del juego',
     targetLanguage: 'Mostrar instrucciones en',
     languageHelp: 'Las palabras y la gramatica del juego usan este idioma.',
     targetLanguageHelp: 'Objetivo actual y otras instrucciones usan este idioma.',
@@ -322,10 +326,12 @@ const UI_TRANSLATIONS = {
     streak: 'Racha',
     nextSwitch: 'Nueva categoria en',
     highScore: 'Puntuacion maxima',
+    showHighScore: 'Ver high score',
     lives: 'Vidas',
     restart: 'Reiniciar',
     restartRun: 'Reiniciar partida',
     newGame: 'Nuevo juego',
+    playAgain: 'Jugar otra vez',
     intro:
       'Elige un idioma y un nivel MCER, luego dirige la nave y dispara solo al vocabulario o a las formas gramaticales que coincidan con la categoria activa.',
     gameOver: 'Fin de la partida',
@@ -355,7 +361,7 @@ const UI_TRANSLATIONS = {
     streakWords: 'Bonus por racha de {streak} palabras',
   },
   italian: {
-    language: 'Lingua',
+    language: 'Lingua del gioco',
     targetLanguage: 'Mostra le istruzioni in',
     languageHelp: 'Le parole e la grammatica del gioco usano questa lingua.',
     targetLanguageHelp: 'Obiettivo attuale e altre istruzioni usano questa lingua.',
@@ -370,10 +376,12 @@ const UI_TRANSLATIONS = {
     streak: 'Serie',
     nextSwitch: 'Nuova categoria tra',
     highScore: 'Record',
+    showHighScore: 'Mostra high score',
     lives: 'Vite',
     restart: 'Riavvia',
     restartRun: 'Riavvia partita',
     newGame: 'Nuova partita',
+    playAgain: 'Gioca ancora',
     intro:
       'Scegli una lingua e un livello QCER, poi guida la nave e spara solo al vocabolario o alle forme grammaticali che corrispondono alla categoria attiva.',
     gameOver: 'Game over',
@@ -403,7 +411,7 @@ const UI_TRANSLATIONS = {
     streakWords: 'Bonus serie da {streak} parole!',
   },
   german: {
-    language: 'Sprache',
+    language: 'Spielsprache',
     targetLanguage: 'Anweisungen anzeigen auf',
     languageHelp: 'Worter und Grammatik im Spiel nutzen diese Sprache.',
     targetLanguageHelp: 'Aktuelles Ziel und andere Hinweise nutzen diese Sprache.',
@@ -418,10 +426,12 @@ const UI_TRANSLATIONS = {
     streak: 'Serie',
     nextSwitch: 'Neue Kategorie in',
     highScore: 'Highscore',
+    showHighScore: 'Highscore anzeigen',
     lives: 'Leben',
     restart: 'Neustart',
     restartRun: 'Runde neu starten',
     newGame: 'Neues Spiel',
+    playAgain: 'Nochmal spielen',
     intro:
       'Waehle eine Sprache und ein GER-Niveau, steuere dann das Schiff und schiesse nur auf Woerter oder Grammatikformen, die zur aktiven Kategorie passen.',
     gameOver: 'Spiel vorbei',
@@ -451,7 +461,7 @@ const UI_TRANSLATIONS = {
     streakWords: '{streak}er-Serienbonus!',
   },
   swedish: {
-    language: 'Språk',
+    language: 'Spelspråk',
     targetLanguage: 'Visa instruktioner på',
     languageHelp: 'Ord och grammatik i spelet använder det här språket.',
     targetLanguageHelp: 'Nuvarande mål och andra instruktioner använder det här språket.',
@@ -466,10 +476,12 @@ const UI_TRANSLATIONS = {
     streak: 'Streak',
     nextSwitch: 'Ny kategori om',
     highScore: 'High score',
+    showHighScore: 'Visa high score',
     lives: 'Liv',
     restart: 'Starta om',
     restartRun: 'Starta om runda',
     newGame: 'Nytt spel',
+    playAgain: 'Spela igen',
     intro:
       'Välj ett språk och en CEFR-nivå, styr sedan skeppet och skjut bara på ord eller grammatiska former som matchar den aktiva kategorin.',
     gameOver: 'Game over',
@@ -501,6 +513,60 @@ const UI_TRANSLATIONS = {
 }
 
 const getUiText = (languageId) => UI_TRANSLATIONS[languageId] ?? UI_TRANSLATIONS.english
+
+const CEFR_UI_COPY = {
+  english: {
+    A1: { label: 'A1 - Beginner', focus: 'Everyday situations and familiar conversation topics.' },
+    A2: { label: 'A2 - Elementary', focus: 'Simple routines, daily life, and practical communication.' },
+    B1: { label: 'B1 - Intermediate', focus: 'Opinions, experiences, and longer everyday communication.' },
+    B2: { label: 'B2 - Upper intermediate', focus: 'Nuance, argumentation, and more precise expression.' },
+    C1: { label: 'C1 - Advanced', focus: 'Complex language, connectors, and flexible expression.' },
+    C2: { label: 'C2 - Proficient', focus: 'Fine shades of meaning, idioms, and advanced structures.' },
+  },
+  french: {
+    A1: { label: 'A1 - Debutant', focus: 'Situations quotidiennes et sujets de conversation familiers.' },
+    A2: { label: 'A2 - Elementaire', focus: 'Routines simples, vie quotidienne et communication pratique.' },
+    B1: { label: 'B1 - Intermediaire', focus: 'Opinions, experiences et communication quotidienne plus longue.' },
+    B2: { label: 'B2 - Intermediaire avance', focus: 'Nuance, argumentation et expression plus precise.' },
+    C1: { label: 'C1 - Avance', focus: 'Langue complexe, connecteurs et expression souple.' },
+    C2: { label: 'C2 - Maitrise', focus: 'Nuances fines, expressions idiomatiques et structures avancees.' },
+  },
+  spanish: {
+    A1: { label: 'A1 - Principiante', focus: 'Situaciones cotidianas y temas de conversacion familiares.' },
+    A2: { label: 'A2 - Basico', focus: 'Rutinas simples, vida diaria y comunicacion practica.' },
+    B1: { label: 'B1 - Intermedio', focus: 'Opiniones, experiencias y comunicacion cotidiana mas amplia.' },
+    B2: { label: 'B2 - Intermedio alto', focus: 'Matices, argumentacion y expresion mas precisa.' },
+    C1: { label: 'C1 - Avanzado', focus: 'Lengua compleja, conectores y expresion flexible.' },
+    C2: { label: 'C2 - Dominio', focus: 'Matices finos, expresiones fijas y estructuras avanzadas.' },
+  },
+  italian: {
+    A1: { label: 'A1 - Principiante', focus: 'Situazioni quotidiane e temi di conversazione familiari.' },
+    A2: { label: 'A2 - Base', focus: 'Routine semplici, vita quotidiana e comunicazione pratica.' },
+    B1: { label: 'B1 - Intermedio', focus: 'Opinioni, esperienze e comunicazione quotidiana piu ampia.' },
+    B2: { label: 'B2 - Intermedio avanzato', focus: 'Sfumature, argomentazione ed espressione piu precisa.' },
+    C1: { label: 'C1 - Avanzato', focus: 'Lingua complessa, connettivi ed espressione flessibile.' },
+    C2: { label: 'C2 - Padronanza', focus: 'Sfumature fini, idiomi e strutture avanzate.' },
+  },
+  german: {
+    A1: { label: 'A1 - Anfanger', focus: 'Alltagssituationen und vertraute Gesprachsthemen.' },
+    A2: { label: 'A2 - Grundstufe', focus: 'Einfache Routinen, Alltag und praktische Kommunikation.' },
+    B1: { label: 'B1 - Mittelstufe', focus: 'Meinungen, Erfahrungen und langere Alltagskommunikation.' },
+    B2: { label: 'B2 - Hohe Mittelstufe', focus: 'Nuancen, Argumentation und praziserer Ausdruck.' },
+    C1: { label: 'C1 - Fortgeschritten', focus: 'Komplexe Sprache, Konnektoren und flexibler Ausdruck.' },
+    C2: { label: 'C2 - Annahernd muttersprachlich', focus: 'Feine Bedeutungsnuancen, Idiome und fortgeschrittene Strukturen.' },
+  },
+  swedish: {
+    A1: { label: 'A1 - Nybörjare', focus: 'Vardagliga situationer och enkla samtalsämnen.' },
+    A2: { label: 'A2 - Grundläggande', focus: 'Rutiner, vardagsliv och praktisk kommunikation.' },
+    B1: { label: 'B1 - Mellannivå', focus: 'Åsikter, erfarenheter och mer utvecklade samtal.' },
+    B2: { label: 'B2 - Högre mellannivå', focus: 'Nyans, argumentation och mer precisa uttryck.' },
+    C1: { label: 'C1 - Avancerad', focus: 'Komplext språk, sambandsord och flexibel formulering.' },
+    C2: { label: 'C2 - Mycket avancerad', focus: 'Finare betydelseskillnader, idiom och avancerade strukturer.' },
+  },
+}
+
+const getCefrUiCopy = (level, languageId) =>
+  CEFR_UI_COPY[languageId]?.[level] ?? CEFR_UI_COPY.english[level]
 
 const formatUiText = (template, values = {}) =>
   template.replace(/\{(\w+)\}/g, (_, key) => `${values[key] ?? ''}`)
@@ -1367,6 +1433,7 @@ function App() {
   const [highScores, setHighScores] = useState(loadHighScores)
   const [playerName, setPlayerName] = useState(loadPlayerName)
   const [hasSubmittedCurrentRun, setHasSubmittedCurrentRun] = useState(false)
+  const [showGameOverLeaderboard, setShowGameOverLeaderboard] = useState(false)
   const [hasLaunchedInitialRun, setHasLaunchedInitialRun] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [viewportSize, setViewportSize] = useState(() => ({
@@ -1433,6 +1500,12 @@ function App() {
   useEffect(() => {
     gameRef.current = game
   }, [game])
+
+  useEffect(() => {
+    if (game.status !== 'gameover') {
+      setShowGameOverLeaderboard(false)
+    }
+  }, [game.status])
 
   useEffect(() => {
     audioRef.current = createAudioEngine()
@@ -2447,7 +2520,6 @@ function App() {
     }
   }, [hasLaunchedInitialRun, isMobileLayout, mobileMenuOpen, selection.sfxEnabled, wordBudget])
 
-  const levelPack = getLevelPack(game.languageId, game.cefrLevel)
   const targetCategoryMap = getCategoryMap(game.languageId, game.cefrLevel)
   const currentTarget = targetCategoryMap[game.targetCategory]
   const targetStyle =
@@ -2455,6 +2527,7 @@ function App() {
   const languages = getLanguageNames()
   const uiLanguageId = selection.languageId
   const uiText = getUiText(uiLanguageId)
+  const currentCefrUi = getCefrUiCopy(selection.cefrLevel, uiLanguageId)
   const targetLanguageId = selection.targetLanguageId ?? selection.languageId
   const targetUiPack =
     TARGET_UI_TRANSLATIONS[targetLanguageId] ?? TARGET_UI_TRANSLATIONS.english
@@ -2547,7 +2620,12 @@ function App() {
   const settingsPanel = (
     <section className="setup-panel">
       <label className="select-card">
-        <span>{uiText.language}</span>
+        <span className="select-label-with-flag">
+          <span className="select-label-flag" aria-hidden="true">
+            {LANGUAGE_FLAGS[selection.languageId] ?? '🌐'}
+          </span>
+          <span>{uiText.language}</span>
+        </span>
         <select value={selection.languageId} onChange={handleLanguageChange}>
           {languages.map((language) => (
             <option key={language.id} value={language.id}>
@@ -2558,7 +2636,12 @@ function App() {
       </label>
 
       <label className="select-card">
-        <span>{uiText.targetLanguage}</span>
+        <span className="select-label-with-flag">
+          <span className="select-label-flag" aria-hidden="true">
+            {LANGUAGE_FLAGS[targetLanguageId] ?? '🌐'}
+          </span>
+          <span>{uiText.targetLanguage}</span>
+        </span>
         <select value={targetLanguageId} onChange={handleTargetLanguageChange}>
           {languages.map((language) => (
             <option key={language.id} value={language.id}>
@@ -2581,9 +2664,8 @@ function App() {
       </label>
 
       <div className="select-card curriculum-card">
-        <span>{uiText.curriculumFocus}</span>
-        <strong>{levelPack.label}</strong>
-        <p>{levelPack.categories.map((category) => category.label).join(' · ')}</p>
+        <strong>{currentCefrUi.label}</strong>
+        <p>{currentCefrUi.focus}</p>
       </div>
     </section>
   )
@@ -2616,15 +2698,6 @@ function App() {
           ))}
         </select>
       </label>
-    </section>
-  )
-
-  const controlsPanel = (
-    <section className="controls-panel">
-      <div className="control-chip">
-        <span>{uiText.progression}</span>
-        <strong>{uiText.progressionText}</strong>
-      </div>
     </section>
   )
 
@@ -2676,6 +2749,24 @@ function App() {
         <p className="highscore-empty">{uiText.noScores}</p>
       )}
     </section>
+  )
+
+  const overlayLeaderboard = (
+    <div className="overlay-leaderboard">
+      <p className="overlay-leaderboard-title">{uiText.leaderboard}</p>
+      {gameHighScoreEntries.length > 0 ? (
+        <ol className="highscore-list">
+          {gameHighScoreEntries.map((entry, index) => (
+            <li key={`${entry.name}-${entry.score}-${index}`}>
+              <strong>{entry.name}</strong>
+              <span>{entry.score}</span>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p className="highscore-empty">{uiText.noScores}</p>
+      )}
+    </div>
   )
 
   const hudPanel = (
@@ -2730,7 +2821,6 @@ function App() {
               {uiText.intro}
             </p>
             {settingsPanel}
-            {controlsPanel}
             <section className="hud mobile-menu-sound-panel">{soundPanel}</section>
             {leaderboardPanel}
           </section>
@@ -2741,7 +2831,6 @@ function App() {
         {!isMobileLayout ? (
         <aside className="sidebar sidebar-left">
           {settingsPanel}
-          {controlsPanel}
         </aside>
         ) : null}
 
@@ -2811,9 +2900,11 @@ function App() {
                     <strong style={{ color: targetStyle.color }}>{targetUiCategory.label}</strong>
                   </div>
                 </div>
-                <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
-                  {uiText.newGame}
-                </button>
+                {hasLaunchedInitialRun && game.status !== 'gameover' ? (
+                  <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
+                    {uiText.newGame}
+                  </button>
+                ) : null}
               </div>
 
               <div className="arena-overlay arena-overlay-bottom">
@@ -2939,13 +3030,32 @@ function App() {
                         placeholder={uiText.yourName}
                       />
                       {isMobileLayout ? (
-                        <button className="restart-button highscore-save-button" onClick={saveHighScoreEntry}>
-                          {uiText.saveScore}
-                        </button>
+                        <div className="overlay-actions overlay-actions-mobile">
+                          <button className="restart-button overlay-action-button highscore-save-button" onClick={saveHighScoreEntry}>
+                            <span className="overlay-action-label">{uiText.saveScore}</span>
+                          </button>
+                          {!showGameOverLeaderboard ? (
+                            <button
+                              className="restart-button overlay-action-button overlay-secondary-button"
+                              onClick={() => setShowGameOverLeaderboard(true)}
+                            >
+                              <span className="overlay-action-label">{uiText.showHighScore}</span>
+                            </button>
+                          ) : null}
+                          <button className="restart-button overlay-action-button overlay-new-game-button" onClick={() => resetGame()}>
+                            <span className="overlay-action-label">{uiText.playAgain}</span>
+                          </button>
+                        </div>
                       ) : (
                         <div className="overlay-actions">
                           <button className="restart-button highscore-save-button" onClick={saveHighScoreEntryAndReset}>
                             {uiText.saveScore}
+                          </button>
+                          <button
+                            className="restart-button overlay-secondary-button"
+                            onClick={() => setShowGameOverLeaderboard((current) => !current)}
+                          >
+                            {uiText.showHighScore}
                           </button>
                           <button className="restart-button overlay-new-game-button" onClick={() => resetGame()}>
                             {uiText.newGame}
@@ -2955,18 +3065,37 @@ function App() {
                     </div>
                   ) : !isMobileLayout ? (
                     <div className="overlay-actions">
+                      <button
+                        className="restart-button overlay-secondary-button"
+                        onClick={() => setShowGameOverLeaderboard((current) => !current)}
+                      >
+                        {uiText.showHighScore}
+                      </button>
                       <button className="restart-button overlay-new-game-button" onClick={() => resetGame()}>
                         {uiText.newGame}
                       </button>
                     </div>
+                  ) : (
+                    <div className="overlay-actions overlay-actions-mobile">
+                      {!showGameOverLeaderboard ? (
+                        <button
+                          className="restart-button overlay-action-button overlay-secondary-button"
+                          onClick={() => setShowGameOverLeaderboard(true)}
+                        >
+                          <span className="overlay-action-label">{uiText.showHighScore}</span>
+                        </button>
+                      ) : null}
+                      <button className="restart-button overlay-action-button overlay-new-game-button" onClick={() => resetGame()}>
+                        <span className="overlay-action-label">{uiText.playAgain}</span>
+                      </button>
+                    </div>
+                  )}
+                  {showGameOverLeaderboard ? overlayLeaderboard : null}
+                  {(!isMobileLayout || hasSubmittedCurrentRun) ? (
+                    <span>
+                      {hasSubmittedCurrentRun ? uiText.scoreSaved : uiText.pressEnterRestart}
+                    </span>
                   ) : null}
-                  <span>
-                    {hasSubmittedCurrentRun
-                      ? uiText.scoreSaved
-                      : isMobileLayout
-                        ? uiText.tapRestart
-                        : uiText.pressEnterRestart}
-                  </span>
                 </div>
               ) : null}
             </>
