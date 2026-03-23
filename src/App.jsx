@@ -58,7 +58,7 @@ const BULLET_HITBOX_RADIUS_Y = 1.15
 const SHIP_LEVEL_HIT_Y = 80
 const SHIP_LEVEL_HITBOX_BONUS_X = 0.7
 const SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
-const MOBILE_ARENA_FIRE_Y_MIN = 82
+const MOBILE_ARENA_FIRE_Y_MIN = 78
 const WORD_OVERLAP_ALLOWANCE = 0.2
 const MAX_READABILITY_OVERLAP = 0.7
 const EFFECT_LIFETIME_MS = 550
@@ -1094,19 +1094,51 @@ const makeHeartPickup = (id) => ({
   speed: HEART_MIN_SPEED + Math.random() * HEART_MAX_SPEED,
 })
 
+const countWordsByCategory = (categoryOrder, words) =>
+  categoryOrder.reduce(
+    (counts, categoryId) => ({
+      ...counts,
+      [categoryId]: words.filter((word) => word.categoryId === categoryId).length,
+    }),
+    {},
+  )
+
+const pickBalancedCategoryId = (
+  categoryOrder,
+  words,
+  { mustIncludeCategoryId = null, avoidCategoryId = null } = {},
+) => {
+  if (
+    mustIncludeCategoryId &&
+    !words.some((word) => word.categoryId === mustIncludeCategoryId)
+  ) {
+    return mustIncludeCategoryId
+  }
+
+  const counts = countWordsByCategory(categoryOrder, words)
+  const minCount = Math.min(...Object.values(counts))
+  let eligible = categoryOrder.filter((categoryId) => counts[categoryId] === minCount)
+
+  if (avoidCategoryId && eligible.length > 1) {
+    eligible = eligible.filter((categoryId) => categoryId !== avoidCategoryId)
+  }
+
+  return pickRandom(eligible)
+}
+
 const makeWordFactory = (languageId, cefrLevel) => {
   const categoryOrder = getCategoryOrder(languageId, cefrLevel)
   const categoryMap = getCategoryMap(languageId, cefrLevel)
 
   return (
     id,
-    targetCategory,
     score,
-    spawnCount,
+    activeWords,
     recentWordsByCategory = {},
     yRange = { min: ACTIVE_SPAWN_Y_MIN, max: ACTIVE_SPAWN_Y_MAX },
+    options = {},
   ) => {
-    const categoryId = pickRandom(categoryOrder)
+    const categoryId = pickBalancedCategoryId(categoryOrder, activeWords, options)
     return makeSpecificCategoryWord({
       id,
       categoryId,
@@ -1128,9 +1160,8 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
   for (let index = 0; index < wordBudget.initialCount; index += 1) {
     const candidate = makeWord(
       index,
-      targetCategory,
       0,
-      index + 1,
+      initialWords,
       recentWordsByCategory,
       {
         min: INITIAL_WORD_Y_MIN,
@@ -1688,10 +1719,17 @@ function App() {
         let recentWordsByCategory = current.recentWordsByCategory
 
         wordsTooLowForNewTarget.forEach(() => {
+          const needsVisibleTarget = !adjustedWords.some(
+            (word) => word.categoryId === nextCategory,
+          )
+          const replacementCategoryId = pickBalancedCategoryId(categoryOrder, adjustedWords, {
+            mustIncludeCategoryId: needsVisibleTarget ? nextCategory : null,
+            avoidCategoryId: needsVisibleTarget ? null : nextCategory,
+          })
           const replacement = placeWordWithoutOverlap(
             makeSpecificCategoryWord({
               id: wordIdRef.current++,
-              categoryId: nextCategory,
+              categoryId: replacementCategoryId,
               score: current.score,
               categoryMap,
               recentWordsByCategory,
@@ -2016,9 +2054,8 @@ function App() {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
-              targetCategory,
               score,
-              spawnCountRef.current,
+              nextWords,
               recentWordsByCategory,
             )
             const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
@@ -2034,9 +2071,8 @@ function App() {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
-              targetCategory,
               score,
-              spawnCountRef.current,
+              nextWords,
               recentWordsByCategory,
             )
             const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
