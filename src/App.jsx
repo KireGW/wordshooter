@@ -2817,13 +2817,9 @@ function App() {
                     <span>{uiText.streak}</span>
                     <strong>{game.streak}</strong>
                   </div>
-                  <div className="arena-mobile-stat">
+                  <div className="arena-mobile-stat arena-mobile-stat-next">
                     <span>{uiText.nextSwitch}</span>
                     <strong>{(game.nextCategorySwitchMs / 1000).toFixed(1)}s</strong>
-                  </div>
-                  <div className="arena-mobile-stat">
-                    <span>{uiText.highScore}</span>
-                    <strong>{selectedHighScore}</strong>
                   </div>
                 </div>
               </div>

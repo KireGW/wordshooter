@@ -1489,6 +1489,9 @@
     min-height: 100svh;
     overflow: hidden;
     gap: 4px;
+    background:
+      radial-gradient(circle at 50% -4%, rgba(88, 132, 204, 0.24), transparent 26%),
+      linear-gradient(180deg, #08111d 0%, #07101b 18%, #06101a 42%, #06101a 100%);
     padding:
       calc(4px + env(safe-area-inset-top, 0px))
       calc(4px + env(safe-area-inset-right, 0px))
@@ -1501,6 +1504,7 @@
     grid-template-columns: 30px minmax(0, 1fr) 30px;
     align-items: center;
     gap: 8px;
+    padding-bottom: 4px;
     text-align: center;
   }
 
@@ -1636,6 +1640,7 @@
     gap: 0;
     min-height: 0;
     overflow: hidden;
+    margin-top: 4px;
     padding-right: 0;
   }
 
@@ -1668,17 +1673,49 @@
 
   .arena-panel {
     position: relative;
-    padding: 10px;
+    padding: 0;
     min-height: 0;
     height: 100%;
     gap: 0;
     grid-template-rows: minmax(0, 1fr) 0 auto;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    border-radius: 24px;
+    overflow: hidden;
   }
 
   .arena {
     min-height: 0;
     height: 100%;
     grid-row: 1;
+    border-radius: 24px;
+    border-left: 0;
+    border-right: 0;
+    background:
+      radial-gradient(circle at 12% 4%, rgba(255, 255, 255, 0.92) 0 1px, transparent 1.6px),
+      radial-gradient(circle at 34% 7%, rgba(123, 223, 242, 0.85) 0 1px, transparent 1.7px),
+      radial-gradient(circle at 58% 5%, rgba(255, 209, 102, 0.8) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 81% 8%, rgba(255, 255, 255, 0.88) 0 1px, transparent 1.6px),
+      radial-gradient(circle at top, rgba(26, 48, 94, 0.08), transparent 28%),
+      linear-gradient(180deg, #01040a 0%, #020810 12%, #04101a 28%, #081726 52%, #09192e 68%, #06101a 100%);
+  }
+
+  .arena::before {
+    height: 46%;
+    background-image:
+      linear-gradient(180deg, rgba(4, 8, 16, 0.8) 0%, rgba(4, 10, 18, 0.64) 22%, rgba(4, 16, 26, 0.2) 72%, transparent 100%),
+      radial-gradient(circle, rgba(255, 255, 255, 0.95) 1px, transparent 1.7px),
+      radial-gradient(circle, rgba(123, 223, 242, 0.85) 1px, transparent 1.6px),
+      radial-gradient(circle, rgba(255, 209, 102, 0.8) 1px, transparent 1.8px);
+    background-size: auto, 110px 80px, 170px 110px, 210px 120px;
+    background-position: 0 0, 10px 6px, 50px 14px, 80px 2px;
+    opacity: 0.96;
+  }
+
+  .starfield {
+    opacity: 0.58;
   }
 
   .arena-overlay {
@@ -1743,18 +1780,18 @@
     flex: 0 0 104px;
     min-width: 104px;
     max-width: 104px;
-    padding: 6px 8px;
-    background: rgba(6, 15, 28, 0.56);
-    border-color: rgba(184, 192, 255, 0.1);
+    height: auto;
+    padding: 2px 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
   }
 
   .arena-mini-time.arena-mini-time-alert {
-    background: rgba(38, 10, 16, 0.88);
-    border-color: rgba(255, 112, 112, 0.36);
-    box-shadow:
-      0 10px 24px rgba(4, 10, 20, 0.24),
-      0 0 0 1px rgba(255, 112, 112, 0.1),
-      0 0 22px rgba(255, 112, 112, 0.14);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
   }
 
   .arena-mini-time.arena-mini-time-alert .arena-mini-heart-filled {
@@ -1820,6 +1857,13 @@
     word-break: break-word;
   }
 
+  .arena-mobile-stat-next {
+    grid-column: 3 / 5;
+    justify-items: center;
+    text-align: center;
+    padding-right: 0;
+  }
+
   .arena-target-card strong {
     font-size: clamp(0.9rem, 3vw, 1.08rem);
   }
@@ -1854,6 +1898,9 @@
     flex: 1 1 0;
     min-width: 0;
     max-width: none;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
   }
 
   .arena-target-button {
@@ -1992,7 +2039,7 @@
     min-height: 42px;
     font-size: 0.78rem;
     margin-top: 8px;
-    margin-bottom: 0;
+    margin-bottom: 8px;
     padding: 8px 9px;
     box-sizing: border-box;
     grid-row: 3;
@@ -2066,6 +2113,7 @@
   .hero-panel {
     grid-template-columns: 28px minmax(0, 1fr) 28px;
     gap: 6px;
+    padding-bottom: 3px;
   }
 
   .hero-panel h1 {
@@ -2094,7 +2142,7 @@
   }
 
   .arena-panel {
-    padding: 8px;
+    padding: 0;
   }
 
   .arena-overlay-top {
@@ -2130,7 +2178,7 @@
     flex-basis: 100px;
     min-width: 100px;
     max-width: 100px;
-    padding-inline: 7px;
+    padding-inline: 0;
   }
 
   .arena-mini-lives {
@@ -2185,6 +2233,10 @@
 
   .arena-mobile-stat strong {
     font-size: 0.72rem;
+  }
+
+  .arena-mobile-stat-next {
+    padding-right: 0;
   }
 
   .word-target {
