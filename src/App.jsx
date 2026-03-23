@@ -639,7 +639,8 @@ function App() {
   const effectIdRef = useRef(0)
   const audioRef = useRef(null)
   const arenaRef = useRef(null)
-  const shipTouchStateRef = useRef({
+  const controlLineRef = useRef(null)
+  const controlTouchStateRef = useRef({
     pointerId: null,
     startX: 0,
     startY: 0,
@@ -769,13 +770,12 @@ function App() {
     })
   }, [selection.sfxEnabled])
 
-  const movePlayerToClientX = useCallback((clientX) => {
-    const arena = arenaRef.current
-    if (!arena) {
+  const movePlayerToClientX = useCallback((clientX, surface = arenaRef.current) => {
+    if (!surface) {
       return
     }
 
-    const bounds = arena.getBoundingClientRect()
+    const bounds = surface.getBoundingClientRect()
     const relativeX = clamp((clientX - bounds.left) / bounds.width, 0, 1)
     const nextPlayerX = 8 + relativeX * 84
 
@@ -817,50 +817,49 @@ function App() {
     [isMobileLayout, movePlayerToClientX],
   )
 
-  const handleShipPointerDown = useCallback(
+  const handleControlPointerDown = useCallback(
     (event) => {
       if (!isMobileLayout) {
         return
       }
 
-      event.stopPropagation()
       event.currentTarget.setPointerCapture?.(event.pointerId)
-      shipTouchStateRef.current = {
+      controlTouchStateRef.current = {
         pointerId: event.pointerId,
         startX: event.clientX,
         startY: event.clientY,
         moved: false,
       }
-    },
-    [isMobileLayout],
-  )
-
-  const handleShipPointerMove = useCallback(
-    (event) => {
-      if (!isMobileLayout || shipTouchStateRef.current.pointerId !== event.pointerId) {
-        return
-      }
-
-      const deltaX = Math.abs(event.clientX - shipTouchStateRef.current.startX)
-      const deltaY = Math.abs(event.clientY - shipTouchStateRef.current.startY)
-      if (deltaX > 6 || deltaY > 6) {
-        shipTouchStateRef.current.moved = true
-      }
-
-      movePlayerToClientX(event.clientX)
+      movePlayerToClientX(event.clientX, controlLineRef.current)
     },
     [isMobileLayout, movePlayerToClientX],
   )
 
-  const handleShipPointerUp = useCallback(
+  const handleControlPointerMove = useCallback(
     (event) => {
-      if (!isMobileLayout || shipTouchStateRef.current.pointerId !== event.pointerId) {
+      if (!isMobileLayout || controlTouchStateRef.current.pointerId !== event.pointerId) {
         return
       }
 
-      event.stopPropagation()
-      const shouldFire = !shipTouchStateRef.current.moved
-      shipTouchStateRef.current = {
+      const deltaX = Math.abs(event.clientX - controlTouchStateRef.current.startX)
+      const deltaY = Math.abs(event.clientY - controlTouchStateRef.current.startY)
+      if (deltaX > 6 || deltaY > 6) {
+        controlTouchStateRef.current.moved = true
+      }
+
+      movePlayerToClientX(event.clientX, controlLineRef.current)
+    },
+    [isMobileLayout, movePlayerToClientX],
+  )
+
+  const handleControlPointerUp = useCallback(
+    (event) => {
+      if (!isMobileLayout || controlTouchStateRef.current.pointerId !== event.pointerId) {
+        return
+      }
+
+      const shouldFire = !controlTouchStateRef.current.moved
+      controlTouchStateRef.current = {
         pointerId: null,
         startX: 0,
         startY: 0,
@@ -1384,11 +1383,11 @@ function App() {
     <section className="controls-panel">
       <div className="control-chip">
         <span>Move</span>
-        <strong>{isMobileLayout ? 'Drag the ship sideways' : 'A / D or Arrow keys'}</strong>
+        <strong>{isMobileLayout ? 'Drag on the control line' : 'A / D or Arrow keys'}</strong>
       </div>
       <div className="control-chip">
         <span>Fire</span>
-        <strong>{isMobileLayout ? 'Tap the ship' : 'Space'}</strong>
+        <strong>{isMobileLayout ? 'Tap the control line' : 'Space'}</strong>
       </div>
       <div className="control-chip">
         <span>Progression</span>
@@ -1582,10 +1581,6 @@ function App() {
           <div
             className="spaceship"
             style={{ left: `${(game.playerX / ARENA.width) * 100}%` }}
-            onPointerDown={handleShipPointerDown}
-            onPointerMove={handleShipPointerMove}
-            onPointerUp={handleShipPointerUp}
-            onPointerCancel={handleShipPointerUp}
           >
             <div className="ship-cockpit" />
             <div className="ship-wing ship-wing-left" />
@@ -1617,6 +1612,25 @@ function App() {
           ) : null}
 
         </div>
+
+        {isMobileLayout ? (
+          <div
+            ref={controlLineRef}
+            className="mobile-control-line"
+            onPointerDown={handleControlPointerDown}
+            onPointerMove={handleControlPointerMove}
+            onPointerUp={handleControlPointerUp}
+            onPointerCancel={handleControlPointerUp}
+          >
+            <span className="mobile-control-line-arrow mobile-control-line-arrow-left" aria-hidden="true">
+              ←
+            </span>
+            <span className="mobile-control-line-label">Tap to fire</span>
+            <span className="mobile-control-line-arrow mobile-control-line-arrow-right" aria-hidden="true">
+              →
+            </span>
+          </div>
+        ) : null}
 
         <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
         </section>
