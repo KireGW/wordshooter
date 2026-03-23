@@ -383,41 +383,41 @@ const UI_TRANSLATIONS = {
     streakWords: '{streak}er-Serienbonus!',
   },
   swedish: {
-    language: 'Sprak',
-    cefrLevel: 'CEFR-niva',
+    language: 'Språk',
+    cefrLevel: 'CEFR-nivå',
     curriculumFocus: 'Kursfokus',
     progression: 'Progression',
-    progressionText: 'Malkategorin roterar mellan CEFR-anpassade kategorier',
+    progressionText: 'Målkategorin roterar mellan CEFR-anpassade kategorier',
     leaderboard: 'Topplista',
-    noScores: 'Inga sparade resultat an.',
-    score: 'Poang',
+    noScores: 'Inga sparade resultat än.',
+    score: 'Poäng',
     streak: 'Streak',
-    nextSwitch: 'Nasta byte',
+    nextSwitch: 'Nästa byte',
     highScore: 'High score',
     lives: 'Liv',
     restart: 'Starta om',
     restartRun: 'Starta om runda',
     intro:
-      'Valj ett sprak och en CEFR-niva, styr sedan skeppet och skjut bara pa ord eller grammatiska former som matchar den aktiva kategorin.',
+      'Välj ett språk och en CEFR-nivå, styr sedan skeppet och skjut bara på ord eller grammatiska former som matchar den aktiva kategorin.',
     gameOver: 'Game over',
     roundComplete: 'Rundan klar',
-    tapRestart: 'Tryck pa starta om for att spela igen.',
-    pressEnterRestart: 'Tryck Enter eller starta om for att spela igen.',
+    tapRestart: 'Tryck på starta om för att spela igen.',
+    pressEnterRestart: 'Tryck Enter eller starta om för att spela igen.',
     newLeaderboardEntry: 'Nytt topplisteresultat',
     yourName: 'Ditt namn',
     saveScore: 'Spara',
     scoreSaved: 'Resultat sparat.',
-    bonusUnlocked: 'Bonus upplast',
+    bonusUnlocked: 'Bonus upplåst',
     missionLoaded:
-      'Uppdrag laddat for {language} {level}. Skjut bara pa ratt mal.',
-    newTargetCategory: 'Ny malkategori: {category}.',
-    shootCategory: 'Skjut pa {category}',
+      'Uppdrag laddat för {language} {level}. Skjut bara på rätt mål.',
+    newTargetCategory: 'Ny målkategori: {category}.',
+    shootCategory: 'Skjut på {category}',
     extraLifeCollected: 'Extra liv insamlat. Du har {lives} liv kvar.',
-    heartFull: 'Hjarta uppsamlat, men du har redan fullt med liv.',
-    correctHit: '"{word}" ar ratt. +{points} poang.',
-    streakBonus: 'Streakbonus! {streak} ratta i rad. +{points} poang.',
-    wrongCategory: '"{word}" ar fel kategori. -{points} poang och -1 liv.',
-    targetEscaped: 'Ett ratt mal kom undan. -{points} poang och -1 liv.',
+    heartFull: 'Hjärta uppsamlat, men du har redan fullt med liv.',
+    correctHit: '"{word}" är rätt. +{points} poäng.',
+    streakBonus: 'Streakbonus! {streak} rätta i rad. +{points} poäng.',
+    wrongCategory: '"{word}" är fel kategori. -{points} poäng och -1 liv.',
+    targetEscaped: 'Ett rätt mål kom undan. -{points} poäng och -1 liv.',
     effectLifeLoss: '-{points} / -1 LIV',
     effectLifeGain: '+1 LIV',
     effectFull: 'FULLT',
@@ -2561,16 +2561,7 @@ function App() {
             onPointerMove={handleControlPointerMove}
             onPointerUp={handleControlPointerUp}
             onPointerCancel={handleControlPointerUp}
-          >
-            <div className="mobile-control-line" data-label="Tap to fire">
-              <span className="mobile-control-line-arrow mobile-control-line-arrow-left" aria-hidden="true">
-                ←
-              </span>
-              <span className="mobile-control-line-arrow mobile-control-line-arrow-right" aria-hidden="true">
-                →
-              </span>
-            </div>
-          </div>
+          />
         ) : null}
 
         <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
