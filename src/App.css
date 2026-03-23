@@ -2201,30 +2201,30 @@
   }
 
   .arena-target-card {
-    padding: 7px 9px;
+    padding: 7px 10px;
   }
 
   .arena-target-card span {
-    font-size: 0.46rem;
-    letter-spacing: 0.03em;
+    font-size: 0.5rem;
+    letter-spacing: 0.035em;
   }
 
   .arena-target-card strong {
-    font-size: clamp(0.78rem, 3.2vw, 0.96rem);
+    font-size: clamp(0.84rem, 3.45vw, 1.02rem);
   }
 
   .arena-mini-time > span,
   .arena-target-card > span {
-    font-size: 0.54rem;
+    font-size: 0.58rem;
   }
 
   .arena-restart-button {
     height: 46px;
-    width: 66px;
-    min-width: 66px;
-    max-width: 66px;
+    width: 74px;
+    min-width: 74px;
+    max-width: 74px;
     padding: 5px 7px;
-    font-size: clamp(0.56rem, 1.85vw, 0.64rem);
+    font-size: clamp(0.6rem, 1.95vw, 0.7rem);
   }
 
   .arena-mobile-stats {

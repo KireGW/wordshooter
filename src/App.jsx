@@ -212,9 +212,9 @@ const TARGET_UI_TRANSLATIONS = {
 const UI_TRANSLATIONS = {
   english: {
     language: 'Language',
-    targetLanguage: 'Target language',
+    targetLanguage: 'Show instructions in',
     languageHelp: 'Words and grammar in the game use this language.',
-    targetLanguageHelp: 'Only the Current target box uses this language.',
+    targetLanguageHelp: 'Current target and other guidance use this language.',
     startGame: 'Start game',
     cefrLevel: 'CEFR level',
     curriculumFocus: 'Curriculum focus',
@@ -260,9 +260,9 @@ const UI_TRANSLATIONS = {
   },
   french: {
     language: 'Langue',
-    targetLanguage: 'Langue de cible',
+    targetLanguage: 'Afficher les instructions en',
     languageHelp: 'Les mots et la grammaire du jeu utilisent cette langue.',
-    targetLanguageHelp: 'Seule la case Cible actuelle utilise cette langue.',
+    targetLanguageHelp: 'La cible actuelle et les autres instructions utilisent cette langue.',
     startGame: 'Commencer',
     cefrLevel: 'Niveau CECR',
     curriculumFocus: 'Focus du programme',
@@ -308,9 +308,9 @@ const UI_TRANSLATIONS = {
   },
   spanish: {
     language: 'Idioma',
-    targetLanguage: 'Idioma del objetivo',
+    targetLanguage: 'Mostrar instrucciones en',
     languageHelp: 'Las palabras y la gramatica del juego usan este idioma.',
-    targetLanguageHelp: 'Solo la caja Objetivo actual usa este idioma.',
+    targetLanguageHelp: 'Objetivo actual y otras instrucciones usan este idioma.',
     startGame: 'Empezar',
     cefrLevel: 'Nivel MCER',
     curriculumFocus: 'Enfoque del curso',
@@ -356,9 +356,9 @@ const UI_TRANSLATIONS = {
   },
   italian: {
     language: 'Lingua',
-    targetLanguage: 'Lingua del target',
+    targetLanguage: 'Mostra le istruzioni in',
     languageHelp: 'Le parole e la grammatica del gioco usano questa lingua.',
-    targetLanguageHelp: 'Solo il riquadro Obiettivo attuale usa questa lingua.',
+    targetLanguageHelp: 'Obiettivo attuale e altre istruzioni usano questa lingua.',
     startGame: 'Inizia',
     cefrLevel: 'Livello QCER',
     curriculumFocus: 'Focus del corso',
@@ -404,9 +404,9 @@ const UI_TRANSLATIONS = {
   },
   german: {
     language: 'Sprache',
-    targetLanguage: 'Zielsprache',
+    targetLanguage: 'Anweisungen anzeigen auf',
     languageHelp: 'Worter und Grammatik im Spiel nutzen diese Sprache.',
-    targetLanguageHelp: 'Nur das Feld Aktuelles Ziel nutzt diese Sprache.',
+    targetLanguageHelp: 'Aktuelles Ziel und andere Hinweise nutzen diese Sprache.',
     startGame: 'Starten',
     cefrLevel: 'GER-Niveau',
     curriculumFocus: 'Lernfokus',
@@ -452,9 +452,9 @@ const UI_TRANSLATIONS = {
   },
   swedish: {
     language: 'Språk',
-    targetLanguage: 'Målspråk',
+    targetLanguage: 'Visa instruktioner på',
     languageHelp: 'Ord och grammatik i spelet använder det här språket.',
-    targetLanguageHelp: 'Bara rutan Nuvarande mål använder det här språket.',
+    targetLanguageHelp: 'Nuvarande mål och andra instruktioner använder det här språket.',
     startGame: 'Starta spelet',
     cefrLevel: 'CEFR-nivå',
     curriculumFocus: 'Kursfokus',
@@ -827,6 +827,7 @@ const loadSettings = () => {
     return {
       languageId: DEFAULT_LANGUAGE,
       targetLanguageId: DEFAULT_LANGUAGE,
+      targetLanguageOverridden: false,
       cefrLevel: DEFAULT_LEVEL,
       musicEnabled: DEFAULT_MUSIC_ENABLED,
       sfxEnabled: DEFAULT_SFX_ENABLED,
@@ -839,6 +840,7 @@ const loadSettings = () => {
       return {
         languageId: DEFAULT_LANGUAGE,
         targetLanguageId: DEFAULT_LANGUAGE,
+        targetLanguageOverridden: false,
         cefrLevel: DEFAULT_LEVEL,
         musicEnabled: DEFAULT_MUSIC_ENABLED,
         sfxEnabled: DEFAULT_SFX_ENABLED,
@@ -858,6 +860,10 @@ const loadSettings = () => {
       parsed.targetLanguageId && LANGUAGE_PACKS[parsed.targetLanguageId]
         ? parsed.targetLanguageId
         : languageId
+    const targetLanguageOverridden =
+      typeof parsed.targetLanguageOverridden === 'boolean'
+        ? parsed.targetLanguageOverridden
+        : targetLanguageId !== languageId
     const musicEnabled =
       typeof parsed.musicEnabled === 'boolean'
         ? parsed.musicEnabled
@@ -874,6 +880,7 @@ const loadSettings = () => {
     return {
       languageId,
       targetLanguageId,
+      targetLanguageOverridden,
       cefrLevel,
       musicEnabled,
       sfxEnabled,
@@ -882,6 +889,7 @@ const loadSettings = () => {
     return {
       languageId: DEFAULT_LANGUAGE,
       targetLanguageId: DEFAULT_LANGUAGE,
+      targetLanguageOverridden: false,
       cefrLevel: DEFAULT_LEVEL,
       musicEnabled: DEFAULT_MUSIC_ENABLED,
       sfxEnabled: DEFAULT_SFX_ENABLED,
@@ -2484,12 +2492,11 @@ function App() {
   const handleLanguageChange = (event) => {
     const languageId = event.target.value
     const targetLanguageId =
-      selection.targetLanguageId === selection.languageId
-        ? languageId
-        : selection.targetLanguageId
+      selection.targetLanguageOverridden ? selection.targetLanguageId : languageId
     const nextSelection = {
       languageId,
       targetLanguageId,
+      targetLanguageOverridden: selection.targetLanguageOverridden,
       cefrLevel: selection.cefrLevel,
       musicEnabled: selection.musicEnabled,
       sfxEnabled: selection.sfxEnabled,
@@ -2503,6 +2510,7 @@ function App() {
     const nextSelection = {
       languageId: selection.languageId,
       targetLanguageId: selection.targetLanguageId,
+      targetLanguageOverridden: selection.targetLanguageOverridden,
       cefrLevel,
       musicEnabled: selection.musicEnabled,
       sfxEnabled: selection.sfxEnabled,
@@ -2532,6 +2540,7 @@ function App() {
     setSelection((current) => ({
       ...current,
       targetLanguageId,
+      targetLanguageOverridden: targetLanguageId !== current.languageId,
     }))
   }
 
@@ -2803,7 +2812,7 @@ function App() {
                   </div>
                 </div>
                 <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
-                  {uiText.restart}
+                  {uiText.newGame}
                 </button>
               </div>
 
