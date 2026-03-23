@@ -72,6 +72,14 @@ const STREAK_ANNOUNCEMENT_MS = 1500
 const DEFAULT_MUSIC_ENABLED = false
 const DEFAULT_SFX_ENABLED = false
 const MOBILE_LAYOUT_MEDIA_QUERY = '(max-width: 720px), (pointer: coarse)'
+const LANGUAGE_FLAGS = {
+  english: '🇬🇧',
+  french: '🇫🇷',
+  spanish: '🇪🇸',
+  italian: '🇮🇹',
+  german: '🇩🇪',
+  swedish: '🇸🇪',
+}
 const TARGET_UI_TRANSLATIONS = {
   english: {
     currentTarget: 'Current target',
@@ -180,6 +188,10 @@ const TARGET_UI_TRANSLATIONS = {
 const UI_TRANSLATIONS = {
   english: {
     language: 'Language',
+    targetLanguage: 'Target language',
+    languageHelp: 'Words and grammar in the game use this language.',
+    targetLanguageHelp: 'Only the Current target box uses this language.',
+    startGame: 'Start game',
     cefrLevel: 'CEFR level',
     curriculumFocus: 'Curriculum focus',
     progression: 'Progression',
@@ -222,6 +234,10 @@ const UI_TRANSLATIONS = {
   },
   french: {
     language: 'Langue',
+    targetLanguage: 'Langue de cible',
+    languageHelp: 'Les mots et la grammaire du jeu utilisent cette langue.',
+    targetLanguageHelp: 'Seule la case Cible actuelle utilise cette langue.',
+    startGame: 'Commencer',
     cefrLevel: 'Niveau CECR',
     curriculumFocus: 'Focus du programme',
     progression: 'Progression',
@@ -264,6 +280,10 @@ const UI_TRANSLATIONS = {
   },
   spanish: {
     language: 'Idioma',
+    targetLanguage: 'Idioma del objetivo',
+    languageHelp: 'Las palabras y la gramatica del juego usan este idioma.',
+    targetLanguageHelp: 'Solo la caja Objetivo actual usa este idioma.',
+    startGame: 'Empezar',
     cefrLevel: 'Nivel MCER',
     curriculumFocus: 'Enfoque del curso',
     progression: 'Progresion',
@@ -306,6 +326,10 @@ const UI_TRANSLATIONS = {
   },
   italian: {
     language: 'Lingua',
+    targetLanguage: 'Lingua del target',
+    languageHelp: 'Le parole e la grammatica del gioco usano questa lingua.',
+    targetLanguageHelp: 'Solo il riquadro Obiettivo attuale usa questa lingua.',
+    startGame: 'Inizia',
     cefrLevel: 'Livello QCER',
     curriculumFocus: 'Focus del corso',
     progression: 'Progressione',
@@ -348,6 +372,10 @@ const UI_TRANSLATIONS = {
   },
   german: {
     language: 'Sprache',
+    targetLanguage: 'Zielsprache',
+    languageHelp: 'Worter und Grammatik im Spiel nutzen diese Sprache.',
+    targetLanguageHelp: 'Nur das Feld Aktuelles Ziel nutzt diese Sprache.',
+    startGame: 'Starten',
     cefrLevel: 'GER-Niveau',
     curriculumFocus: 'Lernfokus',
     progression: 'Fortschritt',
@@ -390,6 +418,10 @@ const UI_TRANSLATIONS = {
   },
   swedish: {
     language: 'Språk',
+    targetLanguage: 'Målspråk',
+    languageHelp: 'Ord och grammatik i spelet använder det här språket.',
+    targetLanguageHelp: 'Bara rutan Nuvarande mål använder det här språket.',
+    startGame: 'Starta spelet',
     cefrLevel: 'CEFR-nivå',
     curriculumFocus: 'Kursfokus',
     progression: 'Progression',
@@ -736,6 +768,7 @@ const loadSettings = () => {
   if (typeof window === 'undefined') {
     return {
       languageId: DEFAULT_LANGUAGE,
+      targetLanguageId: DEFAULT_LANGUAGE,
       cefrLevel: DEFAULT_LEVEL,
       musicEnabled: DEFAULT_MUSIC_ENABLED,
       sfxEnabled: DEFAULT_SFX_ENABLED,
@@ -747,6 +780,7 @@ const loadSettings = () => {
     if (!raw) {
       return {
         languageId: DEFAULT_LANGUAGE,
+        targetLanguageId: DEFAULT_LANGUAGE,
         cefrLevel: DEFAULT_LEVEL,
         musicEnabled: DEFAULT_MUSIC_ENABLED,
         sfxEnabled: DEFAULT_SFX_ENABLED,
@@ -762,6 +796,10 @@ const loadSettings = () => {
       parsed.cefrLevel && CEFR_LEVELS.includes(parsed.cefrLevel)
         ? parsed.cefrLevel
         : DEFAULT_LEVEL
+    const targetLanguageId =
+      parsed.targetLanguageId && LANGUAGE_PACKS[parsed.targetLanguageId]
+        ? parsed.targetLanguageId
+        : languageId
     const musicEnabled =
       typeof parsed.musicEnabled === 'boolean'
         ? parsed.musicEnabled
@@ -777,6 +815,7 @@ const loadSettings = () => {
 
     return {
       languageId,
+      targetLanguageId,
       cefrLevel,
       musicEnabled,
       sfxEnabled,
@@ -784,6 +823,7 @@ const loadSettings = () => {
   } catch {
     return {
       languageId: DEFAULT_LANGUAGE,
+      targetLanguageId: DEFAULT_LANGUAGE,
       cefrLevel: DEFAULT_LEVEL,
       musicEnabled: DEFAULT_MUSIC_ENABLED,
       sfxEnabled: DEFAULT_SFX_ENABLED,
@@ -1221,6 +1261,7 @@ function App() {
   const [highScores, setHighScores] = useState(loadHighScores)
   const [playerName, setPlayerName] = useState(loadPlayerName)
   const [hasSubmittedCurrentRun, setHasSubmittedCurrentRun] = useState(false)
+  const [hasLaunchedInitialRun, setHasLaunchedInitialRun] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [viewportSize, setViewportSize] = useState(() => ({
     width: typeof window === 'undefined' ? 1280 : window.innerWidth,
@@ -1437,6 +1478,10 @@ function App() {
   }, [game.bestScore, game.cefrLevel, game.languageId, game.status, hasSubmittedCurrentRun, playerName])
 
   const fireBullet = useCallback(() => {
+    if (!hasLaunchedInitialRun) {
+      return
+    }
+
     const now = performance.now()
     if (now - lastShotRef.current <= 180) {
       return
@@ -1465,7 +1510,7 @@ function App() {
         ],
       }
     })
-  }, [selection.sfxEnabled])
+  }, [hasLaunchedInitialRun, selection.sfxEnabled])
 
   const movePlayerToClientX = useCallback((clientX, surface = arenaRef.current) => {
     if (!surface) {
@@ -1703,7 +1748,11 @@ function App() {
   }, [fireBullet, resetGame])
 
   useEffect(() => {
-    if (game.status === 'gameover') {
+    if (
+      !hasLaunchedInitialRun ||
+      game.status === 'gameover' ||
+      (isMobileLayout && mobileMenuOpen)
+    ) {
       return undefined
     }
 
@@ -1776,10 +1825,16 @@ function App() {
     return () => {
       window.clearInterval(intervalId)
     }
-  }, [game.cefrLevel, game.languageId, game.status, isMobileLayout])
+  }, [game.cefrLevel, game.languageId, game.status, hasLaunchedInitialRun, isMobileLayout, mobileMenuOpen])
 
   useEffect(() => {
     const tick = (timestamp) => {
+      if (!hasLaunchedInitialRun || (isMobileLayout && mobileMenuOpen)) {
+        lastFrameRef.current = timestamp
+        rafRef.current = window.requestAnimationFrame(tick)
+        return
+      }
+
       if (!lastFrameRef.current) {
         lastFrameRef.current = timestamp
         lastSpawnRef.current = timestamp
@@ -2178,15 +2233,16 @@ function App() {
     return () => {
       window.cancelAnimationFrame(rafRef.current)
     }
-  }, [isMobileLayout, selection.sfxEnabled, wordBudget])
+  }, [hasLaunchedInitialRun, isMobileLayout, mobileMenuOpen, selection.sfxEnabled, wordBudget])
 
   const levelPack = getLevelPack(game.languageId, game.cefrLevel)
   const targetStyle = CATEGORY_STYLES[game.targetCategory]
   const languages = getLanguageNames()
   const uiLanguageId = selection.languageId
   const uiText = getUiText(uiLanguageId)
+  const targetLanguageId = selection.targetLanguageId ?? selection.languageId
   const targetUiPack =
-    TARGET_UI_TRANSLATIONS[uiLanguageId] ?? TARGET_UI_TRANSLATIONS.english
+    TARGET_UI_TRANSLATIONS[targetLanguageId] ?? TARGET_UI_TRANSLATIONS.english
   const targetUiCategory =
     targetUiPack.categories[game.targetCategory] ??
     TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory]
@@ -2207,8 +2263,13 @@ function App() {
 
   const handleLanguageChange = (event) => {
     const languageId = event.target.value
+    const targetLanguageId =
+      selection.targetLanguageId === selection.languageId
+        ? languageId
+        : selection.targetLanguageId
     const nextSelection = {
       languageId,
+      targetLanguageId,
       cefrLevel: selection.cefrLevel,
       musicEnabled: selection.musicEnabled,
       sfxEnabled: selection.sfxEnabled,
@@ -2221,6 +2282,7 @@ function App() {
     const cefrLevel = event.target.value
     const nextSelection = {
       languageId: selection.languageId,
+      targetLanguageId: selection.targetLanguageId,
       cefrLevel,
       musicEnabled: selection.musicEnabled,
       sfxEnabled: selection.sfxEnabled,
@@ -2245,10 +2307,73 @@ function App() {
     }))
   }
 
+  const startInitialRun = () => {
+    audioRef.current?.resume()
+    setHasLaunchedInitialRun(true)
+    resetGame()
+  }
+
+  const handleTargetLanguageChange = (event) => {
+    const targetLanguageId = event.target.value
+    setSelection((current) => ({
+      ...current,
+      targetLanguageId,
+    }))
+  }
+
   const settingsPanel = (
     <section className="setup-panel">
       <label className="select-card">
         <span>{uiText.language}</span>
+        <select value={selection.languageId} onChange={handleLanguageChange}>
+          {languages.map((language) => (
+            <option key={language.id} value={language.id}>
+              {language.name}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className="select-card">
+        <span>{uiText.targetLanguage}</span>
+        <select value={targetLanguageId} onChange={handleTargetLanguageChange}>
+          {languages.map((language) => (
+            <option key={language.id} value={language.id}>
+              {language.name}
+            </option>
+          ))}
+        </select>
+        <small className="select-help">{uiText.targetLanguageHelp}</small>
+      </label>
+
+      <label className="select-card">
+        <span>{uiText.cefrLevel}</span>
+        <select value={selection.cefrLevel} onChange={handleLevelChange}>
+          {CEFR_LEVELS.map((level) => (
+            <option key={level} value={level}>
+              {level}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <div className="select-card curriculum-card">
+        <span>{uiText.curriculumFocus}</span>
+        <strong>{levelPack.label}</strong>
+        <p>{levelPack.categories.map((category) => category.label).join(' · ')}</p>
+      </div>
+    </section>
+  )
+
+  const initialSetupPanel = (
+    <section className="start-screen-settings">
+      <label className="select-card">
+        <span className="select-label-with-flag">
+          <span className="select-label-flag" aria-hidden="true">
+            {LANGUAGE_FLAGS[selection.languageId] ?? '🌐'}
+          </span>
+          <span>{uiText.language}</span>
+        </span>
         <select value={selection.languageId} onChange={handleLanguageChange}>
           {languages.map((language) => (
             <option key={language.id} value={language.id}>
@@ -2268,12 +2393,6 @@ function App() {
           ))}
         </select>
       </label>
-
-      <div className="select-card curriculum-card">
-        <span>{uiText.curriculumFocus}</span>
-        <strong>{levelPack.label}</strong>
-        <p>{levelPack.categories.map((category) => category.label).join(' · ')}</p>
-      </div>
     </section>
   )
 
@@ -2380,19 +2499,27 @@ function App() {
       </section>
 
       {isMobileLayout && mobileMenuOpen ? (
-      <section className="mobile-menu-panel">
-          <p className="intro mobile-menu-intro">
-            {uiText.intro}
-          </p>
-          {settingsPanel}
-          {controlsPanel}
-          <section className="hud mobile-menu-sound-panel">{soundPanel}</section>
-          {leaderboardPanel}
-        </section>
+      <>
+        <button
+          type="button"
+          className="mobile-menu-backdrop"
+          aria-label="Close menu"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+        <section className="mobile-menu-panel">
+            <p className="intro mobile-menu-intro">
+              {uiText.intro}
+            </p>
+            {settingsPanel}
+            {controlsPanel}
+            <section className="hud mobile-menu-sound-panel">{soundPanel}</section>
+            {leaderboardPanel}
+          </section>
+      </>
       ) : null}
 
       <section className={`play-layout ${isMobileLayout && mobileMenuOpen ? 'play-layout-dimmed' : ''}`}>
-        {!isMobileLayout ? (
+        {!isMobileLayout && hasLaunchedInitialRun ? (
         <aside className="sidebar sidebar-left">
           {settingsPanel}
           {controlsPanel}
@@ -2621,26 +2748,36 @@ function App() {
             </div>
           ) : null}
 
+          {!hasLaunchedInitialRun ? (
+            <div className="start-screen">
+              <p>{uiText.intro}</p>
+              {initialSetupPanel}
+              <button className="restart-button start-screen-button" onClick={startInitialRun}>
+                {uiText.startGame}
+              </button>
+            </div>
+          ) : null}
+
         </div>
 
         {isMobileLayout ? (
-          <div
-            ref={controlLineRef}
-            className="mobile-control-shell"
-            onPointerDown={handleControlPointerDown}
-            onPointerMove={handleControlPointerMove}
-            onPointerUp={handleControlPointerUp}
-            onPointerCancel={handleControlPointerUp}
-          >
-            <div className="mobile-control-zone" />
+          <>
+            <div
+              ref={controlLineRef}
+              className="mobile-control-zone"
+              onPointerDown={handleControlPointerDown}
+              onPointerMove={handleControlPointerMove}
+              onPointerUp={handleControlPointerUp}
+              onPointerCancel={handleControlPointerUp}
+            />
             <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
-          </div>
+          </>
         ) : (
           <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
         )}
         </section>
 
-        {!isMobileLayout ? (
+        {!isMobileLayout && hasLaunchedInitialRun ? (
         <aside className="sidebar sidebar-right">
           {hudPanel}
         </aside>

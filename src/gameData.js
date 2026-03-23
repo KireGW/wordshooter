@@ -190,7 +190,7 @@ const LANGUAGE_LEVELS = {
     },
   },
   french: {
-    name: 'French',
+    name: 'Français',
     levels: {
       A1: {
         label: 'A1 Debutant',
@@ -243,7 +243,7 @@ const LANGUAGE_LEVELS = {
     },
   },
   spanish: {
-    name: 'Spanish',
+    name: 'Español',
     levels: {
       A1: {
         label: 'A1 Inicial',
@@ -258,7 +258,7 @@ const LANGUAGE_LEVELS = {
         categories: [
           pronouns(['alguien', 'nadie', 'ellos', 'aquello', 'cada uno', 'nosotros', 'todos', 'algo', 'otro', 'quienquiera']),
           adverbs(['siempre', 'a veces', 'ya', 'casi', 'rapidamente', 'juntos', 'normalmente', 'afuera', 'despacio', 'despues']),
-          past(['fui', 'comio', 'llegaron', 'vivimos', 'estudiaste', 'hicieron', 'compraron', 'aprendio', 'volvimos', 'terminaste']),
+          past(['fui', 'comió', 'llegaron', 'vivimos', 'estudiaste', 'hicieron', 'compraron', 'aprendió', 'volvimos', 'terminaste']),
         ],
       },
       B1: {
@@ -296,7 +296,7 @@ const LANGUAGE_LEVELS = {
     },
   },
   italian: {
-    name: 'Italian',
+    name: 'Italiano',
     levels: {
       A1: {
         label: 'A1 Principiante',
@@ -349,7 +349,7 @@ const LANGUAGE_LEVELS = {
     },
   },
   german: {
-    name: 'German',
+    name: 'Deutsch',
     levels: {
       A1: {
         label: 'A1 Einstieg',
@@ -402,7 +402,7 @@ const LANGUAGE_LEVELS = {
     },
   },
   swedish: {
-    name: 'Swedish',
+    name: 'Svenska',
     levels: {
       A1: {
         label: 'A1 Nybörjare',
