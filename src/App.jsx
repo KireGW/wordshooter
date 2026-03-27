@@ -40,6 +40,7 @@ const HEART_MAX_SPEED = 5.8
 const CORRECT_HIT_POINTS = 10
 const WRONG_HIT_POINTS = 10
 const MISSED_TARGET_POINTS = 10
+const AVOIDED_WORD_POINTS = 1
 const STREAK_BONUS_THRESHOLD = 10
 const STREAK_BONUS_POINTS = 40
 const INITIAL_WORD_Y_MIN = -6
@@ -255,6 +256,7 @@ const UI_TRANSLATIONS = {
     streakBonus: 'Streak bonus! {streak} correct hits in a row. +{points} points.',
     wrongCategory: '"{word}" is the wrong category. -{points} points and -1 life.',
     targetEscaped: 'A correct target escaped. -{points} points and -1 life.',
+    safePass: 'A non-target passed safely. +{points} point.',
     effectLifeLoss: '-{points} / -1 LIFE',
     effectLifeGain: '+1 LIFE',
     effectFull: 'FULL',
@@ -305,6 +307,7 @@ const UI_TRANSLATIONS = {
     streakBonus: 'Bonus de serie ! {streak} reponses justes de suite. +{points} points.',
     wrongCategory: '"{word}" est dans la mauvaise categorie. -{points} points et -1 vie.',
     targetEscaped: 'Une bonne cible s est echappee. -{points} points et -1 vie.',
+    safePass: 'Une mauvaise cible est passee sans danger. +{points} point.',
     effectLifeLoss: '-{points} / -1 VIE',
     effectLifeGain: '+1 VIE',
     effectFull: 'MAX',
@@ -355,6 +358,7 @@ const UI_TRANSLATIONS = {
     streakBonus: 'Bonus de racha. {streak} aciertos seguidos. +{points} puntos.',
     wrongCategory: '"{word}" es la categoria incorrecta. -{points} puntos y -1 vida.',
     targetEscaped: 'Se escapo un objetivo correcto. -{points} puntos y -1 vida.',
+    safePass: 'Un no objetivo paso sin peligro. +{points} punto.',
     effectLifeLoss: '-{points} / -1 VIDA',
     effectLifeGain: '+1 VIDA',
     effectFull: 'MAX',
@@ -405,6 +409,7 @@ const UI_TRANSLATIONS = {
     streakBonus: 'Bonus serie! {streak} colpi giusti di fila. +{points} punti.',
     wrongCategory: '"{word}" e la categoria sbagliata. -{points} punti e -1 vita.',
     targetEscaped: 'Un bersaglio corretto e scappato. -{points} punti e -1 vita.',
+    safePass: 'Un non bersaglio e passato senza rischio. +{points} punto.',
     effectLifeLoss: '-{points} / -1 VITA',
     effectLifeGain: '+1 VITA',
     effectFull: 'MAX',
@@ -455,6 +460,7 @@ const UI_TRANSLATIONS = {
     streakBonus: 'Serienbonus! {streak} richtige Treffer in Folge. +{points} Punkte.',
     wrongCategory: '"{word}" ist die falsche Kategorie. -{points} Punkte und -1 Leben.',
     targetEscaped: 'Ein richtiges Ziel ist entkommen. -{points} Punkte und -1 Leben.',
+    safePass: 'Ein Nichtziel ist sicher durchgegangen. +{points} Punkt.',
     effectLifeLoss: '-{points} / -1 LEBEN',
     effectLifeGain: '+1 LEBEN',
     effectFull: 'VOLL',
@@ -505,6 +511,7 @@ const UI_TRANSLATIONS = {
     streakBonus: 'Streakbonus! {streak} rätta i rad. +{points} poäng.',
     wrongCategory: '"{word}" är fel kategori. -{points} poäng och -1 liv.',
     targetEscaped: 'Ett rätt mål kom undan. -{points} poäng och -1 liv.',
+    safePass: 'Ett ord utanför målkategorin passerade. +{points} poäng.',
     effectLifeLoss: '-{points} / -1 LIV',
     effectLifeGain: '+1 LIV',
     effectFull: 'FULLT',
@@ -1369,10 +1376,17 @@ const makeWordFactory = (languageId, cefrLevel) => {
   }
 }
 
-const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = false) => {
+const buildInitialGame = (
+  languageId,
+  cefrLevel,
+  wordBudget,
+  isMobileLayout = false,
+  instructionLanguageId = languageId,
+) => {
   const levelPack = getLevelPack(languageId, cefrLevel)
   const targetCategory = pickRandom(levelPack.categories).id
   const makeWord = makeWordFactory(languageId, cefrLevel)
+  const uiText = getUiText(instructionLanguageId)
   const initialWords = []
   let recentWordsByCategory = {}
 
@@ -1397,6 +1411,7 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
 
   return {
     languageId,
+    instructionLanguageId,
     cefrLevel,
     playerX: 50,
     bullets: [],
@@ -1411,7 +1426,7 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     phase: 1,
     nextCategorySwitchMs: CATEGORY_SWITCH_MS,
     nextHeartSpawnMs: HEART_SPAWN_MS,
-    startAnnouncement: getShootPrompt(languageId, isMobileLayout),
+    startAnnouncement: getShootPrompt(instructionLanguageId, isMobileLayout),
     startAnnouncementMs: START_ANNOUNCEMENT_MS,
     categoryAnnouncement: '',
     categoryAnnouncementMs: 0,
@@ -1420,7 +1435,7 @@ const buildInitialGame = (languageId, cefrLevel, wordBudget, isMobileLayout = fa
     endReason: null,
     status: 'playing',
     targetCategory,
-    feedback: formatUiText(getUiText(languageId).missionLoaded, {
+    feedback: formatUiText(uiText.missionLoaded, {
       language: LANGUAGE_PACKS[languageId].name,
       level: cefrLevel,
     }),
@@ -1463,6 +1478,7 @@ function App() {
       typeof window !== 'undefined' && typeof window.matchMedia === 'function'
         ? window.matchMedia(MOBILE_LAYOUT_MEDIA_QUERY).matches
         : false,
+      loadSettings().targetLanguageId ?? loadSettings().languageId,
     ),
   )
 
@@ -1599,7 +1615,11 @@ function App() {
   }, [isMobileLayout])
 
   const resetGame = useCallback(
-    (nextLanguage = selection.languageId, nextLevel = selection.cefrLevel) => {
+    (
+      nextLanguage = selection.languageId,
+      nextLevel = selection.cefrLevel,
+      nextInstructionLanguage = selection.targetLanguageId,
+    ) => {
       lastFrameRef.current = 0
       lastSpawnRef.current = 0
       lastShotRef.current = 0
@@ -1625,9 +1645,9 @@ function App() {
         startPlayerX: 50,
         moved: false,
       }
-      setGame(buildInitialGame(nextLanguage, nextLevel, wordBudget, isMobileLayout))
+      setGame(buildInitialGame(nextLanguage, nextLevel, wordBudget, isMobileLayout, nextInstructionLanguage))
     },
-    [isMobileLayout, selection.cefrLevel, selection.languageId, wordBudget],
+    [isMobileLayout, selection.cefrLevel, selection.languageId, selection.targetLanguageId, wordBudget],
   )
 
   const saveHighScoreEntry = useCallback(() => {
@@ -2011,7 +2031,7 @@ function App() {
         const categoryMap = getCategoryMap(current.languageId, current.cefrLevel)
         const spawnBucketOrder = getSpawnBucketOrder(current.languageId, current.cefrLevel)
         const spawnBucketMap = getSpawnBucketMap(current.languageId, current.cefrLevel)
-        const uiText = getUiText(current.languageId)
+        const uiText = getUiText(current.instructionLanguageId ?? current.languageId)
         const nextCategory = getNextCategoryId(categoryOrder, current.targetCategory)
         const nextTarget = categoryMap[nextCategory]
         const categorySwitchSafeY = getCategorySwitchSafeY(isMobileLayout)
@@ -2130,7 +2150,7 @@ function App() {
           return current
         }
 
-        const uiText = getUiText(current.languageId)
+        const uiText = getUiText(current.instructionLanguageId ?? current.languageId)
         const targetMap = getCategoryMap(current.languageId, current.cefrLevel)
         const activeTarget = targetMap[current.targetCategory]
         const makeWord = makeWordFactory(current.languageId, current.cefrLevel)
@@ -2357,6 +2377,32 @@ function App() {
         nextHearts = nextHearts.filter((heart) => !collectedHearts.has(heart.id) && heart.y < 98)
 
         const slippedWords = nextWords.filter((word) => word.y >= 96)
+        const slippedNonTargets = slippedWords.filter((word) => !doesWordMatchTarget(word, activeTarget))
+        if (slippedNonTargets.length > 0) {
+          const gainedPoints = slippedNonTargets.length * AVOIDED_WORD_POINTS
+          score += gainedPoints
+          bestScore = Math.max(bestScore, score)
+
+          if (!slippedWords.some((word) => doesWordMatchTarget(word, activeTarget))) {
+            feedback = formatUiText(uiText.safePass, {
+              points: gainedPoints,
+            })
+            feedbackTone = 'good'
+          }
+
+          nextEffects = [
+            ...nextEffects,
+            ...slippedNonTargets.map((word) => ({
+              id: effectIdRef.current++,
+              x: word.x,
+              y: 92,
+              tone: 'good',
+              label: `+${AVOIDED_WORD_POINTS}`,
+              ttl: EFFECT_LIFETIME_MS,
+            })),
+          ]
+        }
+
         if (slippedWords.some((word) => doesWordMatchTarget(word, activeTarget))) {
           score = Math.max(0, score - MISSED_TARGET_POINTS)
           lives -= 1
@@ -2525,10 +2571,10 @@ function App() {
   const targetStyle =
     CATEGORY_STYLES[currentTarget?.styleId ?? game.targetCategory] ?? CATEGORY_STYLES.verb
   const languages = getLanguageNames()
-  const uiLanguageId = selection.languageId
+  const targetLanguageId = selection.targetLanguageId ?? selection.languageId
+  const uiLanguageId = targetLanguageId
   const uiText = getUiText(uiLanguageId)
   const currentCefrUi = getCefrUiCopy(selection.cefrLevel, uiLanguageId)
-  const targetLanguageId = selection.targetLanguageId ?? selection.languageId
   const targetUiPack =
     TARGET_UI_TRANSLATIONS[targetLanguageId] ?? TARGET_UI_TRANSLATIONS.english
   const targetUiCategory =
@@ -2575,7 +2621,7 @@ function App() {
       sfxEnabled: selection.sfxEnabled,
     }
     setSelection(nextSelection)
-    resetGame(nextSelection.languageId, nextSelection.cefrLevel)
+    resetGame(nextSelection.languageId, nextSelection.cefrLevel, nextSelection.targetLanguageId)
   }
 
   const handleLevelChange = (event) => {
@@ -2589,7 +2635,7 @@ function App() {
       sfxEnabled: selection.sfxEnabled,
     }
     setSelection(nextSelection)
-    resetGame(nextSelection.languageId, nextSelection.cefrLevel)
+    resetGame(nextSelection.languageId, nextSelection.cefrLevel, nextSelection.targetLanguageId)
   }
 
   const toggleMusic = () => {
@@ -2610,11 +2656,24 @@ function App() {
 
   const handleTargetLanguageChange = (event) => {
     const targetLanguageId = event.target.value
-    setSelection((current) => ({
-      ...current,
-      targetLanguageId,
-      targetLanguageOverridden: targetLanguageId !== current.languageId,
-    }))
+    setSelection((current) => {
+      const nextSelection = {
+        ...current,
+        targetLanguageId,
+        targetLanguageOverridden: targetLanguageId !== current.languageId,
+      }
+
+      setGame((currentGame) => ({
+        ...currentGame,
+        instructionLanguageId: targetLanguageId,
+        startAnnouncement:
+          currentGame.startAnnouncementMs > 0
+            ? getShootPrompt(targetLanguageId, isMobileLayout)
+            : currentGame.startAnnouncement,
+      }))
+
+      return nextSelection
+    })
   }
 
   const settingsPanel = (
