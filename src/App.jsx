@@ -2683,6 +2683,12 @@ function App() {
     })
   }
 
+  const reloadApp = () => {
+    if (typeof window !== 'undefined') {
+      window.location.reload()
+    }
+  }
+
   const settingsPanel = (
     <section className="setup-panel">
       <label className="select-card">
@@ -2851,7 +2857,11 @@ function App() {
     >
       <section className="hero-panel">
         <div className="hero-copy">
-          <h1>Wordshooter</h1>
+          <h1>
+            <button className="title-reload-button" type="button" onClick={reloadApp}>
+              Wordshooter
+            </button>
+          </h1>
           {!isMobileLayout ? (
           <p className="intro">
             {uiText.intro}

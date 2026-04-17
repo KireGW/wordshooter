@@ -82,6 +82,26 @@
   padding-top: 10px;
 }
 
+.title-reload-button {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title-reload-button:focus-visible {
+  outline: 2px solid rgba(255, 209, 102, 0.72);
+  outline-offset: 6px;
+  border-radius: 10px;
+}
+
 .hero-copy h1::after {
   content: '';
   position: absolute;
