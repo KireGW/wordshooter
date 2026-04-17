@@ -24,6 +24,8 @@ const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
 const WORD_MIN_SPEED = 4.7
 const WORD_MAX_SPEED = 8.1
+const WORD_SCORE_SPEED_FACTOR = 0.045
+const WORD_SCORE_SPEED_CAP = 3.2
 const DESKTOP_MIN_ACTIVE_WORDS = 4
 const DESKTOP_INITIAL_WORD_COUNT = 3
 const DESKTOP_MAX_ACTIVE_WORDS = 5
@@ -1292,6 +1294,11 @@ const getPreferredSpawnBucketId = (target, activeWords) => {
   return pickRandom(eligible)
 }
 
+const getWordSpeed = (score) => {
+  const scoreRamp = Math.min(score * WORD_SCORE_SPEED_FACTOR, WORD_SCORE_SPEED_CAP)
+  return WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + scoreRamp
+}
+
 const makeSpecificCategoryWord = ({
   id,
   categoryId,
@@ -1309,7 +1316,7 @@ const makeSpecificCategoryWord = ({
     sourceBucketId: categoryId,
     x: 12 + Math.random() * 76,
     y: yRange.min + Math.random() * (yRange.max - yRange.min),
-    speed: WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + score * 0.12,
+    speed: getWordSpeed(score),
   }
 }
 
