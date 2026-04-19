@@ -24,8 +24,8 @@ const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
 const WORD_MIN_SPEED = 4.7
 const WORD_MAX_SPEED = 8.1
-const WORD_SCORE_SPEED_FACTOR = 0.045
-const WORD_SCORE_SPEED_CAP = 3.2
+const WORD_SCORE_SPEED_FACTOR = 0.06
+const WORD_SCORE_SPEED_CAP = 4.2
 const DESKTOP_MIN_ACTIVE_WORDS = 4
 const DESKTOP_INITIAL_WORD_COUNT = 3
 const DESKTOP_MAX_ACTIVE_WORDS = 5
@@ -234,6 +234,7 @@ const UI_TRANSLATIONS = {
     restart: 'Restart',
     restartRun: 'Restart run',
     newGame: 'New game',
+    finishGame: 'End game',
     playAgain: 'Play again',
     intro:
       'Choose a language and CEFR level, then steer the ship and shoot only the vocabulary or grammar forms that match the active category.',
@@ -285,6 +286,7 @@ const UI_TRANSLATIONS = {
     restart: 'Recommencer',
     restartRun: 'Relancer',
     newGame: 'Nouveau jeu',
+    finishGame: 'Terminer',
     playAgain: 'Rejouer',
     intro:
       'Choisissez une langue et un niveau CECR, puis dirigez le vaisseau et tirez seulement sur le vocabulaire ou les formes grammaticales qui correspondent a la categorie active.',
@@ -336,6 +338,7 @@ const UI_TRANSLATIONS = {
     restart: 'Reiniciar',
     restartRun: 'Reiniciar partida',
     newGame: 'Nuevo juego',
+    finishGame: 'Terminar juego',
     playAgain: 'Jugar otra vez',
     intro:
       'Elige un idioma y un nivel MCER, luego dirige la nave y dispara solo al vocabulario o a las formas gramaticales que coincidan con la categoria activa.',
@@ -387,6 +390,7 @@ const UI_TRANSLATIONS = {
     restart: 'Riavvia',
     restartRun: 'Riavvia partita',
     newGame: 'Nuova partita',
+    finishGame: 'Termina partita',
     playAgain: 'Gioca ancora',
     intro:
       'Scegli una lingua e un livello QCER, poi guida la nave e spara solo al vocabolario o alle forme grammaticali che corrispondono alla categoria attiva.',
@@ -438,6 +442,7 @@ const UI_TRANSLATIONS = {
     restart: 'Neustart',
     restartRun: 'Runde neu starten',
     newGame: 'Neues Spiel',
+    finishGame: 'Spiel beenden',
     playAgain: 'Nochmal spielen',
     intro:
       'Waehle eine Sprache und ein GER-Niveau, steuere dann das Schiff und schiesse nur auf Woerter oder Grammatikformen, die zur aktiven Kategorie passen.',
@@ -489,6 +494,7 @@ const UI_TRANSLATIONS = {
     restart: 'Starta om',
     restartRun: 'Starta om runda',
     newGame: 'Nytt spel',
+    finishGame: 'Avsluta spelet',
     playAgain: 'Spela igen',
     intro:
       'Välj ett språk och en CEFR-nivå, styr sedan skeppet och skjut bara på ord eller grammatiska former som matchar den aktiva kategorin.',
@@ -1718,6 +1724,46 @@ function App() {
     resetGame,
   ])
 
+  const finishGame = useCallback(() => {
+    if (!hasLaunchedInitialRun) {
+      return
+    }
+
+    setShowGameOverLeaderboard(false)
+    setMobileMenuOpen(false)
+    setGame((current) => {
+      if (current.status === 'gameover') {
+        return current
+      }
+
+      const instructionLanguageId =
+        current.instructionLanguageId ?? selection.targetLanguageId ?? current.languageId
+      const uiText = getUiText(instructionLanguageId)
+      const bestScore = Math.max(current.bestScore, current.score)
+
+      return {
+        ...current,
+        bullets: [],
+        effects: [],
+        bestScore,
+        categoryAnnouncement: '',
+        categoryAnnouncementMs: 0,
+        streakAnnouncement: '',
+        streakAnnouncementMs: 0,
+        nextCategorySwitchMs: 0,
+        nextHeartSpawnMs: 0,
+        startAnnouncement: '',
+        startAnnouncementMs: 0,
+        endReason: 'manual',
+        status: 'gameover',
+        feedback: isMobileLayout
+          ? `${uiText.gameOver}. ${uiText.score}: ${bestScore}.`
+          : `${uiText.gameOver}. ${uiText.score}: ${bestScore}. ${uiText.pressEnterRestart}`,
+        feedbackTone: 'neutral',
+      }
+    })
+  }, [hasLaunchedInitialRun, isMobileLayout, selection.targetLanguageId])
+
   const fireBullet = useCallback(() => {
     if (!hasLaunchedInitialRun) {
       return
@@ -2805,6 +2851,13 @@ function App() {
     </>
   )
 
+  const finishGameButton =
+    hasLaunchedInitialRun && game.status !== 'gameover' ? (
+      <button type="button" className="finish-game-button" onClick={finishGame}>
+        {uiText.finishGame}
+      </button>
+    ) : null
+
   const leaderboardPanel = (
     <section className="highscore-card">
       <span>{uiText.leaderboard}</span>
@@ -2844,6 +2897,7 @@ function App() {
   const hudPanel = (
     <section className="hud">
       {statsPanel}
+      {finishGameButton}
       {soundPanel}
       {leaderboardPanel}
     </section>
@@ -2897,6 +2951,7 @@ function App() {
               {uiText.intro}
             </p>
             {settingsPanel}
+            {finishGameButton}
             <section className="hud mobile-menu-sound-panel">{soundPanel}</section>
             {leaderboardPanel}
           </section>
