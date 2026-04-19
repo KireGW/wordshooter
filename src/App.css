@@ -2050,6 +2050,35 @@
     pointer-events: auto;
   }
 
+  .arena-action-stack {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 4px;
+    width: 74px;
+    min-width: 74px;
+    pointer-events: auto;
+  }
+
+  .arena-action-stack .arena-restart-button,
+  .arena-action-stack .arena-finish-button {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .arena-finish-button {
+    height: 22px;
+    padding: 2px 5px;
+    border-radius: 999px;
+    font-size: clamp(0.52rem, 1.95vw, 0.66rem);
+    letter-spacing: 0.035em;
+    box-shadow: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .language-picker-popup {
     position: absolute;
     top: calc(100% + 8px);
@@ -2344,12 +2373,23 @@
   }
 
   .arena-restart-button {
-    height: 46px;
+    height: 22px;
     width: 74px;
     min-width: 74px;
     max-width: 74px;
-    padding: 5px 7px;
-    font-size: clamp(0.72rem, 2.35vw, 0.86rem);
+    padding: 2px 7px;
+    font-size: clamp(0.58rem, 2vw, 0.72rem);
+  }
+
+  .arena-action-stack {
+    width: 74px;
+    min-width: 74px;
+    gap: 4px;
+  }
+
+  .arena-finish-button {
+    height: 22px;
+    font-size: clamp(0.5rem, 1.8vw, 0.62rem);
   }
 
   .arena-mobile-stats {

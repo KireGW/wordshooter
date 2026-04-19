@@ -235,6 +235,7 @@ const UI_TRANSLATIONS = {
     restartRun: 'Restart run',
     newGame: 'New game',
     finishGame: 'End game',
+    finishGameShort: 'End',
     playAgain: 'Play again',
     intro:
       'Choose a language and CEFR level, then steer the ship and shoot only the vocabulary or grammar forms that match the active category.',
@@ -287,6 +288,7 @@ const UI_TRANSLATIONS = {
     restartRun: 'Relancer',
     newGame: 'Nouveau jeu',
     finishGame: 'Terminer',
+    finishGameShort: 'Terminer',
     playAgain: 'Rejouer',
     intro:
       'Choisissez une langue et un niveau CECR, puis dirigez le vaisseau et tirez seulement sur le vocabulaire ou les formes grammaticales qui correspondent a la categorie active.',
@@ -339,6 +341,7 @@ const UI_TRANSLATIONS = {
     restartRun: 'Reiniciar partida',
     newGame: 'Nuevo juego',
     finishGame: 'Terminar juego',
+    finishGameShort: 'Terminar',
     playAgain: 'Jugar otra vez',
     intro:
       'Elige un idioma y un nivel MCER, luego dirige la nave y dispara solo al vocabulario o a las formas gramaticales que coincidan con la categoria activa.',
@@ -391,6 +394,7 @@ const UI_TRANSLATIONS = {
     restartRun: 'Riavvia partita',
     newGame: 'Nuova partita',
     finishGame: 'Termina partita',
+    finishGameShort: 'Termina',
     playAgain: 'Gioca ancora',
     intro:
       'Scegli una lingua e un livello QCER, poi guida la nave e spara solo al vocabolario o alle forme grammaticali che corrispondono alla categoria attiva.',
@@ -443,6 +447,7 @@ const UI_TRANSLATIONS = {
     restartRun: 'Runde neu starten',
     newGame: 'Neues Spiel',
     finishGame: 'Spiel beenden',
+    finishGameShort: 'Ende',
     playAgain: 'Nochmal spielen',
     intro:
       'Waehle eine Sprache und ein GER-Niveau, steuere dann das Schiff und schiesse nur auf Woerter oder Grammatikformen, die zur aktiven Kategorie passen.',
@@ -495,6 +500,7 @@ const UI_TRANSLATIONS = {
     restartRun: 'Starta om runda',
     newGame: 'Nytt spel',
     finishGame: 'Avsluta spelet',
+    finishGameShort: 'Avsluta',
     playAgain: 'Spela igen',
     intro:
       'Välj ett språk och en CEFR-nivå, styr sedan skeppet och skjut bara på ord eller grammatiska former som matchar den aktiva kategorin.',
@@ -3032,9 +3038,14 @@ function App() {
                   </div>
                 </div>
                 {hasLaunchedInitialRun && game.status !== 'gameover' ? (
-                  <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
-                    {uiText.newGame}
-                  </button>
+                  <div className="arena-action-stack">
+                    <button className="restart-button arena-restart-button" onClick={() => resetGame()}>
+                      {uiText.newGame}
+                    </button>
+                    <button type="button" className="finish-game-button arena-finish-button" onClick={finishGame}>
+                      {uiText.finishGameShort}
+                    </button>
+                  </div>
                 ) : null}
               </div>
 
