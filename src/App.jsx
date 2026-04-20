@@ -2201,6 +2201,16 @@ function App() {
         return
       }
 
+      if (key === 'escape') {
+        if (isMobileLayout || !hasLaunchedInitialRun || game.status === 'gameover') {
+          return
+        }
+
+        event.preventDefault()
+        finishGame()
+        return
+      }
+
       if (!isMobileLayout && !event.repeat && (key === 'arrowleft' || key === 'a' || key === 'arrowright' || key === 'd')) {
         const direction = key === 'arrowleft' || key === 'a' ? -1 : 1
         setGame((current) => ({
@@ -2226,7 +2236,7 @@ function App() {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('keyup', onKeyUp)
     }
-  }, [fireBullet, game.status, hasLaunchedInitialRun, isMobileLayout, resetGame, startInitialRun])
+  }, [fireBullet, finishGame, game.status, hasLaunchedInitialRun, isMobileLayout, resetGame, startInitialRun])
 
   useEffect(() => {
     if (
@@ -3216,7 +3226,7 @@ function App() {
             </div>
           ) : null}
 
-          {hasLaunchedInitialRun ? (
+          {hasLaunchedInitialRun && !isMobileLayout ? (
             <div className="arena-run-timer" aria-label={`Elapsed time ${elapsedTimeDisplay}`}>
               <span aria-hidden="true">◷</span>
               <strong>{elapsedTimeDisplay}</strong>
