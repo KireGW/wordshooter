@@ -20,12 +20,12 @@ const ARENA = {
 }
 
 const PLAYER_SPEED = 56
+const PLAYER_KEYDOWN_NUDGE = 1.8
 const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
-const WORD_BASE_SPEED = 6.35
-const WORD_RANDOM_SPEED_RANGE = 2.9
-const WORD_TIME_SPEED_PER_SECOND = 0.0105
-const WORD_TIME_SPEED_CAP = 2.1
+const WORD_BASE_SPEED = 6.2
+const WORD_RANDOM_SPEED_RANGE = 3.15
+const WORD_TIME_SPEED_PER_SECOND = 0.0689
 const RUN_WARMUP_MS = 5000
 const RUN_WARMUP_STAGE_ONE_MS = 2200
 const DESKTOP_MIN_ACTIVE_WORDS = 4
@@ -1412,12 +1412,11 @@ const getPreferredSpawnBucketId = (target, activeWords) => {
 
 const getWordSpeed = (elapsedRunMs = 0) => {
   const elapsedSeconds = Math.max(0, elapsedRunMs) / 1000
-  const timeRamp = Math.min(
-    elapsedSeconds * WORD_TIME_SPEED_PER_SECOND,
-    WORD_TIME_SPEED_CAP,
-  )
+  const timeRamp = elapsedSeconds * WORD_TIME_SPEED_PER_SECOND
 
-  return WORD_BASE_SPEED + Math.random() * WORD_RANDOM_SPEED_RANGE + timeRamp
+  const randomOffset = (Math.random() - 0.5) * WORD_RANDOM_SPEED_RANGE
+
+  return WORD_BASE_SPEED + randomOffset + timeRamp
 }
 
 const makeSpecificCategoryWord = ({
@@ -2131,13 +2130,13 @@ function App() {
       const key = event.key.toLowerCase()
 
       if (
-        ['arrowleft', 'arrowright', 'a', 'd', ' '].includes(key) ||
+        ['arrowleft', 'arrowright', 'arrowup', 'a', 'd', ' '].includes(key) ||
         event.key === ' '
       ) {
         event.preventDefault()
       }
 
-      if (event.key === ' ') {
+      if (event.key === ' ' || key === 'arrowup') {
         fireBullet()
       }
 
@@ -2157,6 +2156,14 @@ function App() {
         }
 
         return
+      }
+
+      if (!isMobileLayout && !event.repeat && (key === 'arrowleft' || key === 'a' || key === 'arrowright' || key === 'd')) {
+        const direction = key === 'arrowleft' || key === 'a' ? -1 : 1
+        setGame((current) => ({
+          ...current,
+          playerX: clamp(current.playerX + direction * PLAYER_KEYDOWN_NUDGE, 8, 92),
+        }))
       }
 
       keysRef.current.add(key)
@@ -2616,7 +2623,7 @@ function App() {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
-              current.elapsedRunMs,
+              elapsedRunMs,
               nextWords,
               recentWordsByCategory,
               undefined,
@@ -2628,7 +2635,7 @@ function App() {
               candidate,
               nextWords,
               isMobileLayout,
-              current.elapsedRunMs,
+              elapsedRunMs,
             )
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
@@ -2642,7 +2649,7 @@ function App() {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
-              current.elapsedRunMs,
+              elapsedRunMs,
               nextWords,
               recentWordsByCategory,
               undefined,
@@ -2654,7 +2661,7 @@ function App() {
               candidate,
               nextWords,
               isMobileLayout,
-              current.elapsedRunMs,
+              elapsedRunMs,
             )
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
@@ -2789,6 +2796,10 @@ function App() {
   const nextSwitchDisplay = categoryCountdown
     ? `${categoryCountdown}`
     : `${(game.nextCategorySwitchMs / 1000).toFixed(1)}s`
+  const elapsedSeconds = Math.max(0, Math.floor(game.elapsedRunMs / 1000))
+  const elapsedMinutes = Math.floor(elapsedSeconds / 60)
+  const remainingSeconds = elapsedSeconds % 60
+  const elapsedTimeDisplay = `${elapsedMinutes}:${String(remainingSeconds).padStart(2, '0')}`
 
   const handleLanguageChange = (event) => {
     const languageId = event.target.value
@@ -3131,7 +3142,7 @@ function App() {
           </div>
           <div className={`mission-countdown ${categoryCountdown ? 'is-imminent' : ''}`}>
             <span>{uiText.nextSwitch}</span>
-            <strong>{nextSwitchDisplay}</strong>
+            <strong key={nextSwitchDisplay}>{nextSwitchDisplay}</strong>
           </div>
         </div>
         ) : null}
@@ -3158,6 +3169,13 @@ function App() {
                   ))}
                 </div>
               </div>
+            </div>
+          ) : null}
+
+          {hasLaunchedInitialRun ? (
+            <div className="arena-run-timer" aria-label={`Elapsed time ${elapsedTimeDisplay}`}>
+              <span aria-hidden="true">◷</span>
+              <strong>{elapsedTimeDisplay}</strong>
             </div>
           ) : null}
 
@@ -3274,7 +3292,7 @@ function App() {
 
               {isMobileLayout && categoryCountdown ? (
                 <div className="mobile-category-countdown" aria-hidden="true">
-                  <span>{categoryCountdown}</span>
+                  <span key={categoryCountdown}>{categoryCountdown}</span>
                 </div>
               ) : null}
 
