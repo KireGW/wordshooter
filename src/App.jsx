@@ -89,6 +89,56 @@ const LANGUAGE_FLAGS = {
   german: '🇩🇪',
   swedish: '🇸🇪',
 }
+const LANGUAGE_UI_NAMES = {
+  english: {
+    english: 'English',
+    french: 'French',
+    spanish: 'Spanish',
+    italian: 'Italian',
+    german: 'German',
+    swedish: 'Swedish',
+  },
+  french: {
+    english: 'Anglais',
+    french: 'Francais',
+    spanish: 'Espagnol',
+    italian: 'Italien',
+    german: 'Allemand',
+    swedish: 'Suedois',
+  },
+  spanish: {
+    english: 'Ingles',
+    french: 'Frances',
+    spanish: 'Espanol',
+    italian: 'Italiano',
+    german: 'Aleman',
+    swedish: 'Sueco',
+  },
+  italian: {
+    english: 'Inglese',
+    french: 'Francese',
+    spanish: 'Spagnolo',
+    italian: 'Italiano',
+    german: 'Tedesco',
+    swedish: 'Svedese',
+  },
+  german: {
+    english: 'Englisch',
+    french: 'Franzoesisch',
+    spanish: 'Spanisch',
+    italian: 'Italienisch',
+    german: 'Deutsch',
+    swedish: 'Schwedisch',
+  },
+  swedish: {
+    english: 'Engelska',
+    french: 'Franska',
+    spanish: 'Spanska',
+    italian: 'Italienska',
+    german: 'Tyska',
+    swedish: 'Svenska',
+  },
+}
 const TARGET_UI_TRANSLATIONS = {
   english: {
     currentTarget: 'Current target',
@@ -534,6 +584,12 @@ const UI_TRANSLATIONS = {
 }
 
 const getUiText = (languageId) => UI_TRANSLATIONS[languageId] ?? UI_TRANSLATIONS.english
+
+const getUiLanguageName = (languageId, uiLanguageId) =>
+  LANGUAGE_UI_NAMES[uiLanguageId]?.[languageId] ??
+  LANGUAGE_UI_NAMES.english[languageId] ??
+  LANGUAGE_PACKS[languageId]?.name ??
+  languageId
 
 const CEFR_UI_COPY = {
   english: {
@@ -1455,7 +1511,7 @@ const buildInitialGame = (
     status: 'playing',
     targetCategory,
     feedback: formatUiText(uiText.missionLoaded, {
-      language: LANGUAGE_PACKS[languageId].name,
+      language: getUiLanguageName(languageId, instructionLanguageId),
       level: cefrLevel,
     }),
     feedbackTone: 'neutral',
