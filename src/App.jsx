@@ -22,10 +22,12 @@ const ARENA = {
 const PLAYER_SPEED = 56
 const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
-const WORD_MIN_SPEED = 4.7
-const WORD_MAX_SPEED = 8.1
-const WORD_SCORE_SPEED_FACTOR = 0.06
-const WORD_SCORE_SPEED_CAP = 4.2
+const WORD_BASE_SPEED = 6.35
+const WORD_RANDOM_SPEED_RANGE = 2.9
+const WORD_TIME_SPEED_PER_SECOND = 0.0105
+const WORD_TIME_SPEED_CAP = 2.1
+const RUN_WARMUP_MS = 5000
+const RUN_WARMUP_STAGE_ONE_MS = 2200
 const DESKTOP_MIN_ACTIVE_WORDS = 4
 const DESKTOP_INITIAL_WORD_COUNT = 3
 const DESKTOP_MAX_ACTIVE_WORDS = 5
@@ -591,6 +593,15 @@ const getUiLanguageName = (languageId, uiLanguageId) =>
   LANGUAGE_PACKS[languageId]?.name ??
   languageId
 
+const getMissionLoadedFeedback = (languageId, cefrLevel, instructionLanguageId) => {
+  const uiText = getUiText(instructionLanguageId)
+
+  return formatUiText(uiText.missionLoaded, {
+    language: getUiLanguageName(languageId, instructionLanguageId),
+    level: cefrLevel,
+  })
+}
+
 const CEFR_UI_COPY = {
   english: {
     A1: { label: 'A1 - Beginner', focus: 'Everyday situations and familiar conversation topics.' },
@@ -705,6 +716,31 @@ const getWordBudget = (isMobileLayout, viewportSize) => {
     initialCount: 4,
     minActiveWords: 4,
     maxActiveWords: 5,
+  }
+}
+
+const getActiveWordBudget = (wordBudget, elapsedRunMs = 0) => {
+  if (elapsedRunMs >= RUN_WARMUP_MS) {
+    return wordBudget
+  }
+
+  if (elapsedRunMs < RUN_WARMUP_STAGE_ONE_MS) {
+    return {
+      ...wordBudget,
+      initialCount: 1,
+      minActiveWords: 1,
+      maxActiveWords: 1,
+    }
+  }
+
+  const minActiveWords = Math.max(2, wordBudget.minActiveWords - 2)
+  const maxActiveWords = Math.max(minActiveWords, wordBudget.maxActiveWords - 2)
+
+  return {
+    ...wordBudget,
+    initialCount: Math.min(2, wordBudget.initialCount, minActiveWords),
+    minActiveWords,
+    maxActiveWords,
   }
 }
 const getWordBoxMetrics = (text, isMobileLayout = false) => {
@@ -865,9 +901,21 @@ const placeWordWithoutOverlap = (
   candidate,
   existingWords,
   isMobileLayout = false,
+  elapsedRunMs = RUN_WARMUP_MS,
   maxAttempts = 8,
 ) => {
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    if (elapsedRunMs < RUN_WARMUP_MS && existingWords.length === 1) {
+      const horizontalGap = Math.abs(candidate.x - existingWords[0].x)
+      if (horizontalGap < 12) {
+        const direction = candidate.x <= existingWords[0].x ? -1 : 1
+        candidate = {
+          ...candidate,
+          x: clamp(existingWords[0].x + direction * 12, 12, 88),
+        }
+      }
+    }
+
     const collides = existingWords.some((word) =>
       wordsOverlap(candidate, word, isMobileLayout),
     )
@@ -1362,15 +1410,20 @@ const getPreferredSpawnBucketId = (target, activeWords) => {
   return pickRandom(eligible)
 }
 
-const getWordSpeed = (score) => {
-  const scoreRamp = Math.min(score * WORD_SCORE_SPEED_FACTOR, WORD_SCORE_SPEED_CAP)
-  return WORD_MIN_SPEED + Math.random() * WORD_MAX_SPEED + scoreRamp
+const getWordSpeed = (elapsedRunMs = 0) => {
+  const elapsedSeconds = Math.max(0, elapsedRunMs) / 1000
+  const timeRamp = Math.min(
+    elapsedSeconds * WORD_TIME_SPEED_PER_SECOND,
+    WORD_TIME_SPEED_CAP,
+  )
+
+  return WORD_BASE_SPEED + Math.random() * WORD_RANDOM_SPEED_RANGE + timeRamp
 }
 
 const makeSpecificCategoryWord = ({
   id,
   categoryId,
-  score,
+  elapsedRunMs,
   categoryMap,
   recentWordsByCategory = {},
   yRange = { min: INITIAL_WORD_Y_MIN, max: CATEGORY_SWITCH_RESPAWN_Y_MAX },
@@ -1384,7 +1437,7 @@ const makeSpecificCategoryWord = ({
     sourceBucketId: categoryId,
     x: 12 + Math.random() * 76,
     y: yRange.min + Math.random() * (yRange.max - yRange.min),
-    speed: getWordSpeed(score),
+    speed: getWordSpeed(elapsedRunMs),
   }
 }
 
@@ -1433,7 +1486,7 @@ const makeWordFactory = (languageId, cefrLevel) => {
 
   return (
     id,
-    score,
+    elapsedRunMs,
     activeWords,
     recentWordsByCategory = {},
     yRange = { min: ACTIVE_SPAWN_Y_MIN, max: ACTIVE_SPAWN_Y_MAX },
@@ -1443,7 +1496,7 @@ const makeWordFactory = (languageId, cefrLevel) => {
     return makeSpecificCategoryWord({
       id,
       categoryId,
-      score,
+      elapsedRunMs,
       categoryMap,
       recentWordsByCategory,
       yRange,
@@ -1461,11 +1514,11 @@ const buildInitialGame = (
   const levelPack = getLevelPack(languageId, cefrLevel)
   const targetCategory = pickRandom(levelPack.categories).id
   const makeWord = makeWordFactory(languageId, cefrLevel)
-  const uiText = getUiText(instructionLanguageId)
+  const activeWordBudget = getActiveWordBudget(wordBudget, 0)
   const initialWords = []
   let recentWordsByCategory = {}
 
-  for (let index = 0; index < wordBudget.initialCount; index += 1) {
+  for (let index = 0; index < activeWordBudget.initialCount; index += 1) {
     const candidate = makeWord(
       index,
       0,
@@ -1476,7 +1529,7 @@ const buildInitialGame = (
         max: INITIAL_WORD_Y_MAX,
       },
     )
-    initialWords.push(placeWordWithoutOverlap(candidate, initialWords, isMobileLayout))
+    initialWords.push(placeWordWithoutOverlap(candidate, initialWords, isMobileLayout, 0))
     recentWordsByCategory = rememberRecentWord(
       recentWordsByCategory,
       candidate.sourceBucketId ?? candidate.categoryId,
@@ -1494,6 +1547,7 @@ const buildInitialGame = (
     hearts: [],
     effects: [],
     recentWordsByCategory,
+    elapsedRunMs: 0,
     score: 0,
     bestScore: 0,
     lives: INITIAL_LIVES,
@@ -1510,10 +1564,7 @@ const buildInitialGame = (
     endReason: null,
     status: 'playing',
     targetCategory,
-    feedback: formatUiText(uiText.missionLoaded, {
-      language: getUiLanguageName(languageId, instructionLanguageId),
-      level: cefrLevel,
-    }),
+    feedback: getMissionLoadedFeedback(languageId, cefrLevel, instructionLanguageId),
     feedbackTone: 'neutral',
   }
 }
@@ -2174,12 +2225,13 @@ function App() {
             makeSpecificCategoryWord({
               id: wordIdRef.current++,
               categoryId: replacementCategoryId,
-              score: current.score,
+              elapsedRunMs: current.elapsedRunMs,
               categoryMap: spawnBucketMap,
               recentWordsByCategory,
             }),
             adjustedWords,
             isMobileLayout,
+            current.elapsedRunMs,
           )
           adjustedWords.push(replacement)
           recentWordsByCategory = rememberRecentWord(
@@ -2201,7 +2253,7 @@ function App() {
             makeSpecificCategoryWord({
               id: wordIdRef.current++,
               categoryId: replacementCategoryId,
-              score: current.score,
+              elapsedRunMs: current.elapsedRunMs,
               categoryMap: spawnBucketMap,
               recentWordsByCategory,
               yRange: {
@@ -2211,6 +2263,7 @@ function App() {
             }),
             adjustedWords,
             isMobileLayout,
+            current.elapsedRunMs,
           )
           adjustedWords.push(replacement)
           recentWordsByCategory = rememberRecentWord(
@@ -2310,6 +2363,8 @@ function App() {
         let bestScore = current.bestScore
         let lives = current.lives
         let streak = current.streak
+        const elapsedRunMs = current.elapsedRunMs + delta * 1000
+        const activeWordBudget = getActiveWordBudget(wordBudget, elapsedRunMs)
         let feedback = current.feedback
         let feedbackTone = current.feedbackTone
         const phase = current.phase
@@ -2550,18 +2605,18 @@ function App() {
 
         const spawnDue = timestamp - lastSpawnRef.current >= WORD_SPAWN_MS
 
-        if (spawnDue || nextWords.length < wordBudget.minActiveWords) {
+        if (spawnDue || nextWords.length < activeWordBudget.minActiveWords) {
           lastSpawnRef.current = timestamp
           const preferredBucketId =
             countWordsMatchingTarget(activeTarget, nextWords) < getDesiredTargetWordCount(activeTarget)
               ? getPreferredSpawnBucketId(activeTarget, nextWords)
               : null
 
-          while (nextWords.length < wordBudget.minActiveWords) {
+          while (nextWords.length < activeWordBudget.minActiveWords) {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
-              score,
+              current.elapsedRunMs,
               nextWords,
               recentWordsByCategory,
               undefined,
@@ -2569,7 +2624,12 @@ function App() {
                 mustIncludeCategoryId: preferredBucketId,
               },
             )
-            const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
+            const placedWord = placeWordWithoutOverlap(
+              candidate,
+              nextWords,
+              isMobileLayout,
+              current.elapsedRunMs,
+            )
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
               recentWordsByCategory,
@@ -2578,11 +2638,11 @@ function App() {
             )
           }
 
-          if (spawnDue && nextWords.length < wordBudget.maxActiveWords) {
+          if (spawnDue && nextWords.length < activeWordBudget.maxActiveWords) {
             spawnCountRef.current += 1
             const candidate = makeWord(
               wordIdRef.current++,
-              score,
+              current.elapsedRunMs,
               nextWords,
               recentWordsByCategory,
               undefined,
@@ -2590,7 +2650,12 @@ function App() {
                 mustIncludeCategoryId: preferredBucketId,
               },
             )
-            const placedWord = placeWordWithoutOverlap(candidate, nextWords, isMobileLayout)
+            const placedWord = placeWordWithoutOverlap(
+              candidate,
+              nextWords,
+              isMobileLayout,
+              current.elapsedRunMs,
+            )
             nextWords = [...nextWords, placedWord]
             recentWordsByCategory = rememberRecentWord(
               recentWordsByCategory,
@@ -2617,6 +2682,7 @@ function App() {
             hearts: nextHearts,
             effects: nextEffects,
             recentWordsByCategory,
+            elapsedRunMs,
             score: Math.max(score, 0),
             bestScore,
             lives: 0,
@@ -2650,6 +2716,7 @@ function App() {
           hearts: nextHearts,
           effects: nextEffects,
           recentWordsByCategory,
+          elapsedRunMs,
           score,
           bestScore,
           lives,
@@ -2778,14 +2845,33 @@ function App() {
         targetLanguageOverridden: targetLanguageId !== current.languageId,
       }
 
-      setGame((currentGame) => ({
-        ...currentGame,
-        instructionLanguageId: targetLanguageId,
-        startAnnouncement:
-          currentGame.startAnnouncementMs > 0
-            ? getShootPrompt(targetLanguageId, isMobileLayout)
-            : currentGame.startAnnouncement,
-      }))
+      setGame((currentGame) => {
+        const previousInstructionLanguageId =
+          currentGame.instructionLanguageId ?? currentGame.languageId
+        const previousMissionLoadedFeedback = getMissionLoadedFeedback(
+          currentGame.languageId,
+          currentGame.cefrLevel,
+          previousInstructionLanguageId,
+        )
+        const nextMissionLoadedFeedback = getMissionLoadedFeedback(
+          currentGame.languageId,
+          currentGame.cefrLevel,
+          targetLanguageId,
+        )
+
+        return {
+          ...currentGame,
+          instructionLanguageId: targetLanguageId,
+          startAnnouncement:
+            currentGame.startAnnouncementMs > 0
+              ? getShootPrompt(targetLanguageId, isMobileLayout)
+              : currentGame.startAnnouncement,
+          feedback:
+            currentGame.feedback === previousMissionLoadedFeedback
+              ? nextMissionLoadedFeedback
+              : currentGame.feedback,
+        }
+      })
 
       return nextSelection
     })
