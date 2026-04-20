@@ -1622,6 +1622,7 @@ function App() {
   const spawnCountRef = useRef(wordBudget.initialCount)
   const effectIdRef = useRef(0)
   const audioRef = useRef(null)
+  const gameShellRef = useRef(null)
   const arenaRef = useRef(null)
   const controlLineRef = useRef(null)
   const arenaTouchStateRef = useRef({
@@ -1638,6 +1639,7 @@ function App() {
     startY: 0,
     startPlayerX: 50,
     moved: false,
+    surface: null,
   })
 
   useEffect(() => {
@@ -1717,6 +1719,30 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (typeof document === 'undefined' || !isMobileLayout) {
+      return undefined
+    }
+
+    const blockMobileBrowserUi = (event) => {
+      if (!gameShellRef.current?.contains(event.target)) {
+        return
+      }
+
+      event.preventDefault()
+    }
+
+    document.addEventListener('gesturestart', blockMobileBrowserUi, { passive: false })
+    document.addEventListener('gesturechange', blockMobileBrowserUi, { passive: false })
+    document.addEventListener('gestureend', blockMobileBrowserUi, { passive: false })
+
+    return () => {
+      document.removeEventListener('gesturestart', blockMobileBrowserUi)
+      document.removeEventListener('gesturechange', blockMobileBrowserUi)
+      document.removeEventListener('gestureend', blockMobileBrowserUi)
+    }
+  }, [isMobileLayout])
+
+  useEffect(() => {
     if (typeof window === 'undefined') {
       return undefined
     }
@@ -1771,6 +1797,7 @@ function App() {
         startY: 0,
         startPlayerX: 50,
         moved: false,
+        surface: null,
       }
       setGame(buildInitialGame(nextLanguage, nextLevel, wordBudget, isMobileLayout, nextInstructionLanguage))
     },
@@ -1973,6 +2000,10 @@ function App() {
         return
       }
 
+      if (event.cancelable) {
+        event.preventDefault()
+      }
+
       const bounds = event.currentTarget.getBoundingClientRect()
       const relativeY = ((event.clientY - bounds.top) / bounds.height) * 100
 
@@ -2059,6 +2090,10 @@ function App() {
         return
       }
 
+      if (event.cancelable) {
+        event.preventDefault()
+      }
+
       event.currentTarget.setPointerCapture?.(event.pointerId)
       controlTouchStateRef.current = {
         pointerId: event.pointerId,
@@ -2066,6 +2101,7 @@ function App() {
         startY: event.clientY,
         startPlayerX: gameRef.current.playerX,
         moved: false,
+        surface: event.currentTarget,
       }
     },
     [isMobileLayout],
@@ -2085,7 +2121,7 @@ function App() {
           event.clientX,
           controlTouchStateRef.current.startX,
           controlTouchStateRef.current.startPlayerX,
-          controlLineRef.current,
+          controlTouchStateRef.current.surface ?? controlLineRef.current,
         )
       }
     },
@@ -2105,6 +2141,7 @@ function App() {
         startY: 0,
         startPlayerX: 50,
         moved: false,
+        surface: null,
       }
 
       if (shouldFire) {
@@ -2117,9 +2154,12 @@ function App() {
   const handleShipClick = useCallback(
     (event) => {
       event.stopPropagation()
+      if (isMobileLayout && event.cancelable) {
+        event.preventDefault()
+      }
       fireBullet()
     },
-    [fireBullet],
+    [fireBullet, isMobileLayout],
   )
 
   const startInitialRun = useCallback(() => {
@@ -3067,6 +3107,7 @@ function App() {
 
   return (
     <main
+      ref={gameShellRef}
       className="game-shell"
       onContextMenu={(event) => event.preventDefault()}
       onDragStart={(event) => event.preventDefault()}
@@ -3450,7 +3491,15 @@ function App() {
               onPointerUp={handleControlPointerUp}
               onPointerCancel={handleControlPointerUp}
             />
-            <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
+            <div
+              className={`feedback feedback-${game.feedbackTone} feedback-mobile-control`}
+              onPointerDown={handleControlPointerDown}
+              onPointerMove={handleControlPointerMove}
+              onPointerUp={handleControlPointerUp}
+              onPointerCancel={handleControlPointerUp}
+            >
+              {game.feedback}
+            </div>
           </>
         ) : (
           <div className={`feedback feedback-${game.feedbackTone}`}>{game.feedback}</div>
