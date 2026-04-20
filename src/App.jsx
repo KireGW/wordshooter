@@ -21,10 +21,12 @@ const ARENA = {
 
 const PLAYER_SPEED = 56
 const PLAYER_KEYDOWN_NUDGE = 1.8
+const DESKTOP_DRAG_THRESHOLD_PX = 6
+const MOBILE_DRAG_THRESHOLD_PX = 2
 const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
 const WORD_BASE_SPEED = 6.2
-const WORD_RANDOM_SPEED_RANGE = 3.15
+const WORD_RANDOM_SPEED_RANGE = 3.7
 const WORD_TIME_SPEED_PER_SECOND = 0.0689
 const RUN_WARMUP_MS = 5000
 const RUN_WARMUP_STAGE_ONE_MS = 2200
@@ -2003,8 +2005,9 @@ function App() {
 
       const deltaX = Math.abs(event.clientX - arenaTouchStateRef.current.startX)
       const deltaY = Math.abs(event.clientY - arenaTouchStateRef.current.startY)
+      const dragThreshold = isMobileLayout ? MOBILE_DRAG_THRESHOLD_PX : DESKTOP_DRAG_THRESHOLD_PX
 
-      if (deltaX > 6 || deltaY > 6) {
+      if (deltaX > dragThreshold || deltaY > dragThreshold) {
         arenaTouchStateRef.current.moved = true
         if (isMobileLayout) {
           movePlayerByRelativeDrag(
@@ -2076,7 +2079,7 @@ function App() {
 
       const deltaX = Math.abs(event.clientX - controlTouchStateRef.current.startX)
       const deltaY = Math.abs(event.clientY - controlTouchStateRef.current.startY)
-      if (deltaX > 6 || deltaY > 6) {
+      if (deltaX > MOBILE_DRAG_THRESHOLD_PX || deltaY > MOBILE_DRAG_THRESHOLD_PX) {
         controlTouchStateRef.current.moved = true
         movePlayerByRelativeDrag(
           event.clientX,
