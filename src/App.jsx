@@ -3192,13 +3192,6 @@ function App() {
           </div>
         ) : null}
 
-        {isMobileLayout ? (
-          <div className="dev-speed-readout mobile-dev-speed" aria-label={`Dev speed ${devSpeedDisplay}`}>
-            <span>DEV SPEED</span>
-            <strong>{devSpeedDisplay}</strong>
-          </div>
-        ) : null}
-
         <section className="arena-panel">
         {!isMobileLayout ? (
         <div className="arena-header">
