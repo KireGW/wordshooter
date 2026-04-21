@@ -27,7 +27,7 @@ const BULLET_SPEED = 88
 const WORD_SPAWN_MS = 850
 const WORD_BASE_SPEED = 6.2
 const WORD_RANDOM_SPEED_RANGE = 3.7
-const WORD_TIME_SPEED_PER_SECOND = 0.0689
+const WORD_TIME_SPEED_PER_SECOND = 0.0827
 const RUN_WARMUP_MS = 5000
 const RUN_WARMUP_STAGE_ONE_MS = 2200
 const DESKTOP_MIN_ACTIVE_WORDS = 4
@@ -1412,14 +1412,11 @@ const getPreferredSpawnBucketId = (target, activeWords) => {
   return pickRandom(eligible)
 }
 
-const getWordSpeed = (elapsedRunMs = 0) => {
-  const elapsedSeconds = Math.max(0, elapsedRunMs) / 1000
-  const timeRamp = elapsedSeconds * WORD_TIME_SPEED_PER_SECOND
+const getTimeSpeedRamp = (elapsedRunMs = 0) =>
+  (Math.max(0, elapsedRunMs) / 1000) * WORD_TIME_SPEED_PER_SECOND
 
-  const randomOffset = (Math.random() - 0.5) * WORD_RANDOM_SPEED_RANGE
-
-  return WORD_BASE_SPEED + randomOffset + timeRamp
-}
+const getRandomWordSpeedOffset = () =>
+  (Math.random() - 0.5) * WORD_RANDOM_SPEED_RANGE
 
 const makeSpecificCategoryWord = ({
   id,
@@ -1430,6 +1427,7 @@ const makeSpecificCategoryWord = ({
   yRange = { min: INITIAL_WORD_Y_MIN, max: CATEGORY_SWITCH_RESPAWN_Y_MAX },
 }) => {
   const bucket = categoryMap[categoryId]
+  const speedOffset = getRandomWordSpeedOffset()
   return {
     id,
     text: pickCategoryWordText(categoryMap, categoryId, recentWordsByCategory),
@@ -1438,7 +1436,8 @@ const makeSpecificCategoryWord = ({
     sourceBucketId: categoryId,
     x: 12 + Math.random() * 76,
     y: yRange.min + Math.random() * (yRange.max - yRange.min),
-    speed: getWordSpeed(elapsedRunMs),
+    speedOffset,
+    speed: WORD_BASE_SPEED + speedOffset + getTimeSpeedRamp(elapsedRunMs),
   }
 }
 
@@ -2405,6 +2404,8 @@ function App() {
           }))
           .filter((bullet) => bullet.y > -5)
 
+        const elapsedRunMs = current.elapsedRunMs + delta * 1000
+
         let nextWords = current.words.map((word) => ({
           ...word,
           y: word.y + word.speed * delta,
@@ -2423,7 +2424,6 @@ function App() {
         let bestScore = current.bestScore
         let lives = current.lives
         let streak = current.streak
-        const elapsedRunMs = current.elapsedRunMs + delta * 1000
         const activeWordBudget = getActiveWordBudget(wordBudget, elapsedRunMs)
         let feedback = current.feedback
         let feedbackTone = current.feedbackTone
@@ -2853,6 +2853,13 @@ function App() {
   const elapsedMinutes = Math.floor(elapsedSeconds / 60)
   const remainingSeconds = elapsedSeconds % 60
   const elapsedTimeDisplay = `${elapsedMinutes}:${String(remainingSeconds).padStart(2, '0')}`
+  const currentSpawnBaseSpeed = WORD_BASE_SPEED + getTimeSpeedRamp(game.elapsedRunMs)
+  const currentSpawnMinSpeed = Math.max(
+    0,
+    currentSpawnBaseSpeed - WORD_RANDOM_SPEED_RANGE / 2,
+  )
+  const currentSpawnMaxSpeed = currentSpawnBaseSpeed + WORD_RANDOM_SPEED_RANGE / 2
+  const devSpeedDisplay = `${currentSpawnBaseSpeed.toFixed(2)} (${currentSpawnMinSpeed.toFixed(2)}-${currentSpawnMaxSpeed.toFixed(2)})`
 
   const handleLanguageChange = (event) => {
     const languageId = event.target.value
@@ -3176,6 +3183,20 @@ function App() {
         <aside className="sidebar sidebar-left">
           {settingsPanel}
         </aside>
+        ) : null}
+
+        {!isMobileLayout ? (
+          <div className="dev-speed-readout desktop-dev-speed" aria-label={`Dev speed ${devSpeedDisplay}`}>
+            <span>DEV SPEED</span>
+            <strong>{devSpeedDisplay}</strong>
+          </div>
+        ) : null}
+
+        {isMobileLayout ? (
+          <div className="dev-speed-readout mobile-dev-speed" aria-label={`Dev speed ${devSpeedDisplay}`}>
+            <span>DEV SPEED</span>
+            <strong>{devSpeedDisplay}</strong>
+          </div>
         ) : null}
 
         <section className="arena-panel">
