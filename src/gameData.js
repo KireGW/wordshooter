@@ -115,7 +115,9 @@ const deepFreeze = (value) => {
   return Object.freeze(value)
 }
 
-export const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+// Wordshooter is tuned for quick recognition practice from A1 through B2.
+// C1-C2 material remains parked in the source lists for a future mode.
+export const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2']
 export const CEFR_VOCAB_TARGETS = {
   A1: { cumulative: 600, addedSincePrevious: 600 },
   A2: { cumulative: 1600, addedSincePrevious: 1000 },
