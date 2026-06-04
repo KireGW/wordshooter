@@ -1571,6 +1571,18 @@ const doesWordMatchTarget = (word, target) => {
   )
 }
 
+const isAmbiguousWord = (word) => {
+  const sourceBucketIds = word.matchSourceBucketIds ?? [word.sourceBucketId ?? word.categoryId]
+  const sourceCategoryIds = new Set(
+    sourceBucketIds.map((sourceBucketId) => sourceBucketId.split(':')[0]),
+  )
+
+  return sourceCategoryIds.size > 1
+}
+
+const doesMissedWordPunishPlayer = (word, target) =>
+  doesWordMatchTarget(word, target) && !isAmbiguousWord(word)
+
 const countWordsMatchingTarget = (target, words) =>
   words.filter((word) => doesWordMatchTarget(word, target)).length
 
@@ -2928,12 +2940,15 @@ function App() {
 
         const slippedWords = nextWords.filter((word) => word.y >= 96)
         const slippedNonTargets = slippedWords.filter((word) => !doesWordMatchTarget(word, activeTarget))
+        const slippedPunishingTargets = slippedWords.filter((word) =>
+          doesMissedWordPunishPlayer(word, activeTarget),
+        )
         if (slippedNonTargets.length > 0) {
           const gainedPoints = slippedNonTargets.length * AVOIDED_WORD_POINTS
           score += gainedPoints
           bestScore = Math.max(bestScore, score)
 
-          if (!slippedWords.some((word) => doesWordMatchTarget(word, activeTarget))) {
+          if (slippedPunishingTargets.length === 0) {
             feedback = formatUiText(uiText.safePass, {
               points: gainedPoints,
             })
@@ -2953,7 +2968,7 @@ function App() {
           ]
         }
 
-        if (slippedWords.some((word) => doesWordMatchTarget(word, activeTarget))) {
+        if (slippedPunishingTargets.length > 0) {
           score = Math.max(0, score - MISSED_TARGET_POINTS)
           lives -= 1
           streak = 0
@@ -2961,7 +2976,7 @@ function App() {
             points: MISSED_TARGET_POINTS,
           })
           feedbackTone = 'bad'
-          const missedTarget = slippedWords.find((word) => doesWordMatchTarget(word, activeTarget))
+          const missedTarget = slippedPunishingTargets[0]
           if (missedTarget) {
             nextEffects = [
               ...nextEffects,
