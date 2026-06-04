@@ -315,6 +315,8 @@ const SWEDISH_VERB_FORM_ALIASES = {
 }
 
 const SWEDISH_EXTRA_WORD_MATCH_SOURCES = {
+  fråga: ['noun', 'verb'],
+  kort: ['noun', 'adjective'],
   vila: ['noun', 'verb'],
   visa: ['verb', 'noun'],
   rätt: ['adjective', 'noun', 'adverb'],
@@ -341,6 +343,8 @@ const ENGLISH_EXTRA_WORD_MATCH_SOURCES = {
   back: ['adverb', 'noun', 'verb'],
   forward: ['adverb', 'verb'],
   bike: ['noun', 'verb'],
+  help: ['noun', 'verb'],
+  drink: ['noun', 'verb'],
   home: ['noun', 'adverb'],
   still: ['adverb', 'adjective'],
   well: ['noun', 'adverb'],

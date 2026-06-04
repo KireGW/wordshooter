@@ -59,6 +59,10 @@ const CATEGORY_SWITCH_RESPAWN_Y_MAX = 10
 const WORD_BOX_HEIGHT = 6
 const WORD_CHAR_WIDTH = 1.15
 const WORD_BOX_PADDING = 3.2
+const DESKTOP_WORD_HITBOX_HEIGHT = 5.1
+const DESKTOP_WORD_HITBOX_CHAR_WIDTH = 0.82
+const DESKTOP_WORD_HITBOX_PADDING = 2.9
+const DESKTOP_WORD_HITBOX_BORDER_ALLOWANCE = 0.18
 const MOBILE_WORD_BOX_HEIGHT = 6.8
 const MOBILE_WORD_CHAR_WIDTH = 1.22
 const MOBILE_WORD_BOX_PADDING = 4.3
@@ -829,8 +833,21 @@ const getWordBoxMetrics = (text, isMobileLayout = false) => {
   }
 }
 
-const getWordBounds = (word, isMobileLayout = false) => {
-  const metrics = getWordBoxMetrics(word.text, isMobileLayout)
+const getWordHitboxMetrics = (text, isMobileLayout = false) => {
+  if (isMobileLayout) {
+    return getWordBoxMetrics(text, isMobileLayout)
+  }
+
+  return {
+    width:
+      text.length * DESKTOP_WORD_HITBOX_CHAR_WIDTH +
+      DESKTOP_WORD_HITBOX_PADDING +
+      DESKTOP_WORD_HITBOX_BORDER_ALLOWANCE * 2,
+    height: DESKTOP_WORD_HITBOX_HEIGHT + DESKTOP_WORD_HITBOX_BORDER_ALLOWANCE * 2,
+  }
+}
+
+const getWordBoundsFromMetrics = (word, metrics) => {
   const halfWidth = metrics.width / 2
   const halfHeight = metrics.height / 2
 
@@ -843,6 +860,12 @@ const getWordBounds = (word, isMobileLayout = false) => {
     halfHeight,
   }
 }
+
+const getWordBounds = (word, isMobileLayout = false) =>
+  getWordBoundsFromMetrics(word, getWordBoxMetrics(word.text, isMobileLayout))
+
+const getWordHitBounds = (word, isMobileLayout = false) =>
+  getWordBoundsFromMetrics(word, getWordHitboxMetrics(word.text, isMobileLayout))
 
 const getHeartBounds = (heart) => {
   const halfSize = HEART_PICKUP_SIZE / 2
@@ -2812,7 +2835,7 @@ function App() {
               bullet.x,
               bullet.previousY ?? bullet.y,
               bullet.y,
-              getWordBounds(word, isMobileLayout),
+              getWordHitBounds(word, isMobileLayout),
             )
           })
 
