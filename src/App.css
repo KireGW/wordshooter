@@ -523,6 +523,24 @@
   font-size: 0.82rem;
 }
 
+.highscore-group {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.highscore-group + .highscore-group {
+  padding-top: 10px;
+  border-top: 1px solid rgba(184, 192, 255, 0.1);
+}
+
+.highscore-group-title {
+  color: #ecf7ff;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .highscore-list {
   margin: 0;
   padding: 0;

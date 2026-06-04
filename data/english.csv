@@ -1,0 +1,801 @@
+level,category,subcategory,word
+A1,noun,home,home
+A1,noun,home,house
+A1,noun,home,room
+A1,noun,home,door
+A1,noun,home,window
+A1,noun,home,table
+A1,noun,home,chair
+A1,noun,home,bed
+A1,noun,home,kitchen
+A1,noun,home,bathroom
+A1,noun,food,water
+A1,noun,food,bread
+A1,noun,food,milk
+A1,noun,food,apple
+A1,noun,food,banana
+A1,noun,food,cheese
+A1,noun,food,coffee
+A1,noun,food,tea
+A1,noun,food,breakfast
+A1,noun,food,lunch
+A1,noun,school,school
+A1,noun,school,book
+A1,noun,school,pen
+A1,noun,school,paper
+A1,noun,school,teacher
+A1,noun,school,student
+A1,noun,school,class
+A1,noun,school,lesson
+A1,noun,school,language
+A1,noun,school,picture
+A1,noun,family,family
+A1,noun,family,mother
+A1,noun,family,father
+A1,noun,family,parent
+A1,noun,family,child
+A1,noun,family,friend
+A1,noun,family,baby
+A1,noun,family,brother
+A1,noun,family,sister
+A1,noun,family,name
+A1,noun,daily,phone
+A1,noun,daily,computer
+A1,noun,daily,key
+A1,noun,daily,bag
+A1,noun,clothes,shoe
+A1,noun,clothes,shirt
+A1,noun,clothes,jacket
+A1,noun,daily,money
+A1,noun,travel,ticket
+A1,noun,daily,number
+A1,noun,places,street
+A1,noun,places,road
+A1,noun,places,city
+A1,noun,places,country
+A1,noun,places,place
+A1,noun,places,park
+A1,noun,places,shop
+A1,noun,transport,bus
+A1,noun,transport,train
+A1,noun,transport,bike
+A1,noun,time,day
+A1,noun,time,week
+A1,noun,time,morning
+A1,noun,time,evening
+A1,noun,time,weekend
+A1,noun,time,time
+A1,noun,weather,weather
+A1,noun,weather,rain
+A1,noun,weather,sun
+A1,noun,weather,snow
+A1,noun,body,body
+A1,noun,body,head
+A1,noun,body,hand
+A1,noun,body,foot
+A1,noun,body,eye
+A1,noun,body,ear
+A1,noun,body,mouth
+A1,noun,food,food
+A1,noun,leisure,game
+A1,noun,leisure,music
+A1,verb,base,be
+A1,verb,base,have
+A1,verb,base,go
+A1,verb,base,come
+A1,verb,base,see
+A1,verb,base,eat
+A1,verb,base,drink
+A1,verb,base,sleep
+A1,verb,base,live
+A1,verb,base,read
+A1,verb,base,write
+A1,verb,base,listen
+A1,verb,base,look
+A1,verb,base,speak
+A1,verb,base,say
+A1,verb,base,ask
+A1,verb,base,answer
+A1,verb,base,understand
+A1,verb,base,help
+A1,verb,base,buy
+A1,verb,base,pay
+A1,verb,base,open
+A1,verb,base,close
+A1,verb,base,sit
+A1,verb,base,stand
+A1,verb,base,wait
+A1,verb,base,walk
+A1,verb,base,travel
+A1,verb,base,drive
+A1,verb,base,start
+A1,verb,base,stop
+A1,verb,base,take
+A1,verb,base,give
+A1,verb,base,like
+A1,verb,base,want
+A1,verb,base,need
+A1,verb,base,use
+A1,verb,base,work
+A1,verb,base,study
+A1,verb,base,learn
+A1,verb,base,cook
+A1,verb,base,clean
+A1,verb,base,wash
+A1,verb,base,call
+A1,verb,base,send
+A1,verb,base,bring
+A1,verb,base,carry
+A1,verb,base,find
+A1,verb,base,try
+A1,verb,base,love
+A1,verb,base,play
+A1,verb,base,meet
+A1,verb,base,know
+A1,verb,base,think
+A1,verb,base,feel
+A1,verb,base,make
+A1,verb,base,do
+A1,verb,base,get
+A1,verb,base,put
+A1,verb,base,leave
+A1,verb,base,arrive
+A1,verb,base,stay
+A1,verb,base,watch
+A1,verb,base,wear
+A1,verb,base,choose
+A1,adjective,size,big
+A1,adjective,size,small
+A1,adjective,quality,good
+A1,adjective,quality,bad
+A1,adjective,age,new
+A1,adjective,age,old
+A1,adjective,age,young
+A1,adjective,feeling,happy
+A1,adjective,feeling,sad
+A1,adjective,feeling,tired
+A1,adjective,feeling,hungry
+A1,adjective,feeling,thirsty
+A1,adjective,temperature,hot
+A1,adjective,temperature,cold
+A1,adjective,temperature,warm
+A1,adjective,difficulty,easy
+A1,adjective,difficulty,hard
+A1,adjective,speed,fast
+A1,adjective,speed,slow
+A1,adjective,size,long
+A1,adjective,size,short
+A1,adjective,state,clean
+A1,adjective,state,dirty
+A1,adjective,state,open
+A1,adjective,state,closed
+A1,adjective,state,full
+A1,adjective,state,empty
+A1,adjective,appearance,light
+A1,adjective,appearance,dark
+A1,adjective,appearance,beautiful
+A1,adjective,appearance,ugly
+A1,adjective,quality,nice
+A1,adjective,personality,kind
+A1,adjective,personality,friendly
+A1,adjective,status,busy
+A1,adjective,status,ready
+A1,adjective,status,rich
+A1,adjective,status,poor
+A1,adjective,judgement,right
+A1,adjective,judgement,wrong
+A1,adjective,quality,strong
+A1,adjective,quality,weak
+A1,adjective,safety,safe
+A1,adjective,health,sick
+A1,adjective,health,healthy
+A1,adjective,sound,quiet
+A1,adjective,sound,loud
+A1,adjective,taste,sweet
+A1,adjective,quality,fresh
+A1,adjective,price,cheap
+A1,adjective,price,expensive
+A1,adjective,difficulty,simple
+A1,adjective,difficulty,difficult
+A1,adjective,time,early
+A1,adjective,time,late
+A2,noun,travel,holiday
+A2,noun,travel,trip
+A2,noun,travel,airport
+A2,noun,travel,luggage
+A2,noun,travel,map
+A2,noun,places,museum
+A2,noun,places,beach
+A2,noun,places,island
+A2,noun,travel,hotel
+A2,noun,travel,guest
+A2,noun,housing,neighbor
+A2,noun,housing,apartment
+A2,noun,housing,rent
+A2,noun,housing,address
+A2,noun,planning,meeting
+A2,noun,planning,schedule
+A2,noun,school,homework
+A2,noun,school,exercise
+A2,noun,planning,appointment
+A2,noun,communication,message
+A2,noun,health,medicine
+A2,noun,health,hospital
+A2,noun,health,doctor
+A2,noun,health,nurse
+A2,noun,health,pharmacy
+A2,noun,body,stomach
+A2,noun,body,throat
+A2,noun,body,arm
+A2,noun,body,leg
+A2,noun,body,heart
+A2,noun,time,season
+A2,noun,time,summer
+A2,noun,time,winter
+A2,noun,time,spring
+A2,noun,time,autumn
+A2,noun,weather,wind
+A2,noun,weather,storm
+A2,noun,weather,cloud
+A2,noun,weather,temperature
+A2,noun,clothes,coat
+A2,noun,shopping,market
+A2,noun,shopping,customer
+A2,noun,shopping,receipt
+A2,noun,shopping,price
+A2,noun,shopping,bill
+A2,noun,shopping,cash
+A2,noun,shopping,card
+A2,noun,shopping,change
+A2,noun,shopping,sale
+A2,noun,shopping,order
+A2,noun,leisure,song
+A2,noun,leisure,party
+A2,noun,leisure,birthday
+A2,noun,leisure,hobby
+A2,noun,sport,team
+A2,noun,sport,match
+A2,noun,leisure,movie
+A2,noun,places,library
+A2,noun,work,office
+A2,noun,places,garden
+A2,verb,base,change
+A2,verb,base,borrow
+A2,verb,base,rent
+A2,verb,base,visit
+A2,verb,base,show
+A2,verb,base,search
+A2,verb,base,repair
+A2,verb,base,shower
+A2,verb,base,wake
+A2,verb,base,shop
+A2,verb,base,order
+A2,verb,base,serve
+A2,verb,base,tell
+A2,verb,base,enjoy
+A2,verb,base,hope
+A2,verb,base,miss
+A2,verb,base,worry
+A2,verb,base,dream
+A2,verb,base,continue
+A2,verb,base,fix
+A2,verb,base,invite
+A2,verb,base,forget
+A2,verb,base,remember
+A2,verb,base,describe
+A2,verb,base,prepare
+A2,verb,base,practice
+A2,verb,base,decide
+A2,verb,base,agree
+A2,verb,base,disagree
+A2,verb,base,return
+A2,verb,base,enter
+A2,verb,base,cross
+A2,verb,base,climb
+A2,verb,base,save
+A2,verb,base,spend
+A2,verb,base,sell
+A2,verb,base,lose
+A2,verb,base,win
+A2,verb,base,fill
+A2,verb,base,share
+A2,verb,base,join
+A2,verb,base,check
+A2,verb,present,is
+A2,verb,present,has
+A2,verb,present,goes
+A2,verb,present,comes
+A2,verb,present,eats
+A2,verb,present,drinks
+A2,verb,present,reads
+A2,verb,present,writes
+A2,verb,present,speaks
+A2,verb,present,works
+A2,verb,present,studies
+A2,verb,present,needs
+A2,verb,present,wants
+A2,verb,present,tries
+A2,verb,present,plans
+A2,verb,present,stays
+A2,verb,present,continues
+A2,verb,present,tells
+A2,verb,present,chooses
+A2,verb,present,remembers
+A2,verb,phrasal,put on
+A2,verb,phrasal,take off
+A2,verb,phrasal,look for
+A2,adjective,quality,interesting
+A2,adjective,quality,useful
+A2,adjective,status,available
+A2,adjective,feeling,comfortable
+A2,adjective,feeling,nervous
+A2,adjective,feeling,proud
+A2,adjective,status,finished
+A2,adjective,place,local
+A2,adjective,place,national
+A2,adjective,personality,polite
+A2,adjective,personality,rude
+A2,adjective,size,wide
+A2,adjective,size,narrow
+A2,adjective,state,wet
+A2,adjective,state,dry
+A2,adjective,texture,soft
+A2,adjective,taste,delicious
+A2,adjective,safety,dangerous
+A2,adjective,personality,careful
+A2,adjective,time,modern
+A2,adjective,time,traditional
+A2,adjective,status,famous
+A2,adjective,status,popular
+A2,adjective,quality,serious
+A2,adjective,privacy,private
+A2,adjective,privacy,public
+A2,adjective,possibility,possible
+A2,adjective,possibility,impossible
+A2,adjective,quality,normal
+A2,adjective,quality,strange
+A2,adjective,health,ill
+A2,adjective,feeling,alone
+A2,adverb,frequency,always
+A2,adverb,frequency,often
+A2,adverb,frequency,sometimes
+A2,adverb,frequency,rarely
+A2,adverb,frequency,never
+A2,adverb,frequency,usually
+A2,adverb,time,now
+A2,adverb,time,soon
+A2,adverb,time,today
+A2,adverb,time,tomorrow
+A2,adverb,time,yesterday
+A2,adverb,time,already
+A2,adverb,time,still
+A2,adverb,time,again
+A2,adverb,degree,only
+A2,adverb,degree,very
+A2,adverb,degree,really
+A2,adverb,degree,almost
+A2,adverb,degree,quite
+A2,adverb,manner,quickly
+A2,adverb,manner,slowly
+A2,adverb,manner,carefully
+A2,adverb,manner,quietly
+A2,adverb,manner,loudly
+A2,adverb,manner,happily
+A2,adverb,manner,sadly
+A2,adverb,manner,easily
+A2,adverb,manner,together
+A2,adverb,manner,alone
+A2,adverb,place,inside
+A2,adverb,place,outside
+A2,adverb,place,upstairs
+A2,adverb,place,downstairs
+A2,adverb,place,home
+A2,adverb,place,away
+A2,adverb,direction,back
+A2,adverb,direction,forward
+A2,adverb,certainty,maybe
+A2,adverb,evaluation,unfortunately
+A2,adverb,evaluation,luckily
+A2,adverb,time,early
+A2,adverb,time,late
+A2,adverb,manner,well
+B1,noun,work,project
+B1,noun,work,deadline
+B1,noun,work,task
+B1,noun,work,manager
+B1,noun,work,colleague
+B1,noun,work,employee
+B1,noun,work,company
+B1,noun,work,department
+B1,noun,work,interview
+B1,noun,work,training
+B1,noun,education,course
+B1,noun,education,degree
+B1,noun,education,subject
+B1,noun,education,exam
+B1,noun,education,result
+B1,noun,education,grade
+B1,noun,education,research
+B1,noun,education,lecture
+B1,noun,technology,website
+B1,noun,technology,password
+B1,noun,technology,screen
+B1,noun,technology,device
+B1,noun,technology,software
+B1,noun,technology,network
+B1,noun,society,community
+B1,noun,society,service
+B1,noun,society,decision
+B1,noun,society,choice
+B1,noun,society,opinion
+B1,noun,society,reason
+B1,noun,society,problem
+B1,noun,society,solution
+B1,noun,society,advantage
+B1,noun,society,disadvantage
+B1,noun,health,treatment
+B1,noun,health,symptom
+B1,noun,health,diagnosis
+B1,noun,health,emergency
+B1,noun,travel,journey
+B1,noun,travel,passenger
+B1,noun,travel,platform
+B1,noun,environment,pollution
+B1,noun,environment,recycling
+B1,noun,emotion,confidence
+B1,noun,emotion,stress
+B1,verb,base,explain
+B1,verb,base,summarise
+B1,verb,base,compare
+B1,verb,base,discuss
+B1,verb,base,suggest
+B1,verb,base,recommend
+B1,verb,base,advise
+B1,verb,base,respond
+B1,verb,base,object
+B1,verb,base,prefer
+B1,verb,base,avoid
+B1,verb,base,manage
+B1,verb,base,improve
+B1,verb,base,develop
+B1,verb,base,participate
+B1,verb,base,coordinate
+B1,verb,base,organise
+B1,verb,base,arrange
+B1,verb,base,contact
+B1,verb,base,negotiate
+B1,verb,base,lend
+B1,verb,base,install
+B1,verb,base,replace
+B1,verb,base,connect
+B1,verb,base,download
+B1,verb,present,explains
+B1,verb,present,describes
+B1,verb,present,compares
+B1,verb,present,discusses
+B1,verb,present,suggests
+B1,verb,present,recommends
+B1,verb,present,advises
+B1,verb,present,agrees
+B1,verb,present,avoids
+B1,verb,present,manages
+B1,verb,past,explained
+B1,verb,past,described
+B1,verb,past,compared
+B1,verb,past,discussed
+B1,verb,past,suggested
+B1,verb,past,recommended
+B1,verb,past,advised
+B1,verb,past,agreed
+B1,verb,past,managed
+B1,verb,past,improved
+B1,verb,future,will explain
+B1,verb,future,will describe
+B1,verb,future,will compare
+B1,verb,future,will discuss
+B1,verb,future,will suggest
+B1,verb,future,will recommend
+B1,verb,future,will improve
+B1,verb,future,will continue
+B1,verb,future,will prepare
+B1,verb,future,will decide
+B1,verb,phrasal,look after
+B1,verb,phrasal,give up
+B1,verb,phrasal,find out
+B1,verb,phrasal,turn on
+B1,verb,phrasal,turn off
+B1,verb,phrasal,fill in
+B1,verb,phrasal,pick up
+B1,verb,phrasal,drop off
+B1,verb,phrasal,set up
+B1,verb,phrasal,come back
+B1,adjective,quality,clear
+B1,adjective,quality,unclear
+B1,adjective,quality,common
+B1,adjective,quality,unusual
+B1,adjective,quality,similar
+B1,adjective,quality,different
+B1,adjective,quality,important
+B1,adjective,quality,necessary
+B1,adjective,quality,practical
+B1,adjective,quality,creative
+B1,adjective,quality,reliable
+B1,adjective,quality,confident
+B1,adjective,quality,patient
+B1,adjective,quality,responsible
+B1,adjective,quality,independent
+B1,adjective,quality,successful
+B1,adjective,quality,limited
+B1,adjective,quality,general
+B1,adjective,quality,specific
+B1,adjective,quality,personal
+B1,adjective,quality,professional
+B1,adjective,quality,technical
+B1,adjective,quality,medical
+B1,adjective,quality,environmental
+B1,adjective,quality,social
+B1,adjective,quality,economic
+B1,adjective,quality,political
+B1,adjective,quality,cultural
+B1,adjective,quality,natural
+B1,adjective,quality,regular
+B1,adjective,quality,ordinary
+B1,adjective,quality,urgent
+B1,adjective,quality,positive
+B1,adjective,quality,negative
+B1,adjective,quality,valuable
+B1,adverb,manner,clearly
+B1,adverb,manner,seriously
+B1,adverb,manner,properly
+B1,adverb,manner,politely
+B1,adverb,manner,confidently
+B1,adverb,manner,patiently
+B1,adverb,manner,successfully
+B1,adverb,manner,regularly
+B1,adverb,manner,personally
+B1,adverb,manner,professionally
+B1,adverb,degree,especially
+B1,adverb,degree,particularly
+B1,adverb,degree,completely
+B1,adverb,degree,partly
+B1,adverb,degree,mainly
+B1,adverb,degree,mostly
+B1,adverb,degree,enough
+B1,adverb,frequency,frequently
+B1,adverb,frequency,occasionally
+B1,adverb,time,recently
+B1,adverb,time,previously
+B1,adverb,time,immediately
+B1,adverb,time,eventually
+B1,adverb,place,nearby
+B1,adverb,place,abroad
+B1,adverb,certainty,probably
+B1,adverb,certainty,certainly
+B1,adverb,certainty,perhaps
+B1,adverb,evaluation,fortunately
+B1,adverb,evaluation,obviously
+B1,connective,contrast,although
+B1,connective,contrast,however
+B1,connective,contrast,even though
+B1,connective,contrast,on the other hand
+B1,connective,contrast,instead
+B1,connective,reason,because
+B1,connective,reason,since
+B1,connective,reason,as
+B1,connective,result,therefore
+B1,connective,result,as a result
+B1,connective,result,so
+B1,connective,condition,unless
+B1,connective,condition,in case
+B1,connective,condition,as long as
+B1,connective,time,while
+B1,connective,time,as soon as
+B1,connective,time,meanwhile
+B1,connective,sequence,after that
+B1,connective,sequence,before that
+B1,connective,example,for example
+B1,connective,example,such as
+B1,connective,purpose,in order to
+B1,connective,purpose,so that
+B1,connective,addition,besides
+B1,connective,addition,also
+B2,noun,work,application
+B2,noun,work,qualification
+B2,noun,work,responsibility
+B2,noun,work,leadership
+B2,noun,work,negotiation
+B2,noun,work,proposal
+B2,noun,work,contract
+B2,noun,work,performance
+B2,noun,education,assessment
+B2,noun,education,assignment
+B2,noun,education,argument
+B2,noun,education,evidence
+B2,noun,education,analysis
+B2,noun,education,approach
+B2,noun,education,perspective
+B2,noun,education,interpretation
+B2,noun,education,framework
+B2,noun,education,principle
+B2,noun,society,policy
+B2,noun,society,authority
+B2,noun,society,regulation
+B2,noun,society,benefit
+B2,noun,society,impact
+B2,noun,society,issue
+B2,noun,society,attitude
+B2,noun,society,behaviour
+B2,noun,society,outcome
+B2,noun,society,trend
+B2,noun,society,identity
+B2,noun,society,minority
+B2,noun,society,majority
+B2,noun,environment,climate
+B2,noun,environment,sustainability
+B2,noun,environment,resource
+B2,noun,environment,emission
+B2,noun,technology,innovation
+B2,noun,technology,interface
+B2,noun,technology,constraint
+B2,noun,technology,privacy
+B2,noun,emotion,awareness
+B2,verb,base,analyse
+B2,verb,base,evaluate
+B2,verb,base,argue
+B2,verb,base,claim
+B2,verb,base,justify
+B2,verb,base,criticise
+B2,verb,base,emphasise
+B2,verb,base,illustrate
+B2,verb,base,define
+B2,verb,base,represent
+B2,verb,base,refer
+B2,verb,base,reflect
+B2,verb,base,influence
+B2,verb,base,affect
+B2,verb,base,estimate
+B2,verb,base,reduce
+B2,verb,base,increase
+B2,verb,base,maintain
+B2,verb,base,achieve
+B2,verb,base,require
+B2,verb,present,analyses
+B2,verb,present,evaluates
+B2,verb,present,argues
+B2,verb,present,claims
+B2,verb,present,justifies
+B2,verb,present,criticises
+B2,verb,present,emphasises
+B2,verb,present,illustrates
+B2,verb,present,defines
+B2,verb,present,represents
+B2,verb,past,analysed
+B2,verb,past,evaluated
+B2,verb,past,argued
+B2,verb,past,claimed
+B2,verb,past,justified
+B2,verb,past,criticised
+B2,verb,past,emphasised
+B2,verb,past,illustrated
+B2,verb,past,defined
+B2,verb,past,represented
+B2,verb,future,will analyse
+B2,verb,future,will evaluate
+B2,verb,future,will argue
+B2,verb,future,will claim
+B2,verb,future,will justify
+B2,verb,future,will criticise
+B2,verb,future,will emphasise
+B2,verb,future,will influence
+B2,verb,future,will affect
+B2,verb,future,will require
+B2,verb,perfect,has analysed
+B2,verb,perfect,has evaluated
+B2,verb,perfect,has argued
+B2,verb,perfect,has claimed
+B2,verb,perfect,has justified
+B2,verb,perfect,has influenced
+B2,verb,modal,should analyse
+B2,verb,modal,could argue
+B2,verb,modal,might affect
+B2,verb,modal,must consider
+B2,verb,modal,would require
+B2,verb,modal,ought to explain
+B2,verb,modal,may influence
+B2,verb,modal,should maintain
+B2,verb,phrasal,point out
+B2,verb,phrasal,carry out
+B2,verb,phrasal,come across
+B2,verb,phrasal,deal with
+B2,verb,phrasal,keep up
+B2,verb,phrasal,bring up
+B2,verb,phrasal,take over
+B2,verb,phrasal,rule out
+B2,verb,phrasal,break down
+B2,verb,phrasal,put forward
+B2,verb,phrasal,look into
+B2,adjective,quality,accurate
+B2,adjective,quality,appropriate
+B2,adjective,quality,complex
+B2,adjective,quality,controversial
+B2,adjective,quality,convincing
+B2,adjective,quality,critical
+B2,adjective,quality,effective
+B2,adjective,quality,efficient
+B2,adjective,quality,essential
+B2,adjective,quality,flexible
+B2,adjective,quality,significant
+B2,adjective,quality,relevant
+B2,adjective,quality,reasonable
+B2,adjective,quality,obvious
+B2,adjective,quality,subtle
+B2,adjective,quality,temporary
+B2,adjective,quality,permanent
+B2,adjective,quality,global
+B2,adjective,quality,individual
+B2,adjective,quality,collective
+B2,adjective,quality,legal
+B2,adjective,quality,financial
+B2,adjective,quality,academic
+B2,adjective,quality,emotional
+B2,adjective,quality,mental
+B2,adjective,quality,physical
+B2,adjective,quality,ethical
+B2,adjective,quality,logical
+B2,adjective,quality,valid
+B2,adjective,quality,false
+B2,adjective,quality,aware
+B2,adjective,quality,capable
+B2,adjective,quality,willing
+B2,adjective,quality,concerned
+B2,adjective,quality,suitable
+B2,adverb,manner,accurately
+B2,adverb,manner,appropriately
+B2,adverb,manner,effectively
+B2,adverb,manner,efficiently
+B2,adverb,manner,critically
+B2,adverb,manner,logically
+B2,adverb,manner,emotionally
+B2,adverb,manner,physically
+B2,adverb,manner,mentally
+B2,adverb,manner,legally
+B2,adverb,degree,significantly
+B2,adverb,degree,relatively
+B2,adverb,degree,extremely
+B2,adverb,degree,highly
+B2,adverb,degree,slightly
+B2,adverb,degree,roughly
+B2,adverb,time,currently
+B2,adverb,time,gradually
+B2,adverb,time,formerly
+B2,adverb,certainty,apparently
+B2,adverb,certainty,presumably
+B2,adverb,evaluation,undoubtedly
+B2,adverb,evaluation,interestingly
+B2,adverb,focus,respectively
+B2,adverb,focus,otherwise
+B2,connective,contrast,nevertheless
+B2,connective,contrast,whereas
+B2,connective,contrast,despite
+B2,connective,contrast,in contrast
+B2,connective,contrast,nonetheless
+B2,connective,reason,due to
+B2,connective,reason,owing to
+B2,connective,reason,given that
+B2,connective,result,consequently
+B2,connective,result,thereby
+B2,connective,result,thus
+B2,connective,condition,provided that
+B2,connective,condition,assuming that
+B2,connective,condition,otherwise
+B2,connective,purpose,in order that
+B2,connective,purpose,so as to
+B2,connective,addition,furthermore
+B2,connective,addition,moreover
+B2,connective,addition,in addition
+B2,connective,example,for instance
+B2,connective,clarification,in other words
+B2,connective,clarification,that is to say
+B2,connective,summary,overall
+B2,connective,summary,in conclusion
+B2,connective,sequence,subsequently

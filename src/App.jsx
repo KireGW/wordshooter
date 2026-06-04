@@ -63,15 +63,6 @@ const MOBILE_WORD_BOX_HEIGHT = 6.8
 const MOBILE_WORD_CHAR_WIDTH = 1.22
 const MOBILE_WORD_BOX_PADDING = 4.3
 const WORD_BOX_BORDER_ALLOWANCE = 0.45
-const DESKTOP_BULLET_HITBOX_RADIUS_X = 0.28
-const DESKTOP_BULLET_HITBOX_RADIUS_Y = 0.68
-const MOBILE_BULLET_HITBOX_RADIUS_X = 0.65
-const MOBILE_BULLET_HITBOX_RADIUS_Y = 1.15
-const SHIP_LEVEL_HIT_Y = 80
-const DESKTOP_SHIP_LEVEL_HITBOX_BONUS_X = 0.22
-const DESKTOP_SHIP_LEVEL_HITBOX_BONUS_Y = 0.75
-const MOBILE_SHIP_LEVEL_HITBOX_BONUS_X = 0.7
-const MOBILE_SHIP_LEVEL_HITBOX_BONUS_Y = 1.4
 const MOBILE_ARENA_FIRE_Y_MIN = 74
 const WORD_OVERLAP_ALLOWANCE = 0.2
 const MAX_READABILITY_OVERLAP = 0.7
@@ -80,6 +71,7 @@ const HIGH_SCORE_STORAGE_KEY = 'wordshooter-highscores'
 const PLAYER_NAME_STORAGE_KEY = 'wordshooter-player-name'
 const SETTINGS_STORAGE_KEY = 'wordshooter-settings'
 const HIGH_SCORE_LIMIT = 5
+const GLOBAL_HIGH_SCORE_DISPLAY_LIMIT = 10
 const RECENT_WORD_MEMORY = 4
 const STREAK_ANNOUNCEMENT_MS = 1500
 const DEFAULT_MUSIC_ENABLED = false
@@ -147,10 +139,15 @@ const TARGET_UI_TRANSLATIONS = {
   english: {
     currentTarget: 'Current target',
     newTarget: 'New target',
+    allVerbForms: 'all forms',
     categories: {
       noun: { label: 'Nouns', description: 'people, places, things, or ideas' },
       verb: { label: 'Verbs', description: 'action or state words' },
       present: { label: 'Present Verbs', description: 'verbs in present tense' },
+      verbPast: { label: 'Past Verbs', description: 'verbs in past tense' },
+      verbFuture: { label: 'Future Verbs', description: 'verb forms for future actions' },
+      verbPerfect: { label: 'Perfect Verbs', description: 'verb forms with have or has' },
+      verbModal: { label: 'Modal Verbs', description: 'verb expressions with can, must, should, or similar' },
       verbPhrase: { label: 'Verb Phrases', description: 'multi-word verb constructions' },
       phrase: { label: 'Phrases', description: 'short fixed phrases and chunks' },
       adjective: { label: 'Adjectives', description: 'describing words' },
@@ -167,10 +164,15 @@ const TARGET_UI_TRANSLATIONS = {
   french: {
     currentTarget: 'Cible actuelle',
     newTarget: 'Nouvelle cible',
+    allVerbForms: 'toutes formes',
     categories: {
       noun: { label: 'Noms', description: 'personnes, lieux, choses ou idées' },
       verb: { label: 'Verbes', description: "mots d'action ou d'état" },
       present: { label: 'Verbes au présent', description: 'verbes conjugués au présent' },
+      verbPast: { label: 'Verbes au passé', description: 'verbes conjugués au passé' },
+      verbFuture: { label: 'Verbes au futur', description: 'formes verbales du futur' },
+      verbPerfect: { label: 'Verbes au parfait', description: 'formes verbales composées' },
+      verbModal: { label: 'Verbes modaux', description: 'expressions avec pouvoir, devoir ou équivalent' },
       verbPhrase: { label: 'Locutions verbales', description: 'constructions verbales à plusieurs mots' },
       phrase: { label: 'Phrases', description: 'expressions et segments courts figés' },
       adjective: { label: 'Adjectifs', description: 'mots qui décrivent' },
@@ -187,10 +189,15 @@ const TARGET_UI_TRANSLATIONS = {
   spanish: {
     currentTarget: 'Objetivo actual',
     newTarget: 'Nuevo objetivo',
+    allVerbForms: 'todas las formas',
     categories: {
       noun: { label: 'Sustantivos', description: 'personas, lugares, cosas o ideas' },
       verb: { label: 'Verbos', description: 'palabras de acción o estado' },
       present: { label: 'Verbos en presente', description: 'verbos conjugados en presente' },
+      verbPast: { label: 'Verbos en pasado', description: 'verbos conjugados en pasado' },
+      verbFuture: { label: 'Verbos en futuro', description: 'formas verbales para el futuro' },
+      verbPerfect: { label: 'Verbos en perfecto', description: 'formas verbales compuestas' },
+      verbModal: { label: 'Verbos modales', description: 'expresiones con poder, deber o similares' },
       verbPhrase: { label: 'Perífrasis verbales', description: 'construcciones verbales de varias palabras' },
       phrase: { label: 'Frases', description: 'frases cortas y bloques fijos' },
       adjective: { label: 'Adjetivos', description: 'palabras que describen' },
@@ -207,10 +214,15 @@ const TARGET_UI_TRANSLATIONS = {
   italian: {
     currentTarget: 'Obiettivo attuale',
     newTarget: 'Nuovo obiettivo',
+    allVerbForms: 'tutte le forme',
     categories: {
       noun: { label: 'Sostantivi', description: 'persone, luoghi, cose o idee' },
       verb: { label: 'Verbi', description: 'parole di azione o stato' },
       present: { label: 'Verbi al presente', description: 'verbi coniugati al presente' },
+      verbPast: { label: 'Verbi al passato', description: 'verbi coniugati al passato' },
+      verbFuture: { label: 'Verbi al futuro', description: 'forme verbali del futuro' },
+      verbPerfect: { label: 'Verbi al passato prossimo', description: 'forme verbali composte' },
+      verbModal: { label: 'Verbi modali', description: 'espressioni con potere, dovere o simili' },
       verbPhrase: { label: 'Frasi verbali', description: 'costruzioni verbali con più parole' },
       phrase: { label: 'Frasi', description: 'frasi brevi e blocchi fissi' },
       adjective: { label: 'Aggettivi', description: 'parole che descrivono' },
@@ -227,10 +239,15 @@ const TARGET_UI_TRANSLATIONS = {
   german: {
     currentTarget: 'Aktuelles Ziel',
     newTarget: 'Neues Ziel',
+    allVerbForms: 'alle Formen',
     categories: {
       noun: { label: 'Nomen', description: 'Personen, Orte, Dinge oder Ideen' },
       verb: { label: 'Verben', description: 'Handlungs- oder Zustandswörter' },
       present: { label: 'Verben im Präsens', description: 'konjugierte Verben im Präsens' },
+      verbPast: { label: 'Verben in der Vergangenheit', description: 'Vergangenheitsformen von Verben' },
+      verbFuture: { label: 'Verben im Futur', description: 'Verbformen für die Zukunft' },
+      verbPerfect: { label: 'Verben im Perfekt', description: 'zusammengesetzte Verbformen' },
+      verbModal: { label: 'Modalverben', description: 'Ausdrücke mit können, müssen, sollen oder ähnlich' },
       verbPhrase: { label: 'Verbphrasen', description: 'mehrteilige Verbkonstruktionen' },
       phrase: { label: 'Phrasen', description: 'kurze feste Wendungen und Chunks' },
       adjective: { label: 'Adjektive', description: 'beschreibende Wörter' },
@@ -247,10 +264,15 @@ const TARGET_UI_TRANSLATIONS = {
   swedish: {
     currentTarget: 'Nuvarande mål',
     newTarget: 'Nytt mål',
+    allVerbForms: 'alla former',
     categories: {
       noun: { label: 'Substantiv', description: 'personer, platser, saker eller idéer' },
       verb: { label: 'Verb', description: 'ord för handling eller tillstånd' },
       present: { label: 'Verb i presens', description: 'verb böjda i presens' },
+      verbPast: { label: 'Verb i dåtid', description: 'verb böjda i dåtid' },
+      verbFuture: { label: 'Verb i futurum', description: 'verbformer för framtid' },
+      verbPerfect: { label: 'Verb i perfekt', description: 'verbformer med har' },
+      verbModal: { label: 'Modala verb', description: 'uttryck med kan, måste, bör eller liknande' },
       verbPhrase: { label: 'Verbfraser', description: 'verbkonstruktioner med flera ord' },
       phrase: { label: 'Fraser', description: 'korta fasta fraser och uttrycksblock' },
       adjective: { label: 'Adjektiv', description: 'ord som beskriver' },
@@ -278,6 +300,13 @@ const UI_TRANSLATIONS = {
     progression: 'Progression',
     progressionText: 'Target rotates through CEFR-appropriate categories over time',
     leaderboard: 'Leaderboard',
+    localLeaderboard: 'Local best',
+    globalLeaderboard: 'Global top',
+    globalLoading: 'Loading global top...',
+    globalUnavailable: 'Global leaderboard unavailable.',
+    globalScoreSaved: 'Global rank #{rank}.',
+    globalScoreNotQualified: 'Outside global top 20.',
+    globalScoreSaving: 'Saving global score...',
     noScores: 'No scores saved yet.',
     score: 'Score',
     streak: 'Streak',
@@ -331,6 +360,13 @@ const UI_TRANSLATIONS = {
     progression: 'Progression',
     progressionText: 'La cible tourne entre des categories adaptees au niveau CECR',
     leaderboard: 'Classement',
+    localLeaderboard: 'Meilleur local',
+    globalLeaderboard: 'Top mondial',
+    globalLoading: 'Chargement du top mondial...',
+    globalUnavailable: 'Classement mondial indisponible.',
+    globalScoreSaved: 'Rang mondial n°{rank}.',
+    globalScoreNotQualified: 'Hors top 20 mondial.',
+    globalScoreSaving: 'Enregistrement mondial...',
     noScores: 'Aucun score enregistre.',
     score: 'Score',
     streak: 'Serie',
@@ -384,6 +420,13 @@ const UI_TRANSLATIONS = {
     progression: 'Progresion',
     progressionText: 'El objetivo rota entre categorias adecuadas al nivel MCER',
     leaderboard: 'Clasificacion',
+    localLeaderboard: 'Mejor local',
+    globalLeaderboard: 'Top global',
+    globalLoading: 'Cargando top global...',
+    globalUnavailable: 'Clasificacion global no disponible.',
+    globalScoreSaved: 'Puesto global #{rank}.',
+    globalScoreNotQualified: 'Fuera del top 20 global.',
+    globalScoreSaving: 'Guardando puntuacion global...',
     noScores: 'Todavia no hay puntuaciones guardadas.',
     score: 'Puntuacion',
     streak: 'Racha',
@@ -437,6 +480,13 @@ const UI_TRANSLATIONS = {
     progression: 'Progressione',
     progressionText: 'L obiettivo ruota tra categorie adatte al livello QCER',
     leaderboard: 'Classifica',
+    localLeaderboard: 'Record locale',
+    globalLeaderboard: 'Top globale',
+    globalLoading: 'Caricamento top globale...',
+    globalUnavailable: 'Classifica globale non disponibile.',
+    globalScoreSaved: 'Posizione globale #{rank}.',
+    globalScoreNotQualified: 'Fuori dalla top 20 globale.',
+    globalScoreSaving: 'Salvataggio globale...',
     noScores: 'Nessun punteggio salvato.',
     score: 'Punteggio',
     streak: 'Serie',
@@ -490,6 +540,13 @@ const UI_TRANSLATIONS = {
     progression: 'Fortschritt',
     progressionText: 'Das Ziel wechselt zwischen GER-passenden Kategorien',
     leaderboard: 'Bestenliste',
+    localLeaderboard: 'Lokaler Rekord',
+    globalLeaderboard: 'Globale Topliste',
+    globalLoading: 'Globale Topliste wird geladen...',
+    globalUnavailable: 'Globale Bestenliste nicht verfuegbar.',
+    globalScoreSaved: 'Globaler Rang #{rank}.',
+    globalScoreNotQualified: 'Nicht in den globalen Top 20.',
+    globalScoreSaving: 'Globale Punktzahl wird gespeichert...',
     noScores: 'Noch keine Punkte gespeichert.',
     score: 'Punktzahl',
     streak: 'Serie',
@@ -543,6 +600,13 @@ const UI_TRANSLATIONS = {
     progression: 'Progression',
     progressionText: 'Målkategorin roterar mellan CEFR-anpassade kategorier',
     leaderboard: 'Topplista',
+    localLeaderboard: 'Lokalt rekord',
+    globalLeaderboard: 'Global topp',
+    globalLoading: 'Laddar global topplista...',
+    globalUnavailable: 'Global topplista är inte tillgänglig.',
+    globalScoreSaved: 'Global placering #{rank}.',
+    globalScoreNotQualified: 'Utanför global topp 20.',
+    globalScoreSaving: 'Sparar globalt resultat...',
     noScores: 'Inga sparade resultat än.',
     score: 'Poäng',
     streak: 'Streak',
@@ -666,27 +730,36 @@ const getShootPrompt = (languageId, isMobileLayout) => {
   return isMobileLayout ? uiText.tapToShoot : uiText.spaceToShoot
 }
 
+const getTargetUiCategory = ({
+  game,
+  currentTarget,
+  targetCategoryMap,
+  targetUiPack,
+}) => {
+  const baseCategory =
+    targetUiPack.categories[game.targetCategory] ??
+    TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory] ?? {
+      label: currentTarget?.label ?? game.targetCategory,
+      description: currentTarget?.description ?? '',
+    }
+  const hasPlayableVerbSubcategories = Object.values(targetCategoryMap).some(
+    (category) => category.parentCategoryId === 'verb',
+  )
+
+  if (game.targetCategory !== 'verb' || !hasPlayableVerbSubcategories) {
+    return baseCategory
+  }
+
+  return {
+    ...baseCategory,
+    label: `${baseCategory.label} (${targetUiPack.allVerbForms ?? TARGET_UI_TRANSLATIONS.english.allVerbForms})`,
+  }
+}
+
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max)
 const pickRandom = (items) => items[Math.floor(Math.random() * items.length)]
 const getCategorySwitchSafeY = (isMobileLayout) =>
   isMobileLayout ? MOBILE_CATEGORY_SWITCH_SAFE_Y : DESKTOP_CATEGORY_SWITCH_SAFE_Y
-
-const getBulletHitboxPadding = (isMobileLayout, isNearShipLevel) => ({
-  x:
-    (isMobileLayout ? MOBILE_BULLET_HITBOX_RADIUS_X : DESKTOP_BULLET_HITBOX_RADIUS_X) +
-    (isNearShipLevel
-      ? isMobileLayout
-        ? MOBILE_SHIP_LEVEL_HITBOX_BONUS_X
-        : DESKTOP_SHIP_LEVEL_HITBOX_BONUS_X
-      : 0),
-  y:
-    (isMobileLayout ? MOBILE_BULLET_HITBOX_RADIUS_Y : DESKTOP_BULLET_HITBOX_RADIUS_Y) +
-    (isNearShipLevel
-      ? isMobileLayout
-        ? MOBILE_SHIP_LEVEL_HITBOX_BONUS_Y
-        : DESKTOP_SHIP_LEVEL_HITBOX_BONUS_Y
-      : 0),
-})
 
 const getWordBudget = (isMobileLayout, viewportSize) => {
   if (!isMobileLayout) {
@@ -843,6 +916,38 @@ const segmentIntersectsRect = (x1, y1, x2, y2, rect) => {
   )
 }
 
+const verticalSegmentIntersectsCapsule = (x, y1, y2, bounds) => {
+  if (x < bounds.left || x > bounds.right) {
+    return false
+  }
+
+  const segmentTop = Math.min(y1, y2)
+  const segmentBottom = Math.max(y1, y2)
+  const width = bounds.right - bounds.left
+  const height = bounds.bottom - bounds.top
+  const radius = Math.min(width, height) / 2
+  const centerY = bounds.top + height / 2
+  const leftCapCenterX = bounds.left + radius
+  const rightCapCenterX = bounds.right - radius
+
+  let hitTop = bounds.top
+  let hitBottom = bounds.bottom
+
+  if (x < leftCapCenterX) {
+    const dx = x - leftCapCenterX
+    const halfHeight = Math.sqrt(Math.max(0, radius * radius - dx * dx))
+    hitTop = centerY - halfHeight
+    hitBottom = centerY + halfHeight
+  } else if (x > rightCapCenterX) {
+    const dx = x - rightCapCenterX
+    const halfHeight = Math.sqrt(Math.max(0, radius * radius - dx * dx))
+    hitTop = centerY - halfHeight
+    hitBottom = centerY + halfHeight
+  }
+
+  return segmentBottom >= hitTop && segmentTop <= hitBottom
+}
+
 const wordsOverlap = (firstWord, secondWord, isMobileLayout = false, padding = 1.4) => {
   const first = getWordBounds(firstWord, isMobileLayout)
   const second = getWordBounds(secondWord, isMobileLayout)
@@ -988,6 +1093,61 @@ const normalizeHighScores = (value) => {
       return [key, normalizedEntries]
     }),
   )
+}
+
+const normalizeHighScoreEntries = (entries) => {
+  if (!Array.isArray(entries)) {
+    return []
+  }
+
+  return entries
+    .filter((item) => item && typeof item.score === 'number')
+    .map((item) => ({
+      name: sanitizeHighScoreName(typeof item.name === 'string' ? item.name : 'Player'),
+      score: item.score,
+      achievedAt: typeof item.achievedAt === 'string' ? item.achievedAt : null,
+    }))
+    .sort((first, second) => second.score - first.score)
+}
+
+const fetchGlobalHighScores = async (languageId, cefrLevel, signal) => {
+  const response = await fetch(
+    `/api/scores?language=${encodeURIComponent(languageId)}&level=${encodeURIComponent(cefrLevel)}`,
+    { signal },
+  )
+
+  if (!response.ok) {
+    throw new Error('Global leaderboard unavailable')
+  }
+
+  const payload = await response.json()
+  return normalizeHighScoreEntries(payload.scores).slice(0, GLOBAL_HIGH_SCORE_DISPLAY_LIMIT)
+}
+
+const submitGlobalHighScore = async ({ languageId, cefrLevel, playerName, score }) => {
+  const response = await fetch('/api/scores', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      language: languageId,
+      cefrLevel,
+      playerName,
+      score,
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Global score save failed')
+  }
+
+  const payload = await response.json()
+  return {
+    saved: Boolean(payload.saved),
+    rank: typeof payload.rank === 'number' ? payload.rank : null,
+    scores: normalizeHighScoreEntries(payload.scores).slice(0, GLOBAL_HIGH_SCORE_DISPLAY_LIMIT),
+  }
 }
 
 const loadHighScores = () => {
@@ -1382,8 +1542,10 @@ const doesWordMatchTarget = (word, target) => {
     return false
   }
 
-  const sourceBucketId = word.sourceBucketId ?? word.categoryId
-  return (target.sourceBucketIds ?? [target.id]).includes(sourceBucketId)
+  const sourceBucketIds = word.matchSourceBucketIds ?? [word.sourceBucketId ?? word.categoryId]
+  return sourceBucketIds.some((sourceBucketId) =>
+    (target.sourceBucketIds ?? [target.id]).includes(sourceBucketId),
+  )
 }
 
 const countWordsMatchingTarget = (target, words) =>
@@ -1395,10 +1557,55 @@ const countPlayableWordsMatchingTarget = (target, words, maxY) =>
 const getDesiredTargetWordCount = (target) =>
   target?.matchType === 'subcategory' ? Math.min(2, target.words.length) : 1
 
-const getPreferredSpawnBucketId = (target, activeWords) => {
-  const sourceBucketIds = target?.sourceBucketIds ?? []
+const getSwitchSafeTargetWordCount = (target) =>
+  Math.min(1, getDesiredTargetWordCount(target))
+
+const getCategorySwitchSpawnYRange = (index) => {
+  const offset = index * 9
+
+  return {
+    min: INITIAL_WORD_Y_MIN - offset,
+    max: CATEGORY_SWITCH_RESPAWN_Y_MAX - offset,
+  }
+}
+
+const trimWordsToBudgetAfterCategorySwitch = (words, target, maxWords) => {
+  if (words.length <= maxWords) {
+    return words
+  }
+
+  const desiredTargetCount = getSwitchSafeTargetWordCount(target)
+  const protectedTargetIds = new Set(
+    words
+      .filter((word) => doesWordMatchTarget(word, target))
+      .sort((a, b) => a.y - b.y)
+      .slice(0, desiredTargetCount)
+      .map((word) => word.id),
+  )
+  const surplusCount = words.length - maxWords
+  const removableWords = words
+    .filter((word) => !protectedTargetIds.has(word.id))
+    .sort((a, b) => {
+      const aMatches = doesWordMatchTarget(a, target)
+      const bMatches = doesWordMatchTarget(b, target)
+      if (aMatches !== bMatches) {
+        return aMatches ? 1 : -1
+      }
+
+      return b.y - a.y
+    })
+    .slice(0, surplusCount)
+  const removeIds = new Set(removableWords.map((word) => word.id))
+
+  return words.filter((word) => !removeIds.has(word.id))
+}
+
+const getPreferredSpawnBucketId = (target, activeWords, spawnBucketMap = null) => {
+  const sourceBucketIds = (target?.sourceBucketIds ?? []).filter((bucketId) =>
+    spawnBucketMap ? Boolean(spawnBucketMap[bucketId]) : true,
+  )
   if (sourceBucketIds.length === 0) {
-    return null
+    return target?.id && (!spawnBucketMap || spawnBucketMap[target.id]) ? target.id : null
   }
 
   const counts = Object.fromEntries(
@@ -1426,14 +1633,23 @@ const makeSpecificCategoryWord = ({
   recentWordsByCategory = {},
   yRange = { min: INITIAL_WORD_Y_MIN, max: CATEGORY_SWITCH_RESPAWN_Y_MAX },
 }) => {
-  const bucket = categoryMap[categoryId]
+  const bucket = categoryMap[categoryId] ?? categoryMap[Object.keys(categoryMap)[0]]
+  if (!bucket) {
+    return null
+  }
+  const resolvedCategoryId = categoryMap[categoryId] ? categoryId : bucket.id
+  const text = pickCategoryWordText(categoryMap, resolvedCategoryId, recentWordsByCategory)
+
   const speedOffset = getRandomWordSpeedOffset()
   return {
     id,
-    text: pickCategoryWordText(categoryMap, categoryId, recentWordsByCategory),
-    categoryId: bucket.categoryId ?? categoryId,
+    text,
+    categoryId: bucket.categoryId ?? resolvedCategoryId,
     subcategoryId: bucket.subcategoryId ?? null,
-    sourceBucketId: categoryId,
+    sourceBucketId: resolvedCategoryId,
+    matchSourceBucketIds: bucket.matchSourceIdsByWord?.[text.trim().toLocaleLowerCase()] ?? [
+      resolvedCategoryId,
+    ],
     x: 12 + Math.random() * 76,
     y: yRange.min + Math.random() * (yRange.max - yRange.min),
     speedOffset,
@@ -1483,6 +1699,7 @@ const pickBalancedCategoryId = (
 const makeWordFactory = (languageId, cefrLevel) => {
   const categoryOrder = getSpawnBucketOrder(languageId, cefrLevel)
   const categoryMap = getSpawnBucketMap(languageId, cefrLevel)
+  const spawnableCategoryOrder = categoryOrder.filter((categoryId) => categoryMap[categoryId])
 
   return (
     id,
@@ -1492,7 +1709,14 @@ const makeWordFactory = (languageId, cefrLevel) => {
     yRange = { min: ACTIVE_SPAWN_Y_MIN, max: ACTIVE_SPAWN_Y_MAX },
     options = {},
   ) => {
-    const categoryId = pickBalancedCategoryId(categoryOrder, activeWords, options)
+    const safeOptions = {
+      ...options,
+      mustIncludeCategoryId: categoryMap[options.mustIncludeCategoryId]
+        ? options.mustIncludeCategoryId
+        : null,
+      avoidCategoryId: categoryMap[options.avoidCategoryId] ? options.avoidCategoryId : null,
+    }
+    const categoryId = pickBalancedCategoryId(spawnableCategoryOrder, activeWords, safeOptions)
     return makeSpecificCategoryWord({
       id,
       categoryId,
@@ -1572,6 +1796,9 @@ const buildInitialGame = (
 function App() {
   const [selection, setSelection] = useState(loadSettings)
   const [highScores, setHighScores] = useState(loadHighScores)
+  const [globalHighScores, setGlobalHighScores] = useState({})
+  const [globalHighScoreStatus, setGlobalHighScoreStatus] = useState('idle')
+  const [globalSaveResult, setGlobalSaveResult] = useState(null)
   const [playerName, setPlayerName] = useState(loadPlayerName)
   const [hasSubmittedCurrentRun, setHasSubmittedCurrentRun] = useState(false)
   const [showGameOverLeaderboard, setShowGameOverLeaderboard] = useState(false)
@@ -1615,6 +1842,7 @@ function App() {
   const lastSpawnRef = useRef(0)
   const lastShotRef = useRef(0)
   const wordBudget = getWordBudget(isMobileLayout, viewportSize)
+  const maxWordsAfterCategorySwitch = wordBudget.maxActiveWords
   const bulletIdRef = useRef(0)
   const wordIdRef = useRef(wordBudget.initialCount)
   const heartIdRef = useRef(0)
@@ -1648,6 +1876,7 @@ function App() {
   useEffect(() => {
     if (game.status !== 'gameover') {
       setShowGameOverLeaderboard(false)
+      setGlobalSaveResult(null)
     }
   }, [game.status])
 
@@ -1685,6 +1914,36 @@ function App() {
 
     window.localStorage.setItem(PLAYER_NAME_STORAGE_KEY, playerName)
   }, [playerName])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
+    const highScoreKey = getHighScoreKey(selection.languageId, selection.cefrLevel)
+    const abortController = new AbortController()
+    setGlobalHighScoreStatus('loading')
+
+    fetchGlobalHighScores(selection.languageId, selection.cefrLevel, abortController.signal)
+      .then((scores) => {
+        setGlobalHighScores((current) => ({
+          ...current,
+          [highScoreKey]: scores,
+        }))
+        setGlobalHighScoreStatus('ready')
+      })
+      .catch((error) => {
+        if (error.name === 'AbortError') {
+          return
+        }
+
+        setGlobalHighScoreStatus('unavailable')
+      })
+
+    return () => {
+      abortController.abort()
+    }
+  }, [selection.cefrLevel, selection.languageId])
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -1803,21 +2062,12 @@ function App() {
     [isMobileLayout, selection.cefrLevel, selection.languageId, selection.targetLanguageId, wordBudget],
   )
 
-  const saveHighScoreEntry = useCallback(() => {
-    if (game.status !== 'gameover' || game.bestScore <= 0 || hasSubmittedCurrentRun) {
-      return
-    }
-
-    const highScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
-    const nextEntry = {
-      name: sanitizeHighScoreName(playerName),
-      score: game.bestScore,
-      achievedAt: new Date().toISOString(),
-    }
+  const saveLocalHighScoreEntry = useCallback((entry, languageId, cefrLevel) => {
+    const highScoreKey = getHighScoreKey(languageId, cefrLevel)
 
     setHighScores((current) => {
       const existingEntries = current[highScoreKey] ?? []
-      const nextEntries = [...existingEntries, nextEntry]
+      const nextEntries = [...existingEntries, entry]
         .sort((first, second) => second.score - first.score)
         .slice(0, HIGH_SCORE_LIMIT)
 
@@ -1826,33 +2076,74 @@ function App() {
         [highScoreKey]: nextEntries,
       }
     })
-    setHasSubmittedCurrentRun(true)
-  }, [game.bestScore, game.cefrLevel, game.languageId, game.status, hasSubmittedCurrentRun, playerName])
+  }, [])
 
-  const saveHighScoreEntryAndReset = useCallback(() => {
+  const saveGlobalHighScoreEntry = useCallback(async (entry, languageId, cefrLevel) => {
+    const highScoreKey = getHighScoreKey(languageId, cefrLevel)
+    setGlobalSaveResult({ status: 'saving' })
+
+    try {
+      const result = await submitGlobalHighScore({
+        languageId,
+        cefrLevel,
+        playerName: entry.name,
+        score: entry.score,
+      })
+
+      setGlobalHighScores((current) => ({
+        ...current,
+        [highScoreKey]: result.scores,
+      }))
+      setGlobalHighScoreStatus('ready')
+      setGlobalSaveResult({
+        status: result.saved ? 'saved' : 'not-qualified',
+        rank: result.rank,
+      })
+    } catch {
+      setGlobalHighScoreStatus('unavailable')
+      setGlobalSaveResult({ status: 'unavailable' })
+    }
+  }, [])
+
+  const saveHighScoreEntry = useCallback(async () => {
     if (game.status !== 'gameover' || game.bestScore <= 0 || hasSubmittedCurrentRun) {
       return
     }
 
-    const highScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
     const nextEntry = {
       name: sanitizeHighScoreName(playerName),
       score: game.bestScore,
       achievedAt: new Date().toISOString(),
     }
 
-    setHighScores((current) => {
-      const existingEntries = current[highScoreKey] ?? []
-      const nextEntries = [...existingEntries, nextEntry]
-        .sort((first, second) => second.score - first.score)
-        .slice(0, HIGH_SCORE_LIMIT)
-
-      return {
-        ...current,
-        [highScoreKey]: nextEntries,
-      }
-    })
     setHasSubmittedCurrentRun(true)
+    saveLocalHighScoreEntry(nextEntry, game.languageId, game.cefrLevel)
+    await saveGlobalHighScoreEntry(nextEntry, game.languageId, game.cefrLevel)
+  }, [
+    game.bestScore,
+    game.cefrLevel,
+    game.languageId,
+    game.status,
+    hasSubmittedCurrentRun,
+    playerName,
+    saveGlobalHighScoreEntry,
+    saveLocalHighScoreEntry,
+  ])
+
+  const saveHighScoreEntryAndReset = useCallback(async () => {
+    if (game.status !== 'gameover' || game.bestScore <= 0 || hasSubmittedCurrentRun) {
+      return
+    }
+
+    const nextEntry = {
+      name: sanitizeHighScoreName(playerName),
+      score: game.bestScore,
+      achievedAt: new Date().toISOString(),
+    }
+
+    setHasSubmittedCurrentRun(true)
+    saveLocalHighScoreEntry(nextEntry, game.languageId, game.cefrLevel)
+    await saveGlobalHighScoreEntry(nextEntry, game.languageId, game.cefrLevel)
     resetGame()
   }, [
     game.bestScore,
@@ -1862,6 +2153,8 @@ function App() {
     hasSubmittedCurrentRun,
     playerName,
     resetGame,
+    saveGlobalHighScoreEntry,
+    saveLocalHighScoreEntry,
   ])
 
   const finishGame = useCallback(() => {
@@ -2269,16 +2562,18 @@ function App() {
         let adjustedWords = [...preservedWords]
         let recentWordsByCategory = current.recentWordsByCategory
 
-        wordsTooLowForNewTarget.forEach(() => {
+        wordsTooLowForNewTarget.forEach((_, index) => {
           const needsVisibleTarget =
             countPlayableWordsMatchingTarget(nextTarget, adjustedWords, categorySwitchSafeY) <
-            getDesiredTargetWordCount(nextTarget)
+            getSwitchSafeTargetWordCount(nextTarget)
           const preferredBucketId = needsVisibleTarget
-            ? getPreferredSpawnBucketId(nextTarget, adjustedWords)
+            ? getPreferredSpawnBucketId(nextTarget, adjustedWords, spawnBucketMap)
             : null
           const replacementCategoryId = pickBalancedCategoryId(spawnBucketOrder, adjustedWords, {
             mustIncludeCategoryId: preferredBucketId,
-            avoidCategoryId: preferredBucketId ? null : getPreferredSpawnBucketId(nextTarget, adjustedWords),
+            avoidCategoryId: preferredBucketId
+              ? null
+              : getPreferredSpawnBucketId(nextTarget, adjustedWords, spawnBucketMap),
           })
           const replacement = placeWordWithoutOverlap(
             makeSpecificCategoryWord({
@@ -2287,6 +2582,7 @@ function App() {
               elapsedRunMs: current.elapsedRunMs,
               categoryMap: spawnBucketMap,
               recentWordsByCategory,
+              yRange: getCategorySwitchSpawnYRange(index),
             }),
             adjustedWords,
             isMobileLayout,
@@ -2302,9 +2598,9 @@ function App() {
 
         while (
           countPlayableWordsMatchingTarget(nextTarget, adjustedWords, categorySwitchSafeY) <
-          getDesiredTargetWordCount(nextTarget)
+          getSwitchSafeTargetWordCount(nextTarget)
         ) {
-          const preferredBucketId = getPreferredSpawnBucketId(nextTarget, adjustedWords)
+          const preferredBucketId = getPreferredSpawnBucketId(nextTarget, adjustedWords, spawnBucketMap)
           const replacementCategoryId = pickBalancedCategoryId(spawnBucketOrder, adjustedWords, {
             mustIncludeCategoryId: preferredBucketId,
           })
@@ -2315,10 +2611,7 @@ function App() {
               elapsedRunMs: current.elapsedRunMs,
               categoryMap: spawnBucketMap,
               recentWordsByCategory,
-              yRange: {
-                min: INITIAL_WORD_Y_MIN,
-                max: CATEGORY_SWITCH_RESPAWN_Y_MAX,
-              },
+              yRange: getCategorySwitchSpawnYRange(wordsTooLowForNewTarget.length),
             }),
             adjustedWords,
             isMobileLayout,
@@ -2331,6 +2624,12 @@ function App() {
             replacement.text,
           )
         }
+
+        adjustedWords = trimWordsToBudgetAfterCategorySwitch(
+          adjustedWords,
+          nextTarget,
+          maxWordsAfterCategorySwitch,
+        )
 
         return {
           ...current,
@@ -2354,7 +2653,15 @@ function App() {
     return () => {
       window.clearInterval(intervalId)
     }
-  }, [game.cefrLevel, game.languageId, game.status, hasLaunchedInitialRun, isMobileLayout, mobileMenuOpen])
+  }, [
+    game.cefrLevel,
+    game.languageId,
+    game.status,
+    hasLaunchedInitialRun,
+    isMobileLayout,
+    maxWordsAfterCategorySwitch,
+    mobileMenuOpen,
+  ])
 
   useEffect(() => {
     const tick = (timestamp) => {
@@ -2380,6 +2687,7 @@ function App() {
         const uiText = getUiText(current.instructionLanguageId ?? current.languageId)
         const targetMap = getCategoryMap(current.languageId, current.cefrLevel)
         const activeTarget = targetMap[current.targetCategory]
+        const spawnBucketMap = getSpawnBucketMap(current.languageId, current.cefrLevel)
         const makeWord = makeWordFactory(current.languageId, current.cefrLevel)
 
         let playerDirection = 0
@@ -2500,22 +2808,11 @@ function App() {
               return false
             }
 
-            const isNearShipLevel = word.y >= SHIP_LEVEL_HIT_Y
-            const bounds = getWordBounds(word, isMobileLayout)
-            const hitboxPadding = getBulletHitboxPadding(isMobileLayout, isNearShipLevel)
-            const rect = {
-              left: bounds.left - hitboxPadding.x,
-              right: bounds.right + hitboxPadding.x,
-              top: bounds.top - hitboxPadding.y,
-              bottom: bounds.bottom + hitboxPadding.y,
-            }
-
-            return segmentIntersectsRect(
+            return verticalSegmentIntersectsCapsule(
               bullet.x,
               bullet.previousY ?? bullet.y,
-              bullet.x,
               bullet.y,
-              rect,
+              getWordBounds(word, isMobileLayout),
             )
           })
 
@@ -2669,7 +2966,7 @@ function App() {
           lastSpawnRef.current = timestamp
           const preferredBucketId =
             countWordsMatchingTarget(activeTarget, nextWords) < getDesiredTargetWordCount(activeTarget)
-              ? getPreferredSpawnBucketId(activeTarget, nextWords)
+              ? getPreferredSpawnBucketId(activeTarget, nextWords, spawnBucketMap)
               : null
 
           while (nextWords.length < activeWordBudget.minActiveWords) {
@@ -2819,25 +3116,31 @@ function App() {
   const currentCefrUi = getCefrUiCopy(selection.cefrLevel, uiLanguageId)
   const targetUiPack =
     TARGET_UI_TRANSLATIONS[targetLanguageId] ?? TARGET_UI_TRANSLATIONS.english
-  const targetUiCategory =
-    targetUiPack.categories[game.targetCategory] ??
-    TARGET_UI_TRANSLATIONS.english.categories[game.targetCategory] ?? {
-      label: currentTarget?.label ?? game.targetCategory,
-      description: currentTarget?.description ?? '',
-    }
+  const targetUiCategory = getTargetUiCategory({
+    game,
+    currentTarget,
+    targetCategoryMap,
+    targetUiPack,
+  })
   const selectedHighScoreEntries =
     highScores[getHighScoreKey(selection.languageId, selection.cefrLevel)] ?? []
   const selectedHighScore = selectedHighScoreEntries[0]?.score ?? 0
+  const selectedGlobalHighScoreEntries =
+    globalHighScores[getHighScoreKey(selection.languageId, selection.cefrLevel)] ?? []
   const gameHighScoreKey = getHighScoreKey(game.languageId, game.cefrLevel)
   const gameHighScoreEntries = highScores[gameHighScoreKey] ?? []
-  const lowestQualifyingScore =
-    gameHighScoreEntries.length > 0
-      ? gameHighScoreEntries[gameHighScoreEntries.length - 1].score
-      : 0
-  const qualifiesForHighScore =
-    game.bestScore > 0 &&
-    (gameHighScoreEntries.length < HIGH_SCORE_LIMIT ||
-      game.bestScore > lowestQualifyingScore)
+  const gameGlobalHighScoreEntries = globalHighScores[gameHighScoreKey] ?? []
+  const qualifiesForHighScore = game.bestScore > 0
+  const globalSaveMessage =
+    globalSaveResult?.status === 'saving'
+      ? uiText.globalScoreSaving
+      : globalSaveResult?.status === 'saved' && globalSaveResult.rank
+        ? formatUiText(uiText.globalScoreSaved, { rank: globalSaveResult.rank })
+        : globalSaveResult?.status === 'not-qualified'
+          ? uiText.globalScoreNotQualified
+          : globalSaveResult?.status === 'unavailable'
+            ? uiText.globalUnavailable
+            : null
   const lifeHearts = Array.from({ length: MAX_LIVES }, (_, index) => index < game.lives)
   const categoryCountdown =
     hasLaunchedInitialRun &&
@@ -3080,28 +3383,65 @@ function App() {
   const leaderboardPanel = (
     <section className="highscore-card">
       <span>{uiText.leaderboard}</span>
-      {selectedHighScoreEntries.length > 0 ? (
+      <div className="highscore-group">
+        <strong className="highscore-group-title">{uiText.localLeaderboard}</strong>
+        {selectedHighScoreEntries.length > 0 ? (
+          <ol className="highscore-list">
+            {selectedHighScoreEntries.map((entry, index) => (
+              <li key={`local-${entry.name}-${entry.score}-${index}`}>
+                <strong>{entry.name}</strong>
+                <span>{entry.score}</span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="highscore-empty">{uiText.noScores}</p>
+        )}
+      </div>
+      <div className="highscore-group">
+        <strong className="highscore-group-title">{uiText.globalLeaderboard}</strong>
+        {globalHighScoreStatus === 'loading' ? (
+          <p className="highscore-empty">{uiText.globalLoading}</p>
+        ) : selectedGlobalHighScoreEntries.length > 0 ? (
+          <ol className="highscore-list">
+            {selectedGlobalHighScoreEntries.slice(0, 5).map((entry, index) => (
+              <li key={`global-${entry.name}-${entry.score}-${index}`}>
+                <strong>{entry.name}</strong>
+                <span>{entry.score}</span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="highscore-empty">
+            {globalHighScoreStatus === 'unavailable' ? uiText.globalUnavailable : uiText.noScores}
+          </p>
+        )}
+      </div>
+    </section>
+  )
+
+  const overlayLeaderboard = (
+    <div className="overlay-leaderboard">
+      <p className="overlay-leaderboard-title">{uiText.globalLeaderboard}</p>
+      {gameGlobalHighScoreEntries.length > 0 ? (
         <ol className="highscore-list">
-          {selectedHighScoreEntries.map((entry, index) => (
-            <li key={`${entry.name}-${entry.score}-${index}`}>
+          {gameGlobalHighScoreEntries.map((entry, index) => (
+            <li key={`game-global-${entry.name}-${entry.score}-${index}`}>
               <strong>{entry.name}</strong>
               <span>{entry.score}</span>
             </li>
           ))}
         </ol>
       ) : (
-        <p className="highscore-empty">{uiText.noScores}</p>
+        <p className="highscore-empty">
+          {globalHighScoreStatus === 'unavailable' ? uiText.globalUnavailable : uiText.noScores}
+        </p>
       )}
-    </section>
-  )
-
-  const overlayLeaderboard = (
-    <div className="overlay-leaderboard">
-      <p className="overlay-leaderboard-title">{uiText.leaderboard}</p>
+      <p className="overlay-leaderboard-title">{uiText.localLeaderboard}</p>
       {gameHighScoreEntries.length > 0 ? (
         <ol className="highscore-list">
           {gameHighScoreEntries.map((entry, index) => (
-            <li key={`${entry.name}-${entry.score}-${index}`}>
+            <li key={`game-local-${entry.name}-${entry.score}-${index}`}>
               <strong>{entry.name}</strong>
               <span>{entry.score}</span>
             </li>
@@ -3461,6 +3801,7 @@ function App() {
                     </div>
                   )}
                   {showGameOverLeaderboard ? overlayLeaderboard : null}
+                  {globalSaveMessage ? <span>{globalSaveMessage}</span> : null}
                   {(!isMobileLayout || hasSubmittedCurrentRun) ? (
                     <span>
                       {hasSubmittedCurrentRun ? uiText.scoreSaved : uiText.pressEnterRestart}

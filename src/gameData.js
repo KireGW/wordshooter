@@ -101,8 +101,19 @@ const modal = (words) => makeCategory('modal', 'Modal Forms', 'forms expressing 
 const connective = (words) => makeCategory('connective', 'Connectives', 'linking words for longer sentences', words)
 const subjunctive = (words) => makeCategory('subjunctive', 'Subjunctive', 'forms for wishes, doubt, emotion, or hypotheticals', words)
 const idiom = (words) => makeCategory('idiom', 'Idioms', 'fixed advanced expressions', words)
-const present = (words) => makeCategory('present', 'Present Forms', 'present-tense verb forms', words)
 const verbPhrase = (words) => makeCategory('verbPhrase', 'Verb Phrases', 'multi-word verb constructions', words)
+const makeVerbFormCategory = (id, label, description, words) =>
+  makeCategory(id, label, description, words, {
+    styleId: 'verb',
+    matchType: 'subcategory',
+    parentCategoryId: 'verb',
+    sourceBucketIds: [id],
+  })
+const present = (words) => makeVerbFormCategory('present', 'Verb - present', 'present-tense verb forms', words)
+const pastVerb = (words) => makeVerbFormCategory('verbPast', 'Verb - past', 'past-tense verb forms', words)
+const futureVerb = (words) => makeVerbFormCategory('verbFuture', 'Verb - future', 'future verb forms', words)
+const perfectVerb = (words) => makeVerbFormCategory('verbPerfect', 'Verb - perfect', 'perfect verb forms', words)
+const modalVerb = (words) => makeVerbFormCategory('verbModal', 'Verb - modal', 'modal verb expressions', words)
 const createLevel = (label, categories) => ({ label, categories })
 const createLanguagePack = (name, levels) => ({ name, levels })
 
@@ -141,27 +152,75 @@ const uniqueWords = (words) => {
   })
 }
 
-const compileLevelsWithUniqueProgression = (levels) => {
-  const seenByCategory = new Map()
+const REINFORCEMENT_RATIO_BY_LEVEL = {
+  A1: 0,
+  A2: 0.12,
+  B1: 0.1,
+  B2: 0.08,
+}
+
+const selectSpreadWords = (words, count) => {
+  if (count <= 0 || words.length === 0) {
+    return []
+  }
+
+  if (count >= words.length) {
+    return words
+  }
+
+  const step = words.length / count
+  return Array.from({ length: count }, (_, index) => words[Math.floor((index + 0.5) * step)])
+}
+
+const getCompatibleReinforcementWords = (category, historyByCategoryId) => {
+  const exactWords = historyByCategoryId.get(category.id)?.words ?? []
+
+  if (category.parentCategoryId) {
+    return exactWords
+  }
+
+  const childWords = Array.from(historyByCategoryId.values())
+    .filter((historyCategory) => historyCategory.parentCategoryId === category.id)
+    .flatMap((historyCategory) => historyCategory.words)
+
+  return uniqueWords([...exactWords, ...childWords])
+}
+
+const compileLevelsWithReinforcementProgression = (levels) => {
+  const historyByCategoryId = new Map()
 
   return Object.fromEntries(
     CEFR_LEVELS.map((levelId) => {
       const level = levels[levelId]
-      const categories = level.categories.map((category) => {
-        const seenWords = seenByCategory.get(category.id) ?? new Set()
-        const dedupedWords = uniqueWords(category.words)
-        const exclusiveWords = dedupedWords.filter(
-          (word) => !seenWords.has(normalizeWord(word)),
+      const reinforcementRatio = REINFORCEMENT_RATIO_BY_LEVEL[levelId] ?? 0
+      const ownCategories = level.categories.map((category) => ({
+        ...category,
+        words: uniqueWords(category.words),
+      }))
+      const categories = ownCategories.map((category) => {
+        const ownWordKeys = new Set(category.words.map(normalizeWord))
+        const reinforcementCandidates = getCompatibleReinforcementWords(
+          category,
+          historyByCategoryId,
+        ).filter((word) => !ownWordKeys.has(normalizeWord(word)))
+        const reinforcementCount = Math.round(category.words.length * reinforcementRatio)
+        const reinforcementWords = selectSpreadWords(
+          reinforcementCandidates,
+          reinforcementCount,
         )
-        const nextWords = exclusiveWords.length > 0 ? exclusiveWords : dedupedWords
-
-        nextWords.forEach((word) => seenWords.add(normalizeWord(word)))
-        seenByCategory.set(category.id, seenWords)
 
         return {
           ...category,
-          words: nextWords,
+          words: uniqueWords([...category.words, ...reinforcementWords]),
         }
+      })
+
+      ownCategories.forEach((category) => {
+        const previousWords = historyByCategoryId.get(category.id)?.words ?? []
+        historyByCategoryId.set(category.id, {
+          parentCategoryId: category.parentCategoryId ?? null,
+          words: uniqueWords([...previousWords, ...category.words]),
+        })
       })
 
       return [
@@ -176,13 +235,238 @@ const compileLevelsWithUniqueProgression = (levels) => {
   )
 }
 
-const SWEDISH_LEVEL_LABELS = {
-  A1: 'A1 Nybörjare',
-  A2: 'A2 Grundläggande',
-  B1: 'B1 Mellannivå',
-  B2: 'B2 Högre mellannivå',
-  C1: 'C1 Avancerad',
-  C2: 'C2 Mycket avancerad',
+const addExtraWordMatchSourcesToLevels = (levels, extraWordMatchSources = {}) =>
+  Object.fromEntries(
+    Object.entries(levels).map(([levelId, level]) => {
+      const wordMatchSources = new Map(
+        Object.entries(level.wordMatchSourceIds ?? {}).map(([word, sourceIds]) => [
+          word,
+          new Set(sourceIds),
+        ]),
+      )
+
+      level.categories.forEach((category) => {
+        category.words.forEach((word) => {
+          const wordKey = normalizeWord(word)
+          const sourceIds = wordMatchSources.get(wordKey) ?? new Set()
+          sourceIds.add(category.id)
+          ;(extraWordMatchSources[wordKey] ?? []).forEach((sourceId) => sourceIds.add(sourceId))
+          wordMatchSources.set(wordKey, sourceIds)
+        })
+      })
+
+      return [
+        levelId,
+        {
+          ...level,
+          wordMatchSourceIds: Object.fromEntries(
+            Array.from(wordMatchSources.entries()).map(([word, sourceIds]) => [
+              word,
+              uniqueWords(Array.from(sourceIds)),
+            ]),
+          ),
+        },
+      ]
+    }),
+  )
+
+const SWEDISH_VERB_FORM_BUILDERS = {
+  infinitiv: {
+    id: 'verb',
+    build: verbs,
+    subcategory: 'infinitiv',
+  },
+  presens: {
+    id: 'present',
+    build: present,
+    subcategory: 'presens',
+  },
+  dåtid: {
+    id: 'verbPast',
+    build: pastVerb,
+    subcategory: 'dåtid',
+  },
+  futurum: {
+    id: 'verbFuture',
+    build: futureVerb,
+    subcategory: 'futurum',
+  },
+  perfekt: {
+    id: 'verbPerfect',
+    build: perfectVerb,
+    subcategory: 'perfekt',
+  },
+  modalverb: {
+    id: 'verbModal',
+    build: modalVerb,
+    subcategory: 'modalverb',
+  },
+  verbfras: {
+    id: 'verbPhrase',
+    build: verbPhrase,
+    subcategory: 'verbfras',
+  },
+}
+
+const SWEDISH_VERB_FORM_ALIASES = {
+  'modala verb': 'modalverb',
+  'modala uttryck': 'modalverb',
+  'verbfraser': 'verbfras',
+}
+
+const SWEDISH_EXTRA_WORD_MATCH_SOURCES = {
+  vila: ['noun', 'verb'],
+  visa: ['verb', 'noun'],
+  rätt: ['adjective', 'noun', 'adverb'],
+  fel: ['adjective', 'noun', 'adverb'],
+  lätt: ['adjective', 'adverb'],
+  gift: ['adjective', 'noun'],
+  lokal: ['adjective', 'noun'],
+  lugn: ['adjective', 'noun'],
+  fast: ['connective', 'adjective', 'adverb'],
+  när: ['connective', 'adverb'],
+  lagom: ['adjective', 'adverb'],
+  beroende: ['adjective', 'noun'],
+  rättvisa: ['noun', 'adjective'],
+  avgörande: ['adjective', 'noun'],
+  konkret: ['adjective', 'adverb'],
+  abstrakt: ['adjective', 'adverb'],
+  ytterligare: ['adverb', 'adjective'],
+  ändå: ['connective', 'adverb'],
+  alltså: ['connective', 'adverb'],
+  således: ['connective', 'adverb'],
+}
+
+const ENGLISH_EXTRA_WORD_MATCH_SOURCES = {
+  back: ['adverb', 'noun', 'verb'],
+  forward: ['adverb', 'verb'],
+  bike: ['noun', 'verb'],
+  home: ['noun', 'adverb'],
+  still: ['adverb', 'adjective'],
+  well: ['noun', 'adverb'],
+  public: ['noun', 'adjective'],
+  otherwise: ['adverb', 'connective'],
+  plans: ['verb', 'noun'],
+  check: ['verb', 'noun'],
+  cross: ['verb', 'noun'],
+  clear: ['verb', 'adjective'],
+  dream: ['verb', 'noun'],
+  shower: ['verb', 'noun'],
+  party: ['verb', 'noun'],
+  schedule: ['noun', 'verb'],
+  stay: ['verb', 'noun'],
+  love: ['verb', 'noun'],
+  call: ['verb', 'noun'],
+  shop: ['noun', 'verb'],
+  open: ['verb', 'adjective'],
+  clean: ['verb', 'adjective'],
+  early: ['adjective', 'adverb'],
+  late: ['adjective', 'adverb'],
+  rent: ['noun', 'verb'],
+  change: ['noun', 'verb'],
+  order: ['noun', 'verb'],
+  alone: ['adjective', 'adverb'],
+}
+
+const SWEDISH_CSV_CONFIG = {
+  levelLabels: {
+    A1: 'A1 Nybörjare',
+    A2: 'A2 Grundläggande',
+    B1: 'B1 Mellannivå',
+    B2: 'B2 Högre mellannivå',
+    C1: 'C1 Avancerad',
+    C2: 'C2 Mycket avancerad',
+  },
+  categoryBuilders: {
+    substantiv: {
+      id: 'noun',
+      build: nouns,
+    },
+    verb: {
+      derivedBuilders: Object.values(SWEDISH_VERB_FORM_BUILDERS),
+      resolve: ({ subcategory }) => {
+        const verbForm = subcategory.trim().toLocaleLowerCase('sv-SE')
+        const normalizedVerbForm = SWEDISH_VERB_FORM_ALIASES[verbForm] ?? verbForm
+        return SWEDISH_VERB_FORM_BUILDERS[normalizedVerbForm] ?? SWEDISH_VERB_FORM_BUILDERS.infinitiv
+      },
+    },
+    verb_infinitiv: {
+      id: 'verb',
+      build: verbs,
+    },
+    verb_presens: {
+      id: 'present',
+      build: present,
+    },
+    verb_dåtid: {
+      id: 'verbPast',
+      build: pastVerb,
+    },
+    verb_futurum: {
+      id: 'verbFuture',
+      build: futureVerb,
+    },
+    verb_perfekt: {
+      id: 'verbPerfect',
+      build: perfectVerb,
+    },
+    verb_modal: {
+      id: 'verbModal',
+      build: modalVerb,
+    },
+    verbfras: {
+      id: 'verbPhrase',
+      build: verbPhrase,
+    },
+    adjektiv: {
+      id: 'adjective',
+      build: adjectives,
+    },
+    adverb: {
+      id: 'adverb',
+      build: adverbs,
+    },
+    sambandsord: {
+      id: 'connective',
+      build: connective,
+    },
+  },
+  playableCategoryIdsByLevel: {
+    A1: new Set(['noun', 'verb', 'adjective']),
+    A2: new Set(['noun', 'verb', 'present', 'adjective', 'adverb']),
+    B1: new Set(['noun', 'verb', 'present', 'verbPast', 'verbFuture', 'adjective', 'adverb', 'connective']),
+    B2: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'verbPerfect',
+      'verbModal',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+  },
+  mergeCategoriesByLevel: {
+    A1: [{ from: 'present', into: 'verb' }],
+    A2: [{ from: 'verbPhrase', into: 'verb' }],
+  },
+  extraWordMatchSources: SWEDISH_EXTRA_WORD_MATCH_SOURCES,
+  describeSubcategory: ({ subcategoryId, parentId }) => `${subcategoryId} inom ${parentId}`,
+}
+
+const resolveCategoryConfig = (categoryBuilders, row) => {
+  const categoryConfig = categoryBuilders[row.category]
+  if (!categoryConfig) {
+    return null
+  }
+
+  if (typeof categoryConfig.resolve === 'function') {
+    return categoryConfig.resolve(row)
+  }
+
+  return categoryConfig
 }
 
 const parseCsvRows = (csvText) => {
@@ -200,43 +484,34 @@ const parseCsvRows = (csvText) => {
   })
 }
 
-const SWEDISH_CATEGORY_BUILDERS = {
-  substantiv: {
-    id: 'noun',
-    build: nouns,
+const buildLevelsFromCsv = (
+  csvText,
+  {
+    levelLabels,
+    categoryBuilders,
+    playableCategoryIdsByLevel = {},
+    mergeCategoriesByLevel = {},
+    extraWordMatchSources = {},
+    describeSubcategory = ({ subcategoryId, parentId }) => `${subcategoryId} in ${parentId}`,
   },
-  verb_infinitiv: {
-    id: 'verb',
-    build: verbs,
-  },
-  verb_presens: {
-    id: 'present',
-    build: present,
-  },
-  verbfras: {
-    id: 'verbPhrase',
-    build: verbPhrase,
-  },
-  adjektiv: {
-    id: 'adjective',
-    build: adjectives,
-  },
-  adverb: {
-    id: 'adverb',
-    build: adverbs,
-  },
-  sambandsord: {
-    id: 'connective',
-    build: connective,
-  },
-}
-
-const buildSwedishLevelsFromCsv = (csvText) => {
+) => {
   const grouped = new Map()
   const subcategoryGrouped = new Map()
+  const wordMatchSourcesByLevel = new Map()
+  const languageWideWordMatchSources = new Map()
+  const categoryBuilderById = new Map(
+    Object.values(categoryBuilders)
+      .flatMap((config) => [config, ...(config.derivedBuilders ?? [])])
+      .filter((config) => config.id)
+      .map((config) => [config.id, config]),
+  )
 
   parseCsvRows(csvText).forEach(({ level, category, subcategory, word }) => {
-    const categoryConfig = SWEDISH_CATEGORY_BUILDERS[category]
+    const categoryConfig = resolveCategoryConfig(categoryBuilders, {
+      category,
+      subcategory,
+      word,
+    })
     if (!categoryConfig || !CEFR_LEVELS.includes(level) || !word) {
       return
     }
@@ -250,17 +525,33 @@ const buildSwedishLevelsFromCsv = (csvText) => {
     categoryWords.push(word.trim())
     levelMap.set(categoryConfig.id, categoryWords)
 
-    if (subcategory?.trim()) {
+    const resolvedSubcategory = categoryConfig.subcategory ?? subcategory?.trim()
+    if (!wordMatchSourcesByLevel.has(level)) {
+      wordMatchSourcesByLevel.set(level, new Map())
+    }
+    const wordKey = normalizeWord(word)
+    const wordSourceIds = wordMatchSourcesByLevel.get(level).get(wordKey) ?? new Set()
+    wordSourceIds.add(categoryConfig.id)
+    if (resolvedSubcategory) {
+      wordSourceIds.add(`${categoryConfig.id}:${resolvedSubcategory}`)
+    }
+    wordMatchSourcesByLevel.get(level).set(wordKey, wordSourceIds)
+
+    const languageWideSourceIds = languageWideWordMatchSources.get(wordKey) ?? new Set()
+    wordSourceIds.forEach((sourceId) => languageWideSourceIds.add(sourceId))
+    languageWideWordMatchSources.set(wordKey, languageWideSourceIds)
+
+    if (resolvedSubcategory) {
       if (!subcategoryGrouped.has(level)) {
         subcategoryGrouped.set(level, new Map())
       }
       const subMap = subcategoryGrouped.get(level)
-      const subKey = `${categoryConfig.id}::${subcategory.trim()}`
+      const subKey = `${categoryConfig.id}::${resolvedSubcategory}`
       const subState =
         subMap.get(subKey) ??
         {
           parentId: categoryConfig.id,
-          subcategoryId: subcategory.trim(),
+          subcategoryId: resolvedSubcategory,
           words: [],
         }
       subState.words.push(word.trim())
@@ -271,31 +562,30 @@ const buildSwedishLevelsFromCsv = (csvText) => {
   return Object.fromEntries(
     CEFR_LEVELS.map((level) => {
       const levelMap = grouped.get(level) ?? new Map()
-      const allowedCategoryIds =
-        level === 'A1'
-          ? new Set(['noun', 'verb', 'adjective'])
-          : null
+      const allowedCategoryIds = playableCategoryIdsByLevel[level] ?? null
       const categories = Array.from(levelMap.entries())
         .map(([id, words]) => {
-          const config = Object.values(SWEDISH_CATEGORY_BUILDERS).find((item) => item.id === id)
+          const config = categoryBuilderById.get(id)
           return config ? config.build(uniqueWords(words)) : null
         })
         .filter(Boolean)
       const categoriesById = new Map(categories.map((category) => [category.id, category]))
-      if (level === 'A1') {
-        const baseVerbCategory = categoriesById.get('verb')
-        const presentCategory = categoriesById.get('present')
-        if (baseVerbCategory && presentCategory) {
-          categoriesById.set('verb', {
-            ...baseVerbCategory,
-            words: uniqueWords([...baseVerbCategory.words, ...presentCategory.words]),
-            // A1 keeps a single playable verb bucket even if the source CSV
-            // includes a few present-tense forms.
-            sourceBucketIds: ['verb'],
+      const mergeRules = mergeCategoriesByLevel[level] ?? []
+      const mergedSourceIdsByTarget = new Map()
+
+      mergeRules.forEach(({ from, into }) => {
+        const targetCategory = categoriesById.get(into)
+        const sourceCategory = categoriesById.get(from)
+        if (targetCategory && sourceCategory) {
+          categoriesById.set(into, {
+            ...targetCategory,
+            words: uniqueWords([...targetCategory.words, ...sourceCategory.words]),
           })
-          categoriesById.delete('present')
+          mergedSourceIdsByTarget.set(into, [...(mergedSourceIdsByTarget.get(into) ?? []), from])
+          categoriesById.delete(from)
         }
-      }
+      })
+
       const subcategories = Array.from((subcategoryGrouped.get(level) ?? new Map()).values())
         .map(({ parentId, subcategoryId, words }) => {
           const normalizedWords = uniqueWords(words)
@@ -304,7 +594,7 @@ const buildSwedishLevelsFromCsv = (csvText) => {
           return makeCategory(
             sourceBucketId,
             subcategoryId[0].toUpperCase() + subcategoryId.slice(1),
-            `${subcategoryId} inom ${parentId}`,
+            describeSubcategory({ subcategoryId, parentId }),
             normalizedWords,
             {
               styleId,
@@ -319,31 +609,60 @@ const buildSwedishLevelsFromCsv = (csvText) => {
       const allCategories = Array.from(categoriesById.values()).filter((category) =>
         allowedCategoryIds ? allowedCategoryIds.has(category.id) : true,
       )
+      const getSourceBucketIds = (category) => {
+        const categoryIds = [category.id, ...(mergedSourceIdsByTarget.get(category.id) ?? [])]
+        return uniqueWords([
+          ...categoryIds,
+          ...subcategories
+            .filter((item) => categoryIds.includes(item.parentCategoryId))
+            .map((item) => item.id),
+        ])
+      }
       const withExpandedSources = allCategories.map((category) => {
         if (allowedCategoryIds) {
+          const childCategorySourceIds = allCategories
+            .filter((item) => item.parentCategoryId === category.id)
+            .flatMap((item) => getSourceBucketIds(item))
+
           return {
             ...category,
-            sourceBucketIds: [category.id],
+            sourceBucketIds: [...getSourceBucketIds(category), ...childCategorySourceIds],
           }
         }
 
-        const matchingSubcategories = subcategories
-          .filter((item) => item.parentCategoryId === category.id)
-          .map((item) => item.id)
-        if (matchingSubcategories.length === 0) {
+        const sourceBucketIds = getSourceBucketIds(category)
+        if (sourceBucketIds.length === 1) {
           return category
         }
 
         return {
           ...category,
-          sourceBucketIds: [category.id, ...matchingSubcategories],
+          sourceBucketIds,
         }
       })
       const activeSubcategories = allowedCategoryIds
         ? []
         : subcategories
+      const wordMatchSources = new Map(wordMatchSourcesByLevel.get(level) ?? [])
+      wordMatchSources.forEach((sourceIds, word) => {
+        const languageWideSourceIds = languageWideWordMatchSources.get(word) ?? new Set()
+        languageWideSourceIds.forEach((sourceId) => sourceIds.add(sourceId))
+        ;(extraWordMatchSources[word] ?? []).forEach((sourceId) => sourceIds.add(sourceId))
+        wordMatchSources.set(word, sourceIds)
+      })
 
-      return [level, createLevel(SWEDISH_LEVEL_LABELS[level], [...withExpandedSources, ...activeSubcategories])]
+      return [
+        level,
+        {
+          ...createLevel(levelLabels[level], [...withExpandedSources, ...activeSubcategories]),
+          wordMatchSourceIds: Object.fromEntries(
+            Array.from(wordMatchSources.entries()).map(([word, sourceIds]) => [
+              word,
+              uniqueWords(Array.from(sourceIds)),
+            ]),
+          ),
+        },
+      ]
     }),
   )
 }
@@ -385,6 +704,7 @@ const LANGUAGE_LEVELS = {
           connective(['for all that', 'inasmuch as', 'by virtue of', 'all the same', 'be that as it may', 'in light of']),
         ]),
     },
+    extraWordMatchSources: ENGLISH_EXTRA_WORD_MATCH_SOURCES,
   },
   french: {
     name: 'Français',
@@ -600,7 +920,7 @@ const LANGUAGE_LEVELS = {
   },
   swedish: {
     name: 'Svenska',
-    levels: buildSwedishLevelsFromCsv(swedishCsv),
+    levels: buildLevelsFromCsv(swedishCsv, SWEDISH_CSV_CONFIG),
   },
 }
 
@@ -608,7 +928,13 @@ export const LANGUAGE_PACKS = deepFreeze(
   Object.fromEntries(
     Object.entries(LANGUAGE_LEVELS).map(([id, pack]) => [
       id,
-      createLanguagePack(pack.name, compileLevelsWithUniqueProgression(pack.levels)),
+      createLanguagePack(
+        pack.name,
+        addExtraWordMatchSourcesToLevels(
+          compileLevelsWithReinforcementProgression(pack.levels),
+          pack.extraWordMatchSources,
+        ),
+      ),
     ]),
   ),
 )
@@ -640,6 +966,12 @@ export const getSpawnBucketMap = (languageId, levelId) => {
         categoryId: category.parentCategoryId ?? category.id,
         subcategoryId: category.subcategoryId ?? null,
         words: category.words,
+        matchSourceIdsByWord: Object.fromEntries(
+          category.words.map((word) => [
+            normalizeWord(word),
+            pack.wordMatchSourceIds?.[normalizeWord(word)] ?? [category.id],
+          ]),
+        ),
         styleId: category.styleId ?? category.id,
       },
     ]),
