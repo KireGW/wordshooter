@@ -1,3 +1,4 @@
+import englishCsv from '../data/english.csv?raw'
 import swedishCsv from '../data/svenska.csv?raw'
 
 export const CATEGORY_STYLES = {
@@ -372,6 +373,111 @@ const ENGLISH_EXTRA_WORD_MATCH_SOURCES = {
   alone: ['adjective', 'adverb'],
 }
 
+const ENGLISH_VERB_FORM_BUILDERS = {
+  base: {
+    id: 'verb',
+    build: verbs,
+    subcategory: 'base',
+  },
+  present: {
+    id: 'present',
+    build: present,
+    subcategory: 'present',
+  },
+  past: {
+    id: 'verbPast',
+    build: pastVerb,
+    subcategory: 'past',
+  },
+  future: {
+    id: 'verbFuture',
+    build: futureVerb,
+    subcategory: 'future',
+  },
+  perfect: {
+    id: 'verbPerfect',
+    build: perfectVerb,
+    subcategory: 'perfect',
+  },
+  modal: {
+    id: 'verbModal',
+    build: modalVerb,
+    subcategory: 'modal',
+  },
+  phrasal: {
+    id: 'verbPhrase',
+    build: verbPhrase,
+    subcategory: 'phrasal',
+  },
+}
+
+const ENGLISH_CSV_CONFIG = {
+  levelLabels: {
+    A1: 'A1 Beginner',
+    A2: 'A2 Elementary',
+    B1: 'B1 Intermediate',
+    B2: 'B2 Upper Intermediate',
+  },
+  categoryBuilders: {
+    noun: {
+      id: 'noun',
+      build: nouns,
+    },
+    verb: {
+      derivedBuilders: Object.values(ENGLISH_VERB_FORM_BUILDERS),
+      resolve: ({ subcategory }) => {
+        const verbForm = subcategory.trim().toLocaleLowerCase('en-US')
+        return ENGLISH_VERB_FORM_BUILDERS[verbForm] ?? ENGLISH_VERB_FORM_BUILDERS.base
+      },
+    },
+    adjective: {
+      id: 'adjective',
+      build: adjectives,
+    },
+    adverb: {
+      id: 'adverb',
+      build: adverbs,
+    },
+    connective: {
+      id: 'connective',
+      build: connective,
+    },
+  },
+  playableCategoryIdsByLevel: {
+    A1: new Set(['noun', 'verb', 'adjective']),
+    A2: new Set(['noun', 'verb', 'present', 'adjective', 'adverb']),
+    B1: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'verbPhrase',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+    B2: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'verbPerfect',
+      'verbModal',
+      'verbPhrase',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+  },
+  mergeCategoriesByLevel: {
+    A2: [{ from: 'verbPhrase', into: 'verb' }],
+  },
+  extraWordMatchSources: ENGLISH_EXTRA_WORD_MATCH_SOURCES,
+  describeSubcategory: ({ subcategoryId }) => `${subcategoryId} verb forms`,
+}
+
 const SWEDISH_CSV_CONFIG = {
   levelLabels: {
     A1: 'A1 Nybörjare',
@@ -676,39 +782,7 @@ const buildLevelsFromCsv = (
 const LANGUAGE_LEVELS = {
   english: {
     name: 'English',
-    levels: {
-      A1: createLevel('A1 Beginner', [
-          nouns(['house', 'book', 'teacher', 'water', 'city', 'friend', 'garden', 'school', 'family', 'window', 'room', 'door', 'table', 'chair', 'street', 'dog', 'cat', 'mother', 'father', 'child', 'apple', 'bread', 'car', 'bus', 'sun', 'rain', 'day', 'night', 'bag', 'phone']),
-          verbs(['go', 'eat', 'make', 'live', 'read', 'play', 'walk', 'open', 'watch', 'write', 'come', 'drink', 'sleep', 'sit', 'stand', 'speak', 'listen', 'work', 'study', 'help', 'start', 'stop', 'cook', 'call', 'wait', 'carry', 'drive', 'love', 'learn', 'use']),
-          adjectives(['big', 'small', 'happy', 'cold', 'young', 'easy', 'warm', 'clean', 'short', 'bright', 'old', 'new', 'good', 'bad', 'fast', 'slow', 'hot', 'sweet', 'strong', 'quiet', 'loud', 'kind', 'busy', 'ready', 'full', 'empty', 'dark', 'early', 'late', 'friendly']),
-        ]),
-      A2: createLevel('A2 Elementary', [
-          pronouns(['someone', 'anyone', 'nothing', 'myself', 'themselves', 'each', 'everything', 'another', 'everybody', 'something', 'nobody', 'yourself', 'ourselves', 'herself', 'himself', 'these', 'those', 'one another', 'several', 'either', 'neither', 'someone else', 'whatever', 'whoever']),
-          adverbs(['always', 'sometimes', 'carefully', 'often', 'quickly', 'already', 'usually', 'finally', 'outside', 'slowly', 'inside', 'yesterday', 'today', 'tomorrow', 'really', 'almost', 'together', 'alone', 'upstairs', 'downstairs', 'soon', 'later', 'everywhere', 'anywhere']),
-          past(['went', 'saw', 'made', 'studied', 'called', 'arrived', 'bought', 'learned', 'brought', 'finished', 'found', 'left', 'heard', 'met', 'lost', 'sent', 'took', 'gave', 'spent', 'forgot', 'felt', 'won', 'sold', 'decided']),
-        ]),
-      B1: createLevel('B1 Intermediate', [
-          future(['will travel', 'going to study', 'will improve', 'is going to rain', 'will decide', 'will return', 'will probably win', 'are going to move', 'will be easier', 'will soon change', 'will keep trying', 'is going to open', 'will need help', 'are going to build', 'will become clear', 'will take time', 'is going to start', 'will stay longer', 'will likely grow', 'are going to meet']),
-          connective(['although', 'however', 'because', 'unless', 'while', 'therefore', 'since', 'even though', 'as soon as', 'instead', 'meanwhile', 'in case', 'for example', 'on the other hand', 'as a result', 'otherwise', 'in order to', 'after that', 'before that', 'at least']),
-          subjunctive(['if I were', 'I suggest that he be', 'it is vital that she arrive', 'I asked that they stay', 'they recommended that we wait', 'I insist that he go', 'it is essential that we leave', 'I demand that she listen', 'if he were here', 'they propose that it remain', 'I would rather that she stay', 'it is important that he understand', 'they asked that we be ready', 'I wish it were easier', 'if she were more patient', 'the teacher insisted that they finish', 'we requested that he join', 'it is necessary that she speak', 'I would prefer that they come early', 'the doctor advised that he rest']),
-        ]),
-      B2: createLevel('B2 Upper Intermediate', [
-          modal(['might have gone', 'should have told', 'must be joking', 'could have seen', 'would rather stay', 'ought to know']),
-          connective(['nevertheless', 'whereas', 'provided that', 'in order that', 'despite', 'as long as']),
-          idiom(['once in a blue moon', 'under the weather', 'break the ice', 'on the same page', 'call it a day', 'hit the books']),
-        ]),
-      C1: createLevel('C1 Advanced', [
-          subjunctive(['were it not for', 'be that as it may', 'if he be found', 'so be it', 'suffice it to say', 'lest they forget']),
-          connective(['notwithstanding', 'inasmuch as', 'albeit', 'henceforth', 'thereby', 'whereby']),
-          idiom(['toe the line', 'raise the bar', 'a double-edged sword', 'in the long run', 'read the room', 'back to square one']),
-        ]),
-      C2: createLevel('C2 Mastery', [
-          idiom(['the elephant in the room', 'split hairs', 'bury the hatchet', 'throw in the towel', 'a blessing in disguise', 'burn the midnight oil']),
-          modal(['need not have worried', 'would sooner resign', 'might well have assumed', 'be bound to happen', 'cannot but admire', 'would have had to leave']),
-          connective(['for all that', 'inasmuch as', 'by virtue of', 'all the same', 'be that as it may', 'in light of']),
-        ]),
-    },
-    extraWordMatchSources: ENGLISH_EXTRA_WORD_MATCH_SOURCES,
+    levels: buildLevelsFromCsv(englishCsv, ENGLISH_CSV_CONFIG),
   },
   french: {
     name: 'Français',
