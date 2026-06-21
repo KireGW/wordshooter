@@ -445,7 +445,7 @@ B1,noun,environment,recycling
 B1,noun,emotion,confidence
 B1,noun,emotion,stress
 B1,verb,base,explain
-B1,verb,base,summarise
+B1,verb,base,summarize
 B1,verb,base,compare
 B1,verb,base,discuss
 B1,verb,base,suggest
@@ -460,7 +460,7 @@ B1,verb,base,improve
 B1,verb,base,develop
 B1,verb,base,participate
 B1,verb,base,coordinate
-B1,verb,base,organise
+B1,verb,base,organize
 B1,verb,base,arrange
 B1,verb,base,contact
 B1,verb,base,negotiate
@@ -624,7 +624,7 @@ B2,noun,society,benefit
 B2,noun,society,impact
 B2,noun,society,issue
 B2,noun,society,attitude
-B2,noun,society,behaviour
+B2,noun,society,behavior
 B2,noun,society,outcome
 B2,noun,society,trend
 B2,noun,society,identity
@@ -639,13 +639,13 @@ B2,noun,technology,interface
 B2,noun,technology,constraint
 B2,noun,technology,privacy
 B2,noun,emotion,awareness
-B2,verb,base,analyse
+B2,verb,base,analyze
 B2,verb,base,evaluate
 B2,verb,base,argue
 B2,verb,base,claim
 B2,verb,base,justify
-B2,verb,base,criticise
-B2,verb,base,emphasise
+B2,verb,base,criticize
+B2,verb,base,emphasize
 B2,verb,base,illustrate
 B2,verb,base,define
 B2,verb,base,represent
@@ -659,43 +659,43 @@ B2,verb,base,increase
 B2,verb,base,maintain
 B2,verb,base,achieve
 B2,verb,base,require
-B2,verb,present,analyses
+B2,verb,present,analyzes
 B2,verb,present,evaluates
 B2,verb,present,argues
 B2,verb,present,claims
 B2,verb,present,justifies
-B2,verb,present,criticises
-B2,verb,present,emphasises
+B2,verb,present,criticizes
+B2,verb,present,emphasizes
 B2,verb,present,illustrates
 B2,verb,present,defines
 B2,verb,present,represents
-B2,verb,past,analysed
+B2,verb,past,analyzed
 B2,verb,past,evaluated
 B2,verb,past,argued
 B2,verb,past,claimed
 B2,verb,past,justified
-B2,verb,past,criticised
-B2,verb,past,emphasised
+B2,verb,past,criticized
+B2,verb,past,emphasized
 B2,verb,past,illustrated
 B2,verb,past,defined
 B2,verb,past,represented
-B2,verb,future,will analyse
+B2,verb,future,will analyze
 B2,verb,future,will evaluate
 B2,verb,future,will argue
 B2,verb,future,will claim
 B2,verb,future,will justify
-B2,verb,future,will criticise
-B2,verb,future,will emphasise
+B2,verb,future,will criticize
+B2,verb,future,will emphasize
 B2,verb,future,will influence
 B2,verb,future,will affect
 B2,verb,future,will require
-B2,verb,perfect,has analysed
+B2,verb,perfect,has analyzed
 B2,verb,perfect,has evaluated
 B2,verb,perfect,has argued
 B2,verb,perfect,has claimed
 B2,verb,perfect,has justified
 B2,verb,perfect,has influenced
-B2,verb,modal,should analyse
+B2,verb,modal,should analyze
 B2,verb,modal,could argue
 B2,verb,modal,might affect
 B2,verb,modal,must consider

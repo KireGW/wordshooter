@@ -82,7 +82,7 @@ const DEFAULT_MUSIC_ENABLED = false
 const DEFAULT_SFX_ENABLED = false
 const MOBILE_LAYOUT_MEDIA_QUERY = '(max-width: 720px), (pointer: coarse)'
 const LANGUAGE_FLAGS = {
-  english: '🇬🇧',
+  english: '🇺🇸',
   french: '🇫🇷',
   spanish: '🇪🇸',
   italian: '🇮🇹',

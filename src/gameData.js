@@ -1,4 +1,8 @@
 import englishCsv from '../data/english.csv?raw'
+import frenchCsv from '../data/french.csv?raw'
+import germanCsv from '../data/german.csv?raw'
+import italianCsv from '../data/italian.csv?raw'
+import spanishCsv from '../data/spanish.csv?raw'
 import swedishCsv from '../data/svenska.csv?raw'
 
 export const CATEGORY_STYLES = {
@@ -95,13 +99,7 @@ const nouns = (words) => makeCategory('noun', 'Nouns', 'people, places, things, 
 const verbs = (words) => makeCategory('verb', 'Verbs', 'action or state words', words)
 const adjectives = (words) => makeCategory('adjective', 'Adjectives', 'describing words', words)
 const adverbs = (words) => makeCategory('adverb', 'Adverbs', 'words that modify actions or descriptions', words)
-const pronouns = (words) => makeCategory('pronoun', 'Pronouns', 'replacement words like I, she, they', words)
-const past = (words) => makeCategory('past', 'Past Forms', 'forms used to talk about completed past actions', words)
-const future = (words) => makeCategory('future', 'Future Forms', 'forms used to talk about future actions', words)
-const modal = (words) => makeCategory('modal', 'Modal Forms', 'forms expressing ability, obligation, or possibility', words)
 const connective = (words) => makeCategory('connective', 'Connectives', 'linking words for longer sentences', words)
-const subjunctive = (words) => makeCategory('subjunctive', 'Subjunctive', 'forms for wishes, doubt, emotion, or hypotheticals', words)
-const idiom = (words) => makeCategory('idiom', 'Idioms', 'fixed advanced expressions', words)
 const verbPhrase = (words) => makeCategory('verbPhrase', 'Verb Phrases', 'multi-word verb constructions', words)
 const makeVerbFormCategory = (id, label, description, words) =>
   makeCategory(id, label, description, words, {
@@ -346,6 +344,7 @@ const ENGLISH_EXTRA_WORD_MATCH_SOURCES = {
   bike: ['noun', 'verb'],
   help: ['noun', 'verb'],
   drink: ['noun', 'verb'],
+  answer: ['verb', 'noun'],
   home: ['noun', 'adverb'],
   still: ['adverb', 'adjective'],
   well: ['noun', 'adverb'],
@@ -362,6 +361,16 @@ const ENGLISH_EXTRA_WORD_MATCH_SOURCES = {
   stay: ['verb', 'noun'],
   love: ['verb', 'noun'],
   call: ['verb', 'noun'],
+  object: ['verb', 'noun'],
+  subject: ['noun', 'verb', 'adjective'],
+  grade: ['noun', 'verb'],
+  research: ['noun', 'verb'],
+  screen: ['noun', 'verb'],
+  match: ['noun', 'verb'],
+  watch: ['verb', 'noun'],
+  work: ['verb', 'noun'],
+  study: ['verb', 'noun'],
+  play: ['verb', 'noun'],
   shop: ['noun', 'verb'],
   open: ['verb', 'adjective'],
   clean: ['verb', 'adjective'],
@@ -476,6 +485,614 @@ const ENGLISH_CSV_CONFIG = {
   },
   extraWordMatchSources: ENGLISH_EXTRA_WORD_MATCH_SOURCES,
   describeSubcategory: ({ subcategoryId }) => `${subcategoryId} verb forms`,
+}
+
+const makeSubjunctiveVerbCategory = (words) =>
+  makeCategory('subjunctive', 'Subjunctive', 'forms for wishes, doubt, emotion, or hypotheticals', words, {
+    styleId: 'subjunctive',
+    matchType: 'subcategory',
+    parentCategoryId: 'verb',
+    subcategoryId: 'subjuntivo',
+    sourceBucketIds: ['subjunctive'],
+  })
+
+const makeFrenchSubjunctiveVerbCategory = (words) =>
+  makeCategory('subjunctive', 'Subjonctif', 'formes pour le doute, le souhait ou la nécessité', words, {
+    styleId: 'subjunctive',
+    matchType: 'subcategory',
+    parentCategoryId: 'verb',
+    subcategoryId: 'subjonctif',
+    sourceBucketIds: ['subjunctive'],
+  })
+
+const makeItalianSubjunctiveVerbCategory = (words) =>
+  makeCategory('subjunctive', 'Congiuntivo', 'forme per dubbio, desiderio o necessità', words, {
+    styleId: 'subjunctive',
+    matchType: 'subcategory',
+    parentCategoryId: 'verb',
+    subcategoryId: 'congiuntivo',
+    sourceBucketIds: ['subjunctive'],
+  })
+
+const makeGermanSubjunctiveVerbCategory = (words) =>
+  makeCategory('subjunctive', 'Konjunktiv', 'Formen für Möglichkeiten, Wünsche oder Irreales', words, {
+    styleId: 'subjunctive',
+    matchType: 'subcategory',
+    parentCategoryId: 'verb',
+    subcategoryId: 'konjunktiv',
+    sourceBucketIds: ['subjunctive'],
+  })
+
+const SPANISH_EXTRA_WORD_MATCH_SOURCES = {
+  casa: ['noun', 'present'],
+  calle: ['noun', 'subjunctive'],
+  camino: ['noun', 'present'],
+  mañana: ['noun', 'adverb'],
+  tarde: ['noun', 'adjective', 'adverb'],
+  claro: ['adjective', 'adverb'],
+  seguro: ['adjective', 'adverb', 'noun'],
+  enfermo: ['adjective', 'noun'],
+  temprano: ['adjective', 'adverb'],
+  médico: ['noun', 'adjective'],
+  cuenta: ['noun', 'present'],
+  efectivo: ['noun', 'adjective'],
+  solo: ['adjective', 'adverb'],
+  general: ['adjective', 'noun'],
+  regular: ['adjective', 'verb'],
+  paciente: ['adjective', 'noun'],
+  técnico: ['adjective', 'noun'],
+  físico: ['adjective', 'noun'],
+  profesional: ['adjective', 'noun'],
+  social: ['adjective', 'noun'],
+  político: ['adjective', 'noun'],
+  política: ['noun', 'adjective'],
+  crítico: ['adjective', 'noun'],
+  común: ['adjective', 'noun'],
+  para: ['connective', 'present'],
+  como: ['connective', 'present'],
+  discutimos: ['present', 'verbPast'],
+  afirmamos: ['present', 'verbPast'],
+  definimos: ['present', 'verbPast'],
+}
+
+const SPANISH_VERB_FORM_BUILDERS = {
+  infinitivo: {
+    id: 'verb',
+    build: verbs,
+    subcategory: 'infinitivo',
+  },
+  presente: {
+    id: 'present',
+    build: present,
+    subcategory: 'presente',
+  },
+  pretérito: {
+    id: 'verbPast',
+    build: pastVerb,
+    subcategory: 'pretérito',
+  },
+  futuro: {
+    id: 'verbFuture',
+    build: futureVerb,
+    subcategory: 'futuro',
+  },
+  perfecto: {
+    id: 'verbPerfect',
+    build: perfectVerb,
+    subcategory: 'perfecto',
+  },
+  modal: {
+    id: 'verbModal',
+    build: modalVerb,
+    subcategory: 'modal',
+  },
+  subjuntivo: {
+    id: 'subjunctive',
+    build: makeSubjunctiveVerbCategory,
+    subcategory: 'subjuntivo',
+  },
+  perífrasis: {
+    id: 'verbPhrase',
+    build: verbPhrase,
+    subcategory: 'perífrasis',
+  },
+}
+
+const SPANISH_CSV_CONFIG = {
+  levelLabels: {
+    A1: 'A1 Inicial',
+    A2: 'A2 Básico',
+    B1: 'B1 Intermedio',
+    B2: 'B2 Intermedio alto',
+  },
+  categoryBuilders: {
+    sustantivo: {
+      id: 'noun',
+      build: nouns,
+    },
+    verbo: {
+      derivedBuilders: Object.values(SPANISH_VERB_FORM_BUILDERS),
+      resolve: ({ subcategory }) => {
+        const verbForm = subcategory.trim().toLocaleLowerCase('es-ES')
+        return SPANISH_VERB_FORM_BUILDERS[verbForm] ?? SPANISH_VERB_FORM_BUILDERS.infinitivo
+      },
+    },
+    adjetivo: {
+      id: 'adjective',
+      build: adjectives,
+    },
+    adverbio: {
+      id: 'adverb',
+      build: adverbs,
+    },
+    conector: {
+      id: 'connective',
+      build: connective,
+    },
+  },
+  playableCategoryIdsByLevel: {
+    A1: new Set(['noun', 'verb', 'adjective']),
+    A2: new Set(['noun', 'verb', 'present', 'adjective', 'adverb']),
+    B1: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+    B2: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'verbPerfect',
+      'verbModal',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+  },
+  mergeCategoriesByLevel: {
+    A2: [{ from: 'verbPhrase', into: 'verb' }],
+  },
+  extraWordMatchSources: SPANISH_EXTRA_WORD_MATCH_SOURCES,
+  describeSubcategory: ({ subcategoryId }) => `${subcategoryId} verbal`,
+}
+
+const FRENCH_EXTRA_WORD_MATCH_SOURCES = {
+  devoir: ['verb', 'noun'],
+  livre: ['noun', 'present'],
+  porte: ['noun', 'present'],
+  cours: ['noun', 'present'],
+  note: ['noun', 'present'],
+  recherche: ['noun', 'present'],
+  analyse: ['noun', 'present'],
+  politique: ['adjective', 'noun'],
+  critique: ['adjective', 'noun', 'present'],
+  calme: ['adjective', 'noun', 'present'],
+  court: ['adjective', 'present'],
+  vide: ['adjective', 'noun', 'present'],
+  fort: ['adjective', 'adverb', 'noun'],
+  bon: ['adjective', 'noun'],
+  frais: ['adjective', 'noun'],
+  jeune: ['adjective', 'noun'],
+  grand: ['adjective', 'noun'],
+  petit: ['adjective', 'noun'],
+  local: ['adjective', 'noun'],
+  public: ['adjective', 'noun'],
+  privé: ['adjective', 'noun'],
+  seul: ['adjective', 'adverb'],
+  physique: ['adjective', 'noun'],
+  logique: ['adjective', 'noun'],
+  limite: ['noun', 'adjective', 'present'],
+  pratique: ['adjective', 'noun', 'present'],
+  reçu: ['noun', 'adjective'],
+  social: ['adjective', 'noun'],
+  résultat: ['noun'],
+  avantage: ['noun'],
+  aussi: ['connective', 'adverb'],
+  ainsi: ['connective', 'adverb'],
+  sinon: ['connective', 'adverb'],
+  ensuite: ['connective', 'adverb'],
+}
+
+const FRENCH_VERB_FORM_BUILDERS = {
+  infinitif: {
+    id: 'verb',
+    build: verbs,
+    subcategory: 'infinitif',
+  },
+  présent: {
+    id: 'present',
+    build: present,
+    subcategory: 'présent',
+  },
+  'passé composé': {
+    id: 'verbPast',
+    build: pastVerb,
+    subcategory: 'passé composé',
+  },
+  futur: {
+    id: 'verbFuture',
+    build: futureVerb,
+    subcategory: 'futur',
+  },
+  modal: {
+    id: 'verbModal',
+    build: modalVerb,
+    subcategory: 'modal',
+  },
+  subjonctif: {
+    id: 'subjunctive',
+    build: makeFrenchSubjunctiveVerbCategory,
+    subcategory: 'subjonctif',
+  },
+}
+
+const FRENCH_CSV_CONFIG = {
+  levelLabels: {
+    A1: 'A1 Débutant',
+    A2: 'A2 Élémentaire',
+    B1: 'B1 Intermédiaire',
+    B2: 'B2 Intermédiaire supérieur',
+  },
+  categoryBuilders: {
+    nom: {
+      id: 'noun',
+      build: nouns,
+    },
+    verbe: {
+      derivedBuilders: Object.values(FRENCH_VERB_FORM_BUILDERS),
+      resolve: ({ subcategory }) => {
+        const verbForm = subcategory.trim().toLocaleLowerCase('fr-FR')
+        return FRENCH_VERB_FORM_BUILDERS[verbForm] ?? FRENCH_VERB_FORM_BUILDERS.infinitif
+      },
+    },
+    adjectif: {
+      id: 'adjective',
+      build: adjectives,
+    },
+    adverbe: {
+      id: 'adverb',
+      build: adverbs,
+    },
+    connecteur: {
+      id: 'connective',
+      build: connective,
+    },
+  },
+  playableCategoryIdsByLevel: {
+    A1: new Set(['noun', 'verb', 'adjective']),
+    A2: new Set(['noun', 'verb', 'present', 'adjective', 'adverb']),
+    B1: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+    B2: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'verbModal',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+  },
+  mergeCategoriesByLevel: {
+    A2: [{ from: 'verbPhrase', into: 'verb' }],
+  },
+  extraWordMatchSources: FRENCH_EXTRA_WORD_MATCH_SOURCES,
+  describeSubcategory: ({ subcategoryId }) => `formes verbales ${subcategoryId}`,
+}
+
+const ITALIAN_EXTRA_WORD_MATCH_SOURCES = {
+  porta: ['noun', 'present'],
+  conto: ['noun', 'present'],
+  ordine: ['noun', 'present'],
+  studio: ['present', 'noun'],
+  medico: ['noun', 'adjective'],
+  solo: ['adjective', 'adverb'],
+  vicino: ['noun', 'adjective', 'adverb'],
+  prima: ['adverb', 'connective'],
+  dopo: ['adverb', 'connective'],
+  come: ['connective', 'adverb'],
+  perché: ['connective', 'adverb'],
+  mentre: ['connective', 'adverb'],
+  appena: ['connective', 'adverb'],
+  altrimenti: ['adverb', 'connective'],
+  così: ['connective', 'adverb'],
+  poi: ['connective', 'adverb'],
+  politica: ['noun', 'adjective'],
+  critico: ['adjective', 'noun'],
+  fisico: ['adjective', 'noun'],
+  logico: ['adjective', 'noun'],
+  economico: ['adjective', 'noun'],
+  sociale: ['adjective', 'noun'],
+  regolare: ['adjective', 'verb'],
+  pratico: ['adjective', 'noun'],
+  paziente: ['adjective', 'noun'],
+  tecnico: ['adjective', 'noun'],
+  generale: ['adjective', 'noun'],
+  pubblico: ['adjective', 'noun'],
+  privato: ['adjective', 'noun'],
+  limite: ['noun', 'adjective', 'present'],
+  capace: ['adjective', 'noun'],
+  disposto: ['adjective', 'noun'],
+  preoccupato: ['adjective', 'noun'],
+  adatto: ['adjective', 'noun'],
+  scelta: ['noun', 'verbPast'],
+  prova: ['noun', 'present'],
+}
+
+const ITALIAN_VERB_FORM_BUILDERS = {
+  infinito: {
+    id: 'verb',
+    build: verbs,
+    subcategory: 'infinito',
+  },
+  presente: {
+    id: 'present',
+    build: present,
+    subcategory: 'presente',
+  },
+  'passato prossimo': {
+    id: 'verbPast',
+    build: pastVerb,
+    subcategory: 'passato prossimo',
+  },
+  futuro: {
+    id: 'verbFuture',
+    build: futureVerb,
+    subcategory: 'futuro',
+  },
+  modale: {
+    id: 'verbModal',
+    build: modalVerb,
+    subcategory: 'modale',
+  },
+  congiuntivo: {
+    id: 'subjunctive',
+    build: makeItalianSubjunctiveVerbCategory,
+    subcategory: 'congiuntivo',
+  },
+}
+
+const ITALIAN_CSV_CONFIG = {
+  levelLabels: {
+    A1: 'A1 Principiante',
+    A2: 'A2 Elementare',
+    B1: 'B1 Intermedio',
+    B2: 'B2 Intermedio avanzato',
+  },
+  categoryBuilders: {
+    sostantivo: {
+      id: 'noun',
+      build: nouns,
+    },
+    verbo: {
+      derivedBuilders: Object.values(ITALIAN_VERB_FORM_BUILDERS),
+      resolve: ({ subcategory }) => {
+        const verbForm = subcategory.trim().toLocaleLowerCase('it-IT')
+        return ITALIAN_VERB_FORM_BUILDERS[verbForm] ?? ITALIAN_VERB_FORM_BUILDERS.infinito
+      },
+    },
+    aggettivo: {
+      id: 'adjective',
+      build: adjectives,
+    },
+    avverbio: {
+      id: 'adverb',
+      build: adverbs,
+    },
+    connettivo: {
+      id: 'connective',
+      build: connective,
+    },
+  },
+  playableCategoryIdsByLevel: {
+    A1: new Set(['noun', 'verb', 'adjective']),
+    A2: new Set(['noun', 'verb', 'present', 'adjective', 'adverb']),
+    B1: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+    B2: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'verbModal',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+  },
+  mergeCategoriesByLevel: {
+    A2: [{ from: 'verbPhrase', into: 'verb' }],
+  },
+  extraWordMatchSources: ITALIAN_EXTRA_WORD_MATCH_SOURCES,
+  describeSubcategory: ({ subcategoryId }) => `forme verbali ${subcategoryId}`,
+}
+
+const GERMAN_EXTRA_WORD_MATCH_SOURCES = {
+  morgen: ['noun', 'adverb'],
+  einfach: ['adjective', 'adverb'],
+  leicht: ['adjective', 'adverb'],
+  traurig: ['adjective', 'adverb'],
+  richtig: ['adjective', 'adverb'],
+  laut: ['adjective', 'adverb'],
+  schnell: ['adjective', 'adverb'],
+  langsam: ['adjective', 'adverb'],
+  allein: ['adjective', 'adverb'],
+  höflich: ['adjective', 'adverb'],
+  gewöhnlich: ['adjective', 'adverb'],
+  klar: ['adjective', 'adverb'],
+  geduldig: ['adjective', 'adverb'],
+  erfolgreich: ['adjective', 'adverb'],
+  persönlich: ['adjective', 'adverb'],
+  beruflich: ['adjective', 'adverb'],
+  regelmäßig: ['adjective', 'adverb'],
+  offensichtlich: ['adjective', 'adverb'],
+  angemessen: ['adjective', 'adverb'],
+  kritisch: ['adjective', 'adverb'],
+  bedeutend: ['adjective', 'adverb'],
+  rechtlich: ['adjective', 'adverb'],
+  emotional: ['adjective', 'adverb'],
+  geistig: ['adjective', 'adverb'],
+  körperlich: ['adjective', 'adverb'],
+  logisch: ['adjective', 'adverb'],
+  falsch: ['adjective', 'adverb'],
+  sicher: ['adjective', 'adverb'],
+  da: ['connective', 'adverb'],
+  denn: ['connective', 'adverb'],
+  wenn: ['connective', 'adverb'],
+  falls: ['connective', 'adverb'],
+  wie: ['connective', 'adverb'],
+  also: ['connective', 'adverb'],
+  auch: ['connective', 'adverb'],
+  damit: ['connective', 'adverb'],
+  während: ['connective', 'adverb'],
+  andernfalls: ['adverb', 'connective'],
+  haben: ['verb', 'present'],
+  gehen: ['verb', 'present'],
+  lesen: ['verb', 'present'],
+  schreiben: ['verb', 'present'],
+  sprechen: ['verb', 'present'],
+  nehmen: ['verb', 'present'],
+  lernen: ['verb', 'present'],
+  wählen: ['verb', 'present'],
+  akzeptieren: ['verb', 'present'],
+  vergleichen: ['verb', 'present'],
+  verwalten: ['verb', 'present'],
+  empfehlen: ['verb', 'present'],
+  behaupten: ['verb', 'present'],
+  kritisieren: ['verb', 'present'],
+  definieren: ['verb', 'present'],
+  repräsentieren: ['verb', 'present'],
+}
+
+const GERMAN_VERB_FORM_BUILDERS = {
+  infinitiv: {
+    id: 'verb',
+    build: verbs,
+    subcategory: 'infinitiv',
+  },
+  präsens: {
+    id: 'present',
+    build: present,
+    subcategory: 'präsens',
+  },
+  perfekt: {
+    id: 'verbPast',
+    build: pastVerb,
+    subcategory: 'perfekt',
+  },
+  futur: {
+    id: 'verbFuture',
+    build: futureVerb,
+    subcategory: 'futur',
+  },
+  modal: {
+    id: 'verbModal',
+    build: modalVerb,
+    subcategory: 'modal',
+  },
+  konjunktiv: {
+    id: 'subjunctive',
+    build: makeGermanSubjunctiveVerbCategory,
+    subcategory: 'konjunktiv',
+  },
+}
+
+const GERMAN_CSV_CONFIG = {
+  levelLabels: {
+    A1: 'A1 Einstieg',
+    A2: 'A2 Grundstufe',
+    B1: 'B1 Mittelstufe',
+    B2: 'B2 Obere Mittelstufe',
+  },
+  categoryBuilders: {
+    substantiv: {
+      id: 'noun',
+      build: nouns,
+    },
+    verb: {
+      derivedBuilders: Object.values(GERMAN_VERB_FORM_BUILDERS),
+      resolve: ({ subcategory }) => {
+        const verbForm = subcategory.trim().toLocaleLowerCase('de-DE')
+        return GERMAN_VERB_FORM_BUILDERS[verbForm] ?? GERMAN_VERB_FORM_BUILDERS.infinitiv
+      },
+    },
+    adjektiv: {
+      id: 'adjective',
+      build: adjectives,
+    },
+    adverb: {
+      id: 'adverb',
+      build: adverbs,
+    },
+    konnektor: {
+      id: 'connective',
+      build: connective,
+    },
+  },
+  playableCategoryIdsByLevel: {
+    A1: new Set(['noun', 'verb', 'adjective']),
+    A2: new Set(['noun', 'verb', 'present', 'adjective', 'adverb']),
+    B1: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+    B2: new Set([
+      'noun',
+      'verb',
+      'present',
+      'verbPast',
+      'verbFuture',
+      'verbModal',
+      'subjunctive',
+      'adjective',
+      'adverb',
+      'connective',
+    ]),
+  },
+  mergeCategoriesByLevel: {
+    A2: [{ from: 'verbPhrase', into: 'verb' }],
+  },
+  extraWordMatchSources: GERMAN_EXTRA_WORD_MATCH_SOURCES,
+  describeSubcategory: ({ subcategoryId }) => `Verbformen ${subcategoryId}`,
 }
 
 const SWEDISH_CSV_CONFIG = {
@@ -786,215 +1403,19 @@ const LANGUAGE_LEVELS = {
   },
   french: {
     name: 'Français',
-    levels: {
-      A1: {
-        label: 'A1 Debutant',
-        categories: [
-          nouns(['maison', 'livre', 'ami', 'ville', 'chat', 'table', 'ecole', 'famille', 'fenetre', 'jardin']),
-          verbs(['aller', 'manger', 'parler', 'aimer', 'habiter', 'jouer', 'regarder', 'ecouter', 'ouvrir', 'ecrire']),
-          adjectives(['grand', 'petit', 'jeune', 'facile', 'content', 'froid', 'chaud', 'propre', 'court', 'rapide']),
-        ],
-      },
-      A2: {
-        label: 'A2 Elementaire',
-        categories: [
-          pronouns(['quelqu’un', 'personne', 'le mien', 'celle-ci', 'eux', 'chacun', 'tout le monde', 'quelque chose', 'les autres', 'celui-la']),
-          adverbs(['souvent', 'toujours', 'vite', 'deja', 'ensemble', 'presque', 'parfois', 'dehors', 'lentement', 'ensuite']),
-          past(['j’ai vu', 'nous avons mange', 'elle est arrivee', 'tu as parle', 'ils ont fini', 'j’ai compris', 'nous avons achete', 'il a appris', 'elle a choisi', 'ils sont partis']),
-        ],
-      },
-      B1: {
-        label: 'B1 Intermediaire',
-        categories: [
-          future(['je partirai', 'nous allons sortir', 'il fera beau', 'tu reviendras', 'elle va changer', 'on verra']),
-          connective(['parce que', 'pourtant', 'pendant que', 'donc', 'puisque', 'afin que']),
-          subjunctive(['il faut que tu viennes', 'bien qu’il soit tard', 'pour que nous puissions', 'je veux qu’elle fasse', 'avant qu’ils partent', 'il est possible que ce soit vrai']),
-        ],
-      },
-      B2: {
-        label: 'B2 Intermediaire superieur',
-        categories: [
-          modal(['il faudrait partir', 'je pourrais venir', 'on devrait savoir', 'tu aurais pu dire', 'il vaudrait mieux attendre', 'elle doit etre la']),
-          connective(['cependant', 'tandis que', 'malgre', 'a condition que', 'en revanche', 'de sorte que']),
-          idiom(['avoir le cafard', 'poser un lapin', 'prendre son temps', 'couper les cheveux en quatre', 'donner un coup de main', 'tomber dans les pommes']),
-        ],
-      },
-      C1: {
-        label: 'C1 Avance',
-        categories: [
-          subjunctive(['encore faut-il que', 'pourvu qu’il vienne', 'bien que nous ayons su', 'quoique ce soit utile', 'il importe qu’elle soit prete', 'sans qu’ils le sachent']),
-          connective(['neanmoins', 'd’autant plus que', 'or', 'nonobstant', 'de surcroit', 'au demeurant']),
-          idiom(['mettre de l’eau dans son vin', 'faire la sourde oreille', 'tirer son epingle du jeu', 'avoir beau faire', 'faire fausse route', 'mettre les bouchées doubles']),
-        ],
-      },
-      C2: {
-        label: 'C2 Maitrise',
-        categories: [
-          idiom(['jeter un pave dans la mare', 'tourner autour du pot', 'se mettre le doigt dans l’oeil', 'faire d’une pierre deux coups', 'ne pas etre sorti de l’auberge', 'mettre les pieds dans le plat']),
-          modal(['il n’eut pas fallu', 'elle aurait mieux fait', 'on ne saurait trop dire', 'tu n’aurais su prevoir', 'cela pourrait bien arriver', 'je ne puis que constater']),
-          connective(['quoi qu’il en soit', 'pour autant', 'a plus forte raison', 'dans la mesure ou', 'au regard de', 'somme toute']),
-        ],
-      },
-    },
+    levels: buildLevelsFromCsv(frenchCsv, FRENCH_CSV_CONFIG),
   },
   spanish: {
     name: 'Español',
-    levels: {
-      A1: {
-        label: 'A1 Inicial',
-        categories: [
-          nouns(['casa', 'libro', 'amigo', 'ciudad', 'agua', 'mesa', 'escuela', 'familia', 'ventana', 'jardin']),
-          verbs(['ir', 'comer', 'vivir', 'hablar', 'tener', 'jugar', 'mirar', 'abrir', 'escribir', 'caminar']),
-          adjectives(['grande', 'pequeno', 'feliz', 'frio', 'nuevo', 'facil', 'limpio', 'corto', 'caliente', 'claro']),
-        ],
-      },
-      A2: {
-        label: 'A2 Basico',
-        categories: [
-          pronouns(['alguien', 'nadie', 'ellos', 'aquello', 'cada uno', 'nosotros', 'todos', 'algo', 'otro', 'quienquiera']),
-          adverbs(['siempre', 'a veces', 'ya', 'casi', 'rapidamente', 'juntos', 'normalmente', 'afuera', 'despacio', 'despues']),
-          past(['fui', 'comió', 'llegaron', 'vivimos', 'estudiaste', 'hicieron', 'compraron', 'aprendió', 'volvimos', 'terminaste']),
-        ],
-      },
-      B1: {
-        label: 'B1 Intermedio',
-        categories: [
-          future(['viajaré', 'vamos a salir', 'cambiará', 'volverás', 'lloverá', 'vamos a aprender', 'voy a estudiar', 'seguirá creciendo', 'va a llegar tarde', 'mañana saldremos', 'el plan cambiará pronto', 'vamos a volver temprano']),
-          connective(['aunque', 'porque', 'mientras', 'entonces', 'asi que', 'para que', 'por eso', 'sin embargo', 'al mismo tiempo', 'despues de eso', 'por un lado', 'como resultado']),
-          subjunctive(['quiero que vengas', 'es posible que sea', 'cuando tengas tiempo', 'ojala llueva', 'dudo que puedan', 'antes de que salgan', 'me alegra que estes aqui', 'es mejor que esperemos', 'no creo que funcione', 'tal vez llegue tarde']),
-        ],
-      },
-      B2: {
-        label: 'B2 Intermedio alto',
-        categories: [
-          modal(['deberias ir', 'podria haber sido', 'tendria que estudiar', 'debe de estar', 'habrias podido venir', 'quisiera saber']),
-          connective(['sin embargo', 'a pesar de', 'siempre que', 'mientras que', 'por lo tanto', 'de modo que']),
-          idiom(['estar en las nubes', 'costar un ojo de la cara', 'meter la pata', 'echar una mano', 'dar en el clavo', 'ser pan comido']),
-        ],
-      },
-      C1: {
-        label: 'C1 Avanzado',
-        categories: [
-          subjunctive(['hubiera querido', 'sea como sea', 'como si supiera', 'ojala hubiera venido', 'no creo que haya salido', 'tal vez lo hubieran hecho']),
-          connective(['no obstante', 'por consiguiente', 'si bien', 'con tal de que', 'habida cuenta de', 'en tanto que']),
-          idiom(['poner el grito en el cielo', 'tirar la casa por la ventana', 'no tener pelos en la lengua', 'quedarse de piedra', 'dar la talla', 'irse por las ramas']),
-        ],
-      },
-      C2: {
-        label: 'C2 Maestria',
-        categories: [
-          idiom(['a buenas horas mangas verdes', 'buscarle tres pies al gato', 'no hay tutia', 'estar al pie del canon', 'tener mala leche', 'quedarse para vestir santos']),
-          modal(['habria que haberlo visto', 'no habria por que negarlo', 'bien podria suceder', 'deberas de haberlo oido', 'quisiera que constara', 'se diria que llueve']),
-          connective(['con todo', 'ahora bien', 'aun asi', 'en virtud de', 'por ende', 'a la sazón']),
-        ],
-      },
-    },
+    levels: buildLevelsFromCsv(spanishCsv, SPANISH_CSV_CONFIG),
   },
   italian: {
     name: 'Italiano',
-    levels: {
-      A1: {
-        label: 'A1 Principiante',
-        categories: [
-          nouns(['casa', 'libro', 'amico', 'citta', 'acqua', 'scuola', 'famiglia', 'finestra', 'giardino', 'strada']),
-          verbs(['andare', 'mangiare', 'parlare', 'vivere', 'avere', 'giocare', 'guardare', 'aprire', 'scrivere', 'camminare']),
-          adjectives(['grande', 'piccolo', 'felice', 'freddo', 'nuovo', 'facile', 'pulito', 'corto', 'caldo', 'chiaro']),
-        ],
-      },
-      A2: {
-        label: 'A2 Elementare',
-        categories: [
-          pronouns(['qualcuno', 'nessuno', 'loro', 'questo', 'ciascuno', 'noi', 'tutti', 'qualcosa', 'chiunque', 'gli altri']),
-          adverbs(['sempre', 'spesso', 'gia', 'quasi', 'velocemente', 'insieme', 'fuori', 'lentamente', 'dopo', 'di solito']),
-          past(['sono andato', 'ha visto', 'abbiamo mangiato', 'sei arrivato', 'hanno finito', 'ho capito', 'abbiamo comprato', 'ha imparato', 'sono tornati', 'hai scelto']),
-        ],
-      },
-      B1: {
-        label: 'B1 Intermedio',
-        categories: [
-          future(['andro', 'tornerai', 'piovera', 'cambiera', 'impareremo', 'usciranno']),
-          connective(['anche se', 'perche', 'mentre', 'quindi', 'cosi che', 'affinche']),
-          subjunctive(['voglio che tu venga', 'penso che sia', 'benche lui abbia ragione', 'prima che partano', 'e possibile che arrivi', 'dubito che possano']),
-        ],
-      },
-      B2: {
-        label: 'B2 Intermedio avanzato',
-        categories: [
-          modal(['dovresti andare', 'potrei sapere', 'avresti potuto dire', 'deve essere vero', 'vorrei capire', 'bisognerebbe aspettare']),
-          connective(['tuttavia', 'nonostante', 'purché', 'mentre invece', 'pertanto', 'di modo che']),
-          idiom(['essere al verde', 'in bocca al lupo', 'rompere il ghiaccio', 'prendere due piccioni con una fava', 'andare a gonfie vele', 'cadere dalle nuvole']),
-        ],
-      },
-      C1: {
-        label: 'C1 Avanzato',
-        categories: [
-          subjunctive(['sebbene fosse tardi', 'qualunque cosa accada', 'come se sapesse tutto', 'temo che sia inutile', 'prima che sia troppo tardi', 'nonostante abbiano detto di no']),
-          connective(['ciononostante', 'dal momento che', 'laddove', 'benché', 'alla luce di', 'nondimeno']),
-          idiom(['avere le mani bucate', 'fare orecchie da mercante', 'mettere il carro davanti ai buoi', 'restare a bocca aperta', 'tagliare la corda', 'non capire un accidente']),
-        ],
-      },
-      C2: {
-        label: 'C2 Padronanza',
-        categories: [
-          idiom(['menare il can per l’aia', 'arrampicarsi sugli specchi', 'piantare in asso', 'fare il passo piu lungo della gamba', 'essere in gamba', 'non cavare un ragno dal buco']),
-          modal(['avrebbe dovuto saperlo', 'potrebbe pure accadere', 'non si potrebbe negare', 'vorrei che si sapesse', 'si direbbe che piova', 'sarebbe stato meglio evitare']),
-          connective(['cionondimeno', 'peraltro', 'in virtù di', 'posto che', 'ad ogni modo', 'alla stregua di']),
-        ],
-      },
-    },
+    levels: buildLevelsFromCsv(italianCsv, ITALIAN_CSV_CONFIG),
   },
   german: {
     name: 'Deutsch',
-    levels: {
-      A1: {
-        label: 'A1 Einstieg',
-        categories: [
-          nouns(['Haus', 'Buch', 'Freund', 'Stadt', 'Wasser', 'Schule', 'Familie', 'Fenster', 'Garten', 'Strasse']),
-          verbs(['gehen', 'essen', 'sprechen', 'wohnen', 'haben', 'spielen', 'sehen', 'offnen', 'schreiben', 'lernen']),
-          adjectives(['gross', 'klein', 'froh', 'kalt', 'neu', 'leicht', 'warm', 'sauber', 'kurz', 'hell']),
-        ],
-      },
-      A2: {
-        label: 'A2 Grundstufe',
-        categories: [
-          pronouns(['jemand', 'niemand', 'wir', 'ihr', 'diese', 'alle', 'etwas', 'jeder', 'einander', 'manche']),
-          adverbs(['oft', 'immer', 'schon', 'fast', 'schnell', 'zusammen', 'draussen', 'langsam', 'spater', 'meistens']),
-          past(['ging', 'sah', 'machten', 'lernte', 'kam an', 'verstand', 'kaufte', 'brachte', 'wusste', 'blieb']),
-        ],
-      },
-      B1: {
-        label: 'B1 Mittelstufe',
-        categories: [
-          future(['ich werde reisen', 'wir werden lernen', 'es wird regnen', 'du wirst kommen', 'sie wird bleiben', 'wir werden sehen']),
-          connective(['obwohl', 'weil', 'wahrend', 'deshalb', 'damit', 'sobald']),
-          subjunctive(['wenn ich ware', 'ich schlage vor, dass er komme', 'es ist wichtig, dass sie sei', 'als ob er mehr wüsste', 'ich wunsche, er hatte Zeit', 'es ware besser, wenn wir gingen']),
-        ],
-      },
-      B2: {
-        label: 'B2 Obere Mittelstufe',
-        categories: [
-          modal(['ich hatte gehen sollen', 'das konnte stimmen', 'du müsstest lernen', 'sie durfte bleiben', 'er konnte gekommen sein', 'wir wollten warten']),
-          connective(['dennoch', 'wahrenddessen', 'falls', 'sodass', 'hingegen', 'trotzdem']),
-          idiom(['Tomaten auf den Augen haben', 'die Nase voll haben', 'ins kalte Wasser springen', 'zwei Fliegen mit einer Klappe schlagen', 'auf Wolke sieben sein', 'Da liegt der Hund begraben']),
-        ],
-      },
-      C1: {
-        label: 'C1 Fortgeschritten',
-        categories: [
-          subjunctive(['es sei denn', 'als ware nichts geschehen', 'man nehme an', 'es lebe die Freiheit', 'ich hätte gern, dass er komme', 'als ob sie alles gewusst hatte']),
-          connective(['nichtsdestotrotz', 'insofern', 'wohingegen', 'demzufolge', 'indem', 'zumal']),
-          idiom(['den Nagel auf den Kopf treffen', 'um den heissen Brei reden', 'aus allen Wolken fallen', 'etwas im Schilde fuhren', 'sich aus dem Staub machen', 'jemandem einen Korb geben']),
-        ],
-      },
-      C2: {
-        label: 'C2 Beherrschung',
-        categories: [
-          idiom(['Da steppt der Bar', 'das ist nicht mein Bier', 'auf keinen grünen Zweig kommen', 'jemandem einen Bären aufbinden', 'Öl ins Feuer giessen', 'sich zum Affen machen']),
-          modal(['das hätte nicht sein müssen', 'er mag wohl recht haben', 'das dürfte geschehen sein', 'man könnte meinen', 'es ware zu bedenken', 'sie hatte gehen konnen']),
-          connective(['ungeachtet dessen', 'mithin', 'kraft dessen', 'obschon', 'gleichwohl', 'im Hinblick auf']),
-        ],
-      },
-    },
+    levels: buildLevelsFromCsv(germanCsv, GERMAN_CSV_CONFIG),
   },
   swedish: {
     name: 'Svenska',

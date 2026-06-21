@@ -1,1 +1,801 @@
 level,category,subcategory,word
+A1,sustantivo,clima,lluvia
+A1,sustantivo,clima,nieve
+A1,sustantivo,clima,sol
+A1,sustantivo,clima,tiempo
+A1,sustantivo,comida,agua
+A1,sustantivo,comida,almuerzo
+A1,sustantivo,comida,café
+A1,sustantivo,comida,comida
+A1,sustantivo,comida,desayuno
+A1,sustantivo,comida,leche
+A1,sustantivo,comida,manzana
+A1,sustantivo,comida,pan
+A1,sustantivo,comida,plátano
+A1,sustantivo,comida,queso
+A1,sustantivo,comida,té
+A1,sustantivo,cuerpo,boca
+A1,sustantivo,cuerpo,cabeza
+A1,sustantivo,cuerpo,cuerpo
+A1,sustantivo,cuerpo,mano
+A1,sustantivo,cuerpo,ojo
+A1,sustantivo,cuerpo,oreja
+A1,sustantivo,cuerpo,pie
+A1,sustantivo,diario,bolsa
+A1,sustantivo,diario,computadora
+A1,sustantivo,diario,dinero
+A1,sustantivo,diario,llave
+A1,sustantivo,diario,número
+A1,sustantivo,diario,teléfono
+A1,sustantivo,escuela,bolígrafo
+A1,sustantivo,escuela,clase
+A1,sustantivo,escuela,dibujo
+A1,sustantivo,escuela,escuela
+A1,sustantivo,escuela,estudiante
+A1,sustantivo,escuela,idioma
+A1,sustantivo,escuela,lección
+A1,sustantivo,escuela,libro
+A1,sustantivo,escuela,papel
+A1,sustantivo,escuela,profesor
+A1,sustantivo,familia,amigo
+A1,sustantivo,familia,bebé
+A1,sustantivo,familia,familia
+A1,sustantivo,familia,hermana
+A1,sustantivo,familia,hermano
+A1,sustantivo,familia,hija
+A1,sustantivo,familia,hijo
+A1,sustantivo,familia,madre
+A1,sustantivo,familia,nombre
+A1,sustantivo,familia,padre
+A1,sustantivo,hogar,apartamento
+A1,sustantivo,hogar,baño
+A1,sustantivo,hogar,cama
+A1,sustantivo,hogar,casa
+A1,sustantivo,hogar,cocina
+A1,sustantivo,hogar,habitación
+A1,sustantivo,hogar,mesa
+A1,sustantivo,hogar,puerta
+A1,sustantivo,hogar,silla
+A1,sustantivo,hogar,ventana
+A1,sustantivo,lugares,calle
+A1,sustantivo,lugares,camino
+A1,sustantivo,lugares,ciudad
+A1,sustantivo,lugares,lugar
+A1,sustantivo,lugares,país
+A1,sustantivo,lugares,parque
+A1,sustantivo,lugares,tienda
+A1,sustantivo,ocio,juego
+A1,sustantivo,ocio,música
+A1,sustantivo,ropa,camisa
+A1,sustantivo,ropa,chaqueta
+A1,sustantivo,ropa,zapato
+A1,sustantivo,tiempo,día
+A1,sustantivo,tiempo,fin de semana
+A1,sustantivo,tiempo,hora
+A1,sustantivo,tiempo,mañana
+A1,sustantivo,tiempo,semana
+A1,sustantivo,tiempo,tarde
+A1,sustantivo,transporte,bicicleta
+A1,sustantivo,transporte,bus
+A1,sustantivo,transporte,tren
+A1,sustantivo,viaje,boleto
+A1,verbo,infinitivo,abrir
+A1,verbo,infinitivo,amar
+A1,verbo,infinitivo,aprender
+A1,verbo,infinitivo,ayudar
+A1,verbo,infinitivo,beber
+A1,verbo,infinitivo,caminar
+A1,verbo,infinitivo,cerrar
+A1,verbo,infinitivo,cocinar
+A1,verbo,infinitivo,comer
+A1,verbo,infinitivo,comprar
+A1,verbo,infinitivo,conducir
+A1,verbo,infinitivo,conocer
+A1,verbo,infinitivo,dar
+A1,verbo,infinitivo,deber
+A1,verbo,infinitivo,decir
+A1,verbo,infinitivo,dormir
+A1,verbo,infinitivo,elegir
+A1,verbo,infinitivo,empezar
+A1,verbo,infinitivo,encontrar
+A1,verbo,infinitivo,entender
+A1,verbo,infinitivo,enviar
+A1,verbo,infinitivo,escribir
+A1,verbo,infinitivo,escuchar
+A1,verbo,infinitivo,esperar
+A1,verbo,infinitivo,estar
+A1,verbo,infinitivo,estudiar
+A1,verbo,infinitivo,gustar
+A1,verbo,infinitivo,hablar
+A1,verbo,infinitivo,hacer
+A1,verbo,infinitivo,intentar
+A1,verbo,infinitivo,ir
+A1,verbo,infinitivo,jugar
+A1,verbo,infinitivo,lavar
+A1,verbo,infinitivo,leer
+A1,verbo,infinitivo,levantarse
+A1,verbo,infinitivo,limpiar
+A1,verbo,infinitivo,llamar
+A1,verbo,infinitivo,llegar
+A1,verbo,infinitivo,llevar
+A1,verbo,infinitivo,mirar
+A1,verbo,infinitivo,necesitar
+A1,verbo,infinitivo,pagar
+A1,verbo,infinitivo,pensar
+A1,verbo,infinitivo,poder
+A1,verbo,infinitivo,poner
+A1,verbo,infinitivo,preguntar
+A1,verbo,infinitivo,quedarse
+A1,verbo,infinitivo,querer
+A1,verbo,infinitivo,responder
+A1,verbo,infinitivo,saber
+A1,verbo,infinitivo,salir
+A1,verbo,infinitivo,sentarse
+A1,verbo,infinitivo,sentir
+A1,verbo,infinitivo,ser
+A1,verbo,infinitivo,tener
+A1,verbo,infinitivo,terminar
+A1,verbo,infinitivo,tomar
+A1,verbo,infinitivo,trabajar
+A1,verbo,infinitivo,traer
+A1,verbo,infinitivo,usar
+A1,verbo,infinitivo,venir
+A1,verbo,infinitivo,ver
+A1,verbo,infinitivo,vestir
+A1,verbo,infinitivo,viajar
+A1,verbo,infinitivo,vivir
+A1,adjetivo,apariencia,bonito
+A1,adjetivo,apariencia,claro
+A1,adjetivo,apariencia,feo
+A1,adjetivo,apariencia,oscuro
+A1,adjetivo,calidad,agradable
+A1,adjetivo,calidad,bueno
+A1,adjetivo,calidad,débil
+A1,adjetivo,calidad,fresco
+A1,adjetivo,calidad,fuerte
+A1,adjetivo,calidad,malo
+A1,adjetivo,dificultad,complicado
+A1,adjetivo,dificultad,difícil
+A1,adjetivo,dificultad,fácil
+A1,adjetivo,dificultad,sencillo
+A1,adjetivo,edad,joven
+A1,adjetivo,edad,nuevo
+A1,adjetivo,edad,viejo
+A1,adjetivo,emoción,cansado
+A1,adjetivo,emoción,feliz
+A1,adjetivo,emoción,hambriento
+A1,adjetivo,emoción,sediento
+A1,adjetivo,emoción,triste
+A1,adjetivo,estado,abierto
+A1,adjetivo,estado,cerrado
+A1,adjetivo,estado,limpio
+A1,adjetivo,estado,listo
+A1,adjetivo,estado,lleno
+A1,adjetivo,estado,ocupado
+A1,adjetivo,estado,pobre
+A1,adjetivo,estado,rico
+A1,adjetivo,estado,sucio
+A1,adjetivo,estado,vacío
+A1,adjetivo,juicio,correcto
+A1,adjetivo,juicio,incorrecto
+A1,adjetivo,personalidad,amable
+A1,adjetivo,personalidad,simpático
+A1,adjetivo,precio,barato
+A1,adjetivo,precio,caro
+A1,adjetivo,sabor,dulce
+A1,adjetivo,salud,enfermo
+A1,adjetivo,salud,sano
+A1,adjetivo,seguridad,seguro
+A1,adjetivo,sonido,ruidoso
+A1,adjetivo,sonido,silencioso
+A1,adjetivo,tamaño,corto
+A1,adjetivo,tamaño,grande
+A1,adjetivo,tamaño,largo
+A1,adjetivo,tamaño,pequeño
+A1,adjetivo,temperatura,caliente
+A1,adjetivo,temperatura,frío
+A1,adjetivo,temperatura,tibio
+A1,adjetivo,tiempo,tarde
+A1,adjetivo,tiempo,temprano
+A1,adjetivo,velocidad,lento
+A1,adjetivo,velocidad,rápido
+A2,sustantivo,clima,nube
+A2,sustantivo,clima,temperatura
+A2,sustantivo,clima,tormenta
+A2,sustantivo,clima,viento
+A2,sustantivo,compras,cambio
+A2,sustantivo,compras,cliente
+A2,sustantivo,compras,cuenta
+A2,sustantivo,compras,efectivo
+A2,sustantivo,compras,mercado
+A2,sustantivo,compras,pedido
+A2,sustantivo,compras,precio
+A2,sustantivo,compras,rebaja
+A2,sustantivo,compras,recibo
+A2,sustantivo,compras,tarjeta
+A2,sustantivo,comunicación,mensaje
+A2,sustantivo,cuerpo,brazo
+A2,sustantivo,cuerpo,corazón
+A2,sustantivo,cuerpo,estómago
+A2,sustantivo,cuerpo,garganta
+A2,sustantivo,cuerpo,pierna
+A2,sustantivo,deporte,equipo
+A2,sustantivo,deporte,partido
+A2,sustantivo,escuela,ejercicio
+A2,sustantivo,escuela,tarea
+A2,sustantivo,lugares,biblioteca
+A2,sustantivo,lugares,isla
+A2,sustantivo,lugares,jardín
+A2,sustantivo,lugares,museo
+A2,sustantivo,lugares,playa
+A2,sustantivo,ocio,canción
+A2,sustantivo,ocio,cumpleaños
+A2,sustantivo,ocio,fiesta
+A2,sustantivo,ocio,pasatiempo
+A2,sustantivo,ocio,película
+A2,sustantivo,planificación,cita
+A2,sustantivo,planificación,horario
+A2,sustantivo,planificación,reunión
+A2,sustantivo,ropa,abrigo
+A2,sustantivo,salud,enfermero
+A2,sustantivo,salud,farmacia
+A2,sustantivo,salud,hospital
+A2,sustantivo,salud,medicina
+A2,sustantivo,salud,médico
+A2,sustantivo,tiempo,estación
+A2,sustantivo,tiempo,invierno
+A2,sustantivo,tiempo,otoño
+A2,sustantivo,tiempo,primavera
+A2,sustantivo,tiempo,verano
+A2,sustantivo,trabajo,oficina
+A2,sustantivo,viaje,aeropuerto
+A2,sustantivo,viaje,equipaje
+A2,sustantivo,viaje,hotel
+A2,sustantivo,viaje,huésped
+A2,sustantivo,viaje,mapa
+A2,sustantivo,viaje,vacaciones
+A2,sustantivo,viaje,viaje
+A2,sustantivo,vivienda,alquiler
+A2,sustantivo,vivienda,apartamento
+A2,sustantivo,vivienda,dirección
+A2,sustantivo,vivienda,vecino
+A2,verbo,infinitivo,aceptar
+A2,verbo,infinitivo,alquilar
+A2,verbo,infinitivo,arreglar
+A2,verbo,infinitivo,buscar
+A2,verbo,infinitivo,cambiar
+A2,verbo,infinitivo,compartir
+A2,verbo,infinitivo,contar
+A2,verbo,infinitivo,continuar
+A2,verbo,infinitivo,cruzar
+A2,verbo,infinitivo,decidir
+A2,verbo,infinitivo,describir
+A2,verbo,infinitivo,despertarse
+A2,verbo,infinitivo,disfrutar
+A2,verbo,infinitivo,ducharse
+A2,verbo,infinitivo,echar de menos
+A2,verbo,infinitivo,entrar
+A2,verbo,infinitivo,esperar
+A2,verbo,infinitivo,ganar
+A2,verbo,infinitivo,gastar
+A2,verbo,infinitivo,guardar
+A2,verbo,infinitivo,invitar
+A2,verbo,infinitivo,ir de compras
+A2,verbo,infinitivo,llenar
+A2,verbo,infinitivo,mostrar
+A2,verbo,infinitivo,no estar de acuerdo
+A2,verbo,infinitivo,olvidar
+A2,verbo,infinitivo,pedir
+A2,verbo,infinitivo,pedir prestado
+A2,verbo,infinitivo,perder
+A2,verbo,infinitivo,practicar
+A2,verbo,infinitivo,preocuparse
+A2,verbo,infinitivo,preparar
+A2,verbo,infinitivo,probar
+A2,verbo,infinitivo,quedar
+A2,verbo,infinitivo,recibir
+A2,verbo,infinitivo,recordar
+A2,verbo,infinitivo,reparar
+A2,verbo,infinitivo,revisar
+A2,verbo,infinitivo,servir
+A2,verbo,infinitivo,soñar
+A2,verbo,infinitivo,subir
+A2,verbo,infinitivo,unirse
+A2,verbo,infinitivo,vender
+A2,verbo,infinitivo,visitar
+A2,verbo,infinitivo,volver
+A2,verbo,presente,bebemos
+A2,verbo,presente,come
+A2,verbo,presente,continúas
+A2,verbo,presente,cuenta
+A2,verbo,presente,elegimos
+A2,verbo,presente,es
+A2,verbo,presente,escribo
+A2,verbo,presente,estamos
+A2,verbo,presente,estudian
+A2,verbo,presente,hablas
+A2,verbo,presente,intenta
+A2,verbo,presente,leen
+A2,verbo,presente,necesito
+A2,verbo,presente,planeamos
+A2,verbo,presente,quieres
+A2,verbo,presente,se quedan
+A2,verbo,presente,tiene
+A2,verbo,presente,trabajamos
+A2,verbo,presente,va
+A2,verbo,presente,viene
+A2,adjetivo,calidad,interesante
+A2,adjetivo,calidad,normal
+A2,adjetivo,calidad,raro
+A2,adjetivo,calidad,serio
+A2,adjetivo,calidad,útil
+A2,adjetivo,emoción,cómodo
+A2,adjetivo,emoción,nervioso
+A2,adjetivo,emoción,orgulloso
+A2,adjetivo,emoción,solo
+A2,adjetivo,estado,disponible
+A2,adjetivo,estado,famoso
+A2,adjetivo,estado,mojado
+A2,adjetivo,estado,popular
+A2,adjetivo,estado,seco
+A2,adjetivo,estado,terminado
+A2,adjetivo,lugar,local
+A2,adjetivo,lugar,nacional
+A2,adjetivo,personalidad,cuidadoso
+A2,adjetivo,personalidad,educado
+A2,adjetivo,personalidad,grosero
+A2,adjetivo,posibilidad,imposible
+A2,adjetivo,posibilidad,posible
+A2,adjetivo,privacidad,privado
+A2,adjetivo,privacidad,público
+A2,adjetivo,sabor,delicioso
+A2,adjetivo,salud,enfermo
+A2,adjetivo,seguridad,peligroso
+A2,adjetivo,tamaño,ancho
+A2,adjetivo,tamaño,estrecho
+A2,adjetivo,textura,suave
+A2,adjetivo,tiempo,moderno
+A2,adjetivo,tiempo,tradicional
+A2,adverbio,certeza,quizás
+A2,adverbio,dirección,adelante
+A2,adverbio,dirección,atrás
+A2,adverbio,evaluación,por desgracia
+A2,adverbio,evaluación,por suerte
+A2,adverbio,frecuencia,a menudo
+A2,adverbio,frecuencia,a veces
+A2,adverbio,frecuencia,normalmente
+A2,adverbio,frecuencia,nunca
+A2,adverbio,frecuencia,rara vez
+A2,adverbio,frecuencia,siempre
+A2,adverbio,grado,bastante
+A2,adverbio,grado,casi
+A2,adverbio,grado,muy
+A2,adverbio,grado,realmente
+A2,adverbio,grado,solo
+A2,adverbio,lugar,abajo
+A2,adverbio,lugar,arriba
+A2,adverbio,lugar,dentro
+A2,adverbio,lugar,en casa
+A2,adverbio,lugar,fuera
+A2,adverbio,lugar,lejos
+A2,adverbio,modo,bien
+A2,adverbio,modo,cuidadosamente
+A2,adverbio,modo,en silencio
+A2,adverbio,modo,en voz alta
+A2,adverbio,modo,fácilmente
+A2,adverbio,modo,felizmente
+A2,adverbio,modo,juntos
+A2,adverbio,modo,lentamente
+A2,adverbio,modo,rápidamente
+A2,adverbio,modo,apenas
+A2,adverbio,modo,tristemente
+A2,adverbio,tiempo,ahora
+A2,adverbio,tiempo,ayer
+A2,adverbio,tiempo,hoy
+A2,adverbio,tiempo,mañana
+A2,adverbio,tiempo,otra vez
+A2,adverbio,tiempo,pronto
+A2,adverbio,tiempo,tarde
+A2,adverbio,tiempo,temprano
+A2,adverbio,tiempo,todavía
+A2,adverbio,tiempo,ya
+B1,sustantivo,educación,asignatura
+B1,sustantivo,educación,clase magistral
+B1,sustantivo,educación,curso
+B1,sustantivo,educación,examen
+B1,sustantivo,educación,investigación
+B1,sustantivo,educación,nota
+B1,sustantivo,educación,resultado
+B1,sustantivo,educación,título
+B1,sustantivo,emoción,confianza
+B1,sustantivo,emoción,estrés
+B1,sustantivo,medioambiente,contaminación
+B1,sustantivo,medioambiente,reciclaje
+B1,sustantivo,salud,diagnóstico
+B1,sustantivo,salud,emergencia
+B1,sustantivo,salud,síntoma
+B1,sustantivo,salud,tratamiento
+B1,sustantivo,sociedad,comunidad
+B1,sustantivo,sociedad,decisión
+B1,sustantivo,sociedad,desventaja
+B1,sustantivo,sociedad,elección
+B1,sustantivo,sociedad,opinión
+B1,sustantivo,sociedad,problema
+B1,sustantivo,sociedad,razón
+B1,sustantivo,sociedad,servicio
+B1,sustantivo,sociedad,solución
+B1,sustantivo,sociedad,ventaja
+B1,sustantivo,tecnología,contraseña
+B1,sustantivo,tecnología,dispositivo
+B1,sustantivo,tecnología,pantalla
+B1,sustantivo,tecnología,programa
+B1,sustantivo,tecnología,red
+B1,sustantivo,tecnología,sitio web
+B1,sustantivo,trabajo,compañero
+B1,sustantivo,trabajo,departamento
+B1,sustantivo,trabajo,empleado
+B1,sustantivo,trabajo,empresa
+B1,sustantivo,trabajo,entrevista
+B1,sustantivo,trabajo,fecha límite
+B1,sustantivo,trabajo,formación
+B1,sustantivo,trabajo,jefe
+B1,sustantivo,trabajo,proyecto
+B1,sustantivo,trabajo,tarea
+B1,sustantivo,viaje,pasajero
+B1,sustantivo,viaje,plataforma
+B1,sustantivo,viaje,trayecto
+B1,verbo,infinitivo,aconsejar
+B1,verbo,infinitivo,arreglar
+B1,verbo,infinitivo,comparar
+B1,verbo,infinitivo,conectar
+B1,verbo,infinitivo,contactar
+B1,verbo,infinitivo,coordinar
+B1,verbo,infinitivo,desarrollar
+B1,verbo,infinitivo,descargar
+B1,verbo,infinitivo,discutir
+B1,verbo,infinitivo,evitar
+B1,verbo,infinitivo,explicar
+B1,verbo,infinitivo,gestionar
+B1,verbo,infinitivo,instalar
+B1,verbo,infinitivo,mejorar
+B1,verbo,infinitivo,negociar
+B1,verbo,infinitivo,objetar
+B1,verbo,infinitivo,organizar
+B1,verbo,infinitivo,participar
+B1,verbo,infinitivo,preferir
+B1,verbo,infinitivo,prestar
+B1,verbo,infinitivo,recomendar
+B1,verbo,infinitivo,responder
+B1,verbo,infinitivo,resumir
+B1,verbo,infinitivo,sugerir
+B1,verbo,infinitivo,sustituir
+B1,verbo,presente,aceptan
+B1,verbo,presente,aconsejas
+B1,verbo,presente,compara
+B1,verbo,presente,describes
+B1,verbo,presente,discutimos
+B1,verbo,presente,evito
+B1,verbo,presente,explico
+B1,verbo,presente,gestionamos
+B1,verbo,presente,recomendamos
+B1,verbo,presente,sugiere
+B1,verbo,pretérito,aceptó
+B1,verbo,pretérito,aconsejaste
+B1,verbo,pretérito,comparó
+B1,verbo,pretérito,describiste
+B1,verbo,pretérito,discutieron
+B1,verbo,pretérito,expliqué
+B1,verbo,pretérito,gestionaron
+B1,verbo,pretérito,mejoré
+B1,verbo,pretérito,recomendé
+B1,verbo,pretérito,sugirieron
+B1,verbo,futuro,comparará
+B1,verbo,futuro,continuarás
+B1,verbo,futuro,decidirán
+B1,verbo,futuro,describirás
+B1,verbo,futuro,discutiremos
+B1,verbo,futuro,explicaré
+B1,verbo,futuro,mejorará
+B1,verbo,futuro,prepararemos
+B1,verbo,futuro,recomendaremos
+B1,verbo,futuro,sugerirán
+B1,verbo,subjuntivo,que compares
+B1,verbo,subjuntivo,que explique
+B1,verbo,subjuntivo,que mejoren
+B1,verbo,subjuntivo,que organicen
+B1,verbo,subjuntivo,que participes
+B1,verbo,subjuntivo,que recomendemos
+B1,verbo,subjuntivo,que responda
+B1,verbo,subjuntivo,que sugiera
+B1,verbo,subjuntivo,que tengas
+B1,verbo,subjuntivo,que vengamos
+B1,adjetivo,calidad,ambiental
+B1,adjetivo,calidad,claro
+B1,adjetivo,calidad,común
+B1,adjetivo,calidad,creativo
+B1,adjetivo,calidad,cultural
+B1,adjetivo,calidad,diferente
+B1,adjetivo,calidad,económico
+B1,adjetivo,calidad,específico
+B1,adjetivo,calidad,exitoso
+B1,adjetivo,calidad,fiable
+B1,adjetivo,calidad,general
+B1,adjetivo,calidad,importante
+B1,adjetivo,calidad,independiente
+B1,adjetivo,calidad,inusual
+B1,adjetivo,calidad,limitado
+B1,adjetivo,calidad,médico
+B1,adjetivo,calidad,natural
+B1,adjetivo,calidad,necesario
+B1,adjetivo,calidad,negativo
+B1,adjetivo,calidad,ordinario
+B1,adjetivo,calidad,paciente
+B1,adjetivo,calidad,personal
+B1,adjetivo,calidad,poco claro
+B1,adjetivo,calidad,político
+B1,adjetivo,calidad,positivo
+B1,adjetivo,calidad,práctico
+B1,adjetivo,calidad,profesional
+B1,adjetivo,calidad,regular
+B1,adjetivo,calidad,responsable
+B1,adjetivo,calidad,seguro
+B1,adjetivo,calidad,similar
+B1,adjetivo,calidad,social
+B1,adjetivo,calidad,técnico
+B1,adjetivo,calidad,urgente
+B1,adjetivo,calidad,valioso
+B1,adverbio,certeza,probablemente
+B1,adverbio,certeza,seguramente
+B1,adverbio,certeza,tal vez
+B1,adverbio,evaluación,afortunadamente
+B1,adverbio,evaluación,obviamente
+B1,adverbio,frecuencia,frecuentemente
+B1,adverbio,frecuencia,ocasionalmente
+B1,adverbio,grado,completamente
+B1,adverbio,grado,en parte
+B1,adverbio,grado,en su mayoría
+B1,adverbio,grado,especialmente
+B1,adverbio,grado,particularmente
+B1,adverbio,grado,principalmente
+B1,adverbio,grado,suficientemente
+B1,adverbio,lugar,cerca
+B1,adverbio,lugar,en el extranjero
+B1,adverbio,modo,claramente
+B1,adverbio,modo,con éxito
+B1,adverbio,modo,con paciencia
+B1,adverbio,modo,con seguridad
+B1,adverbio,modo,correctamente
+B1,adverbio,modo,educadamente
+B1,adverbio,modo,personalmente
+B1,adverbio,modo,profesionalmente
+B1,adverbio,modo,regularmente
+B1,adverbio,modo,seriamente
+B1,adverbio,tiempo,anteriormente
+B1,adverbio,tiempo,finalmente
+B1,adverbio,tiempo,inmediatamente
+B1,adverbio,tiempo,recientemente
+B1,conector,adición,además
+B1,conector,adición,también
+B1,conector,causa,como
+B1,conector,causa,porque
+B1,conector,causa,ya que
+B1,conector,condición,a menos que
+B1,conector,condición,en caso de que
+B1,conector,condición,siempre que
+B1,conector,contraste,a pesar de eso
+B1,conector,contraste,aunque
+B1,conector,contraste,en cambio
+B1,conector,contraste,por otro lado
+B1,conector,contraste,sin embargo
+B1,conector,ejemplo,por ejemplo
+B1,conector,ejemplo,tal como
+B1,conector,finalidad,para
+B1,conector,finalidad,para que
+B1,conector,resultado,así que
+B1,conector,resultado,como resultado
+B1,conector,resultado,por lo tanto
+B1,conector,secuencia,antes de eso
+B1,conector,secuencia,después de eso
+B1,conector,tiempo,mientras
+B1,conector,tiempo,mientras tanto
+B1,conector,tiempo,tan pronto como
+B2,sustantivo,educación,análisis
+B2,sustantivo,educación,argumento
+B2,sustantivo,educación,enfoque
+B2,sustantivo,educación,ensayo
+B2,sustantivo,educación,evaluación
+B2,sustantivo,educación,evidencia
+B2,sustantivo,educación,interpretación
+B2,sustantivo,educación,marco
+B2,sustantivo,educación,perspectiva
+B2,sustantivo,educación,principio
+B2,sustantivo,emoción,conciencia
+B2,sustantivo,medioambiente,clima
+B2,sustantivo,medioambiente,emisión
+B2,sustantivo,medioambiente,recurso
+B2,sustantivo,medioambiente,sostenibilidad
+B2,sustantivo,sociedad,actitud
+B2,sustantivo,sociedad,asunto
+B2,sustantivo,sociedad,autoridad
+B2,sustantivo,sociedad,beneficio
+B2,sustantivo,sociedad,comportamiento
+B2,sustantivo,sociedad,identidad
+B2,sustantivo,sociedad,impacto
+B2,sustantivo,sociedad,mayoría
+B2,sustantivo,sociedad,minoría
+B2,sustantivo,sociedad,política
+B2,sustantivo,sociedad,regulación
+B2,sustantivo,sociedad,resultado
+B2,sustantivo,sociedad,tendencia
+B2,sustantivo,tecnología,innovación
+B2,sustantivo,tecnología,interfaz
+B2,sustantivo,tecnología,límite
+B2,sustantivo,tecnología,privacidad
+B2,sustantivo,trabajo,calificación
+B2,sustantivo,trabajo,contrato
+B2,sustantivo,trabajo,liderazgo
+B2,sustantivo,trabajo,negociación
+B2,sustantivo,trabajo,propuesta
+B2,sustantivo,trabajo,rendimiento
+B2,sustantivo,trabajo,responsabilidad
+B2,sustantivo,trabajo,solicitud
+B2,verbo,infinitivo,afectar
+B2,verbo,infinitivo,afirmar
+B2,verbo,infinitivo,analizar
+B2,verbo,infinitivo,argumentar
+B2,verbo,infinitivo,aumentar
+B2,verbo,infinitivo,criticar
+B2,verbo,infinitivo,definir
+B2,verbo,infinitivo,enfatizar
+B2,verbo,infinitivo,estimar
+B2,verbo,infinitivo,evaluar
+B2,verbo,infinitivo,ilustrar
+B2,verbo,infinitivo,influir
+B2,verbo,infinitivo,justificar
+B2,verbo,infinitivo,lograr
+B2,verbo,infinitivo,mantener
+B2,verbo,infinitivo,reducir
+B2,verbo,infinitivo,referirse
+B2,verbo,infinitivo,reflejar
+B2,verbo,infinitivo,representar
+B2,verbo,infinitivo,requerir
+B2,verbo,presente,afirmamos
+B2,verbo,presente,analizo
+B2,verbo,presente,argumenta
+B2,verbo,presente,critican
+B2,verbo,presente,definimos
+B2,verbo,presente,enfatizo
+B2,verbo,presente,evalúas
+B2,verbo,presente,ilustra
+B2,verbo,presente,justifica
+B2,verbo,presente,representan
+B2,verbo,pretérito,afirmaron
+B2,verbo,pretérito,analicé
+B2,verbo,pretérito,argumentó
+B2,verbo,pretérito,criticaron
+B2,verbo,pretérito,definieron
+B2,verbo,pretérito,enfaticé
+B2,verbo,pretérito,evaluaste
+B2,verbo,pretérito,ilustró
+B2,verbo,pretérito,justificó
+B2,verbo,pretérito,representaron
+B2,verbo,futuro,afectaremos
+B2,verbo,futuro,afirmaremos
+B2,verbo,futuro,analizaré
+B2,verbo,futuro,argumentará
+B2,verbo,futuro,criticarán
+B2,verbo,futuro,enfatizaré
+B2,verbo,futuro,evaluarás
+B2,verbo,futuro,influirá
+B2,verbo,futuro,justificará
+B2,verbo,futuro,requerirán
+B2,verbo,perfecto,ha argumentado
+B2,verbo,perfecto,han justificado
+B2,verbo,perfecto,has evaluado
+B2,verbo,perfecto,he analizado
+B2,verbo,perfecto,he influido
+B2,verbo,perfecto,hemos afirmado
+B2,verbo,modal,debe considerar
+B2,verbo,modal,debería analizar
+B2,verbo,modal,deberían mantener
+B2,verbo,modal,deberías explicar
+B2,verbo,modal,podrían afectar
+B2,verbo,modal,podrías argumentar
+B2,verbo,modal,puede influir
+B2,verbo,modal,requeriríamos
+B2,verbo,subjuntivo,que afirmemos
+B2,verbo,subjuntivo,que analice
+B2,verbo,subjuntivo,que argumente
+B2,verbo,subjuntivo,que aumentemos
+B2,verbo,subjuntivo,que establezcan
+B2,verbo,subjuntivo,que evalúes
+B2,verbo,subjuntivo,que influyan
+B2,verbo,subjuntivo,que justifique
+B2,verbo,subjuntivo,que mantengan
+B2,verbo,subjuntivo,que reduzcas
+B2,verbo,subjuntivo,que representes
+B2,adjetivo,calidad,académico
+B2,adjetivo,calidad,adecuado
+B2,adjetivo,calidad,apropiado
+B2,adjetivo,calidad,capaz
+B2,adjetivo,calidad,colectivo
+B2,adjetivo,calidad,complejo
+B2,adjetivo,calidad,consciente
+B2,adjetivo,calidad,controvertido
+B2,adjetivo,calidad,convincente
+B2,adjetivo,calidad,crítico
+B2,adjetivo,calidad,dispuesto
+B2,adjetivo,calidad,efectivo
+B2,adjetivo,calidad,eficiente
+B2,adjetivo,calidad,emocional
+B2,adjetivo,calidad,esencial
+B2,adjetivo,calidad,ético
+B2,adjetivo,calidad,falso
+B2,adjetivo,calidad,financiero
+B2,adjetivo,calidad,físico
+B2,adjetivo,calidad,flexible
+B2,adjetivo,calidad,global
+B2,adjetivo,calidad,individual
+B2,adjetivo,calidad,legal
+B2,adjetivo,calidad,lógico
+B2,adjetivo,calidad,mental
+B2,adjetivo,calidad,obvio
+B2,adjetivo,calidad,permanente
+B2,adjetivo,calidad,preciso
+B2,adjetivo,calidad,preocupado
+B2,adjetivo,calidad,razonable
+B2,adjetivo,calidad,relevante
+B2,adjetivo,calidad,significativo
+B2,adjetivo,calidad,sutil
+B2,adjetivo,calidad,temporal
+B2,adjetivo,calidad,válido
+B2,adverbio,certeza,aparentemente
+B2,adverbio,certeza,presuntamente
+B2,adverbio,enfoque,de otro modo
+B2,adverbio,enfoque,respectivamente
+B2,adverbio,evaluación,curiosamente
+B2,adverbio,evaluación,sin duda
+B2,adverbio,grado,aproximadamente
+B2,adverbio,grado,extremadamente
+B2,adverbio,grado,ligeramente
+B2,adverbio,grado,muy
+B2,adverbio,grado,relativamente
+B2,adverbio,grado,significativamente
+B2,adverbio,modo,adecuadamente
+B2,adverbio,modo,con precisión
+B2,adverbio,modo,críticamente
+B2,adverbio,modo,efectivamente
+B2,adverbio,modo,eficientemente
+B2,adverbio,modo,emocionalmente
+B2,adverbio,modo,físicamente
+B2,adverbio,modo,legalmente
+B2,adverbio,modo,lógicamente
+B2,adverbio,modo,mentalmente
+B2,adverbio,tiempo,actualmente
+B2,adverbio,tiempo,anteriormente
+B2,adverbio,tiempo,gradualmente
+B2,conector,aclaración,en otras palabras
+B2,conector,aclaración,es decir
+B2,conector,adición,además
+B2,conector,adición,asimismo
+B2,conector,adición,por añadidura
+B2,conector,causa,a causa de
+B2,conector,causa,dado que
+B2,conector,causa,debido a
+B2,conector,condición,de lo contrario
+B2,conector,condición,siempre que
+B2,conector,condición,suponiendo que
+B2,conector,contraste,a pesar de
+B2,conector,contraste,en contraste
+B2,conector,contraste,mientras que
+B2,conector,contraste,no obstante
+B2,conector,contraste,sin embargo
+B2,conector,ejemplo,por ejemplo
+B2,conector,finalidad,con el fin de
+B2,conector,finalidad,para que
+B2,conector,resultado,así pues
+B2,conector,resultado,por consiguiente
+B2,conector,resultado,por ello
+B2,conector,resumen,en conclusión
+B2,conector,resumen,en general
+B2,conector,secuencia,posteriormente

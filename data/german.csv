@@ -1,1 +1,801 @@
 level,category,subcategory,word
+A1,substantiv,wetter,Regen
+A1,substantiv,wetter,Schnee
+A1,substantiv,wetter,Sonne
+A1,substantiv,wetter,Wetter
+A1,substantiv,essen,Wasser
+A1,substantiv,essen,Mittagessen
+A1,substantiv,essen,Kaffee
+A1,substantiv,essen,Reis
+A1,substantiv,essen,Frühstück
+A1,substantiv,essen,Milch
+A1,substantiv,essen,Apfel
+A1,substantiv,essen,Brot
+A1,substantiv,essen,Banane
+A1,substantiv,essen,Käse
+A1,substantiv,essen,Tee
+A1,substantiv,körper,Mund
+A1,substantiv,körper,Kopf
+A1,substantiv,körper,Körper
+A1,substantiv,körper,Hand
+A1,substantiv,körper,Auge
+A1,substantiv,körper,Ohr
+A1,substantiv,körper,Fuß
+A1,substantiv,alltag,Tasche
+A1,substantiv,alltag,Computer
+A1,substantiv,alltag,Geld
+A1,substantiv,alltag,Schlüssel
+A1,substantiv,alltag,Nummer
+A1,substantiv,alltag,Telefon
+A1,substantiv,schule,Stift
+A1,substantiv,schule,Klasse
+A1,substantiv,schule,Bild
+A1,substantiv,schule,Schule
+A1,substantiv,schule,Schüler
+A1,substantiv,schule,Sprache
+A1,substantiv,schule,Stunde
+A1,substantiv,schule,Buch
+A1,substantiv,schule,Papier
+A1,substantiv,schule,Lehrer
+A1,substantiv,familie,Freund
+A1,substantiv,familie,Baby
+A1,substantiv,familie,Familie
+A1,substantiv,familie,Schwester
+A1,substantiv,familie,Bruder
+A1,substantiv,familie,Tochter
+A1,substantiv,familie,Sohn
+A1,substantiv,familie,Mutter
+A1,substantiv,familie,Name
+A1,substantiv,familie,Vater
+A1,substantiv,haus,Wohnung
+A1,substantiv,haus,Bad
+A1,substantiv,haus,Bett
+A1,substantiv,haus,Haus
+A1,substantiv,haus,Küche
+A1,substantiv,haus,Zimmer
+A1,substantiv,haus,Tisch
+A1,substantiv,haus,Tür
+A1,substantiv,haus,Stuhl
+A1,substantiv,haus,Fenster
+A1,substantiv,orte,Straße
+A1,substantiv,orte,Weg
+A1,substantiv,orte,Stadt
+A1,substantiv,orte,Ort
+A1,substantiv,orte,Land
+A1,substantiv,orte,Park
+A1,substantiv,orte,Geschäft
+A1,substantiv,freizeit,Spiel
+A1,substantiv,freizeit,Musik
+A1,substantiv,kleidung,Hemd
+A1,substantiv,kleidung,Jacke
+A1,substantiv,kleidung,Schuh
+A1,substantiv,zeit,Tag
+A1,substantiv,zeit,Wochenende
+A1,substantiv,zeit,Uhr
+A1,substantiv,zeit,Morgen
+A1,substantiv,zeit,Woche
+A1,substantiv,zeit,Abend
+A1,substantiv,transport,Fahrrad
+A1,substantiv,transport,Bus
+A1,substantiv,transport,Zug
+A1,substantiv,reise,Fahrkarte
+A1,verb,infinitiv,sein
+A1,verb,infinitiv,haben
+A1,verb,infinitiv,gehen
+A1,verb,infinitiv,kommen
+A1,verb,infinitiv,sehen
+A1,verb,infinitiv,essen
+A1,verb,infinitiv,trinken
+A1,verb,infinitiv,schlafen
+A1,verb,infinitiv,leben
+A1,verb,infinitiv,lesen
+A1,verb,infinitiv,schreiben
+A1,verb,infinitiv,hören
+A1,verb,infinitiv,schauen
+A1,verb,infinitiv,sprechen
+A1,verb,infinitiv,sagen
+A1,verb,infinitiv,fragen
+A1,verb,infinitiv,antworten
+A1,verb,infinitiv,verstehen
+A1,verb,infinitiv,helfen
+A1,verb,infinitiv,kaufen
+A1,verb,infinitiv,bezahlen
+A1,verb,infinitiv,öffnen
+A1,verb,infinitiv,schließen
+A1,verb,infinitiv,sitzen
+A1,verb,infinitiv,aufstehen
+A1,verb,infinitiv,warten
+A1,verb,infinitiv,laufen
+A1,verb,infinitiv,reisen
+A1,verb,infinitiv,fahren
+A1,verb,infinitiv,beginnen
+A1,verb,infinitiv,enden
+A1,verb,infinitiv,nehmen
+A1,verb,infinitiv,geben
+A1,verb,infinitiv,lieben
+A1,verb,infinitiv,wollen
+A1,verb,infinitiv,brauchen
+A1,verb,infinitiv,benutzen
+A1,verb,infinitiv,arbeiten
+A1,verb,infinitiv,lernen
+A1,verb,infinitiv,kochen
+A1,verb,infinitiv,putzen
+A1,verb,infinitiv,waschen
+A1,verb,infinitiv,anrufen
+A1,verb,infinitiv,schicken
+A1,verb,infinitiv,bringen
+A1,verb,infinitiv,tragen
+A1,verb,infinitiv,finden
+A1,verb,infinitiv,versuchen
+A1,verb,infinitiv,mögen
+A1,verb,infinitiv,spielen
+A1,verb,infinitiv,kennen
+A1,verb,infinitiv,wissen
+A1,verb,infinitiv,denken
+A1,verb,infinitiv,fühlen
+A1,verb,infinitiv,machen
+A1,verb,infinitiv,legen
+A1,verb,infinitiv,ausgehen
+A1,verb,infinitiv,ankommen
+A1,verb,infinitiv,bleiben
+A1,verb,infinitiv,wohnen
+A1,verb,infinitiv,zeichnen
+A1,verb,infinitiv,wählen
+A1,verb,infinitiv,können
+A1,verb,infinitiv,müssen
+A1,verb,infinitiv,dürfen
+A1,adjektiv,aussehen,schön
+A1,adjektiv,aussehen,hell
+A1,adjektiv,aussehen,dunkel
+A1,adjektiv,aussehen,hässlich
+A1,adjektiv,qualität,gut
+A1,adjektiv,qualität,schlecht
+A1,adjektiv,qualität,frisch
+A1,adjektiv,qualität,stark
+A1,adjektiv,qualität,schwach
+A1,adjektiv,qualität,einfach
+A1,adjektiv,qualität,nützlich
+A1,adjektiv,schwierigkeit,schwer
+A1,adjektiv,schwierigkeit,leicht
+A1,adjektiv,schwierigkeit,kompliziert
+A1,adjektiv,alter,jung
+A1,adjektiv,alter,neu
+A1,adjektiv,alter,alt
+A1,adjektiv,gefühl,glücklich
+A1,adjektiv,gefühl,traurig
+A1,adjektiv,gefühl,müde
+A1,adjektiv,gefühl,hungrig
+A1,adjektiv,gefühl,durstig
+A1,adjektiv,zustand,offen
+A1,adjektiv,zustand,geschlossen
+A1,adjektiv,zustand,sauber
+A1,adjektiv,zustand,schmutzig
+A1,adjektiv,zustand,leer
+A1,adjektiv,zustand,voll
+A1,adjektiv,zustand,besetzt
+A1,adjektiv,zustand,bereit
+A1,adjektiv,zustand,reich
+A1,adjektiv,zustand,arm
+A1,adjektiv,bewertung,richtig
+A1,adjektiv,bewertung,falsch
+A1,adjektiv,persönlichkeit,nett
+A1,adjektiv,persönlichkeit,freundlich
+A1,adjektiv,preis,billig
+A1,adjektiv,preis,teuer
+A1,adjektiv,gesundheit,krank
+A1,adjektiv,gesundheit,gesund
+A1,adjektiv,sicherheit,sicher
+A1,adjektiv,klang,ruhig
+A1,adjektiv,klang,laut
+A1,adjektiv,geschmack,süß
+A1,adjektiv,größe,groß
+A1,adjektiv,größe,klein
+A1,adjektiv,größe,lang
+A1,adjektiv,größe,kurz
+A1,adjektiv,temperatur,warm
+A1,adjektiv,temperatur,kalt
+A1,adjektiv,temperatur,kühl
+A1,adjektiv,zeit,nächst
+A1,adjektiv,zeit,letzte
+A1,adjektiv,geschwindigkeit,schnell
+A1,adjektiv,geschwindigkeit,langsam
+A2,substantiv,einkaufen,Rechnung
+A2,substantiv,einkaufen,Bargeld
+A2,substantiv,einkaufen,Karte
+A2,substantiv,einkaufen,Wechselgeld
+A2,substantiv,einkaufen,Kunde
+A2,substantiv,einkaufen,Bestellung
+A2,substantiv,einkaufen,Markt
+A2,substantiv,einkaufen,Preis
+A2,substantiv,einkaufen,Quittung
+A2,substantiv,einkaufen,Rabatt
+A2,substantiv,kommunikation,Nachricht
+A2,substantiv,körper,Finger
+A2,substantiv,körper,Herz
+A2,substantiv,körper,Hals
+A2,substantiv,körper,Bein
+A2,substantiv,körper,Bauch
+A2,substantiv,schule,Hausaufgabe
+A2,substantiv,schule,Übung
+A2,substantiv,haus,Adresse
+A2,substantiv,haus,Wohnung
+A2,substantiv,haus,Miete
+A2,substantiv,haus,Nachbar
+A2,substantiv,freizeit,Geburtstag
+A2,substantiv,freizeit,Lied
+A2,substantiv,freizeit,Feier
+A2,substantiv,freizeit,Film
+A2,substantiv,freizeit,Hobby
+A2,substantiv,orte,Bibliothek
+A2,substantiv,orte,Garten
+A2,substantiv,orte,Museum
+A2,substantiv,orte,Strand
+A2,substantiv,orte,Insel
+A2,substantiv,wetter,Wolke
+A2,substantiv,wetter,Gewitter
+A2,substantiv,wetter,Temperatur
+A2,substantiv,wetter,Wind
+A2,substantiv,planung,Plan
+A2,substantiv,planung,Termin
+A2,substantiv,planung,Sitzung
+A2,substantiv,gesundheit,Krankenhaus
+A2,substantiv,gesundheit,Krankenschwester
+A2,substantiv,gesundheit,Arzt
+A2,substantiv,gesundheit,Medizin
+A2,substantiv,gesundheit,Apotheke
+A2,substantiv,sport,Mannschaft
+A2,substantiv,sport,Spiel
+A2,substantiv,zeit,Herbst
+A2,substantiv,zeit,Sommer
+A2,substantiv,zeit,Winter
+A2,substantiv,zeit,Frühling
+A2,substantiv,zeit,Jahreszeit
+A2,substantiv,arbeit,Büro
+A2,substantiv,kleidung,Mantel
+A2,substantiv,reise,Flughafen
+A2,substantiv,reise,Gepäck
+A2,substantiv,reise,Reisepass
+A2,substantiv,reise,Hotel
+A2,substantiv,reise,Gast
+A2,substantiv,reise,Urlaub
+A2,substantiv,reise,Reise
+A2,verb,infinitiv,akzeptieren
+A2,verb,infinitiv,ordnen
+A2,verb,infinitiv,suchen
+A2,verb,infinitiv,ändern
+A2,verb,infinitiv,fortsetzen
+A2,verb,infinitiv,überqueren
+A2,verb,infinitiv,entscheiden
+A2,verb,infinitiv,beschreiben
+A2,verb,infinitiv,ausgeben
+A2,verb,infinitiv,ablehnen
+A2,verb,infinitiv,leihen
+A2,verb,infinitiv,eintreten
+A2,verb,infinitiv,probieren
+A2,verb,infinitiv,einkaufen
+A2,verb,infinitiv,gewinnen
+A2,verb,infinitiv,behalten
+A2,verb,infinitiv,einladen
+A2,verb,infinitiv,mieten
+A2,verb,infinitiv,fehlen
+A2,verb,infinitiv,steigen
+A2,verb,infinitiv,zeigen
+A2,verb,infinitiv,vergessen
+A2,verb,infinitiv,teilen
+A2,verb,infinitiv,verlieren
+A2,verb,infinitiv,vorbereiten
+A2,verb,infinitiv,üben
+A2,verb,infinitiv,erhalten
+A2,verb,infinitiv,recherchieren
+A2,verb,infinitiv,reparieren
+A2,verb,infinitiv,zurückkehren
+A2,verb,infinitiv,träumen
+A2,verb,infinitiv,wiederholen
+A2,verb,infinitiv,duschen
+A2,verb,infinitiv,sich anschließen
+A2,verb,infinitiv,aufwachen
+A2,verb,infinitiv,sich erinnern
+A2,verb,infinitiv,bedienen
+A2,verb,infinitiv,sich sorgen
+A2,verb,infinitiv,verkaufen
+A2,verb,infinitiv,besuchen
+A2,verb,infinitiv,wohnen
+A2,verb,infinitiv,zählen
+A2,verb,infinitiv,füllen
+A2,verb,infinitiv,bestellen
+A2,verb,infinitiv,planen
+A2,verb,präsens,bin
+A2,verb,präsens,bist
+A2,verb,präsens,ist
+A2,verb,präsens,haben
+A2,verb,präsens,habt
+A2,verb,präsens,gehen
+A2,verb,präsens,esse
+A2,verb,präsens,isst
+A2,verb,präsens,sprechen
+A2,verb,präsens,sprecht
+A2,verb,präsens,lesen
+A2,verb,präsens,schreibe
+A2,verb,präsens,schreiben
+A2,verb,präsens,arbeitest
+A2,verb,präsens,arbeitet
+A2,verb,präsens,lerne
+A2,verb,präsens,lernen
+A2,verb,präsens,wählt
+A2,verb,präsens,wählen
+A2,verb,präsens,nehmen
+A2,adjektiv,gefühl,stolz
+A2,adjektiv,gefühl,nervös
+A2,adjektiv,gefühl,allein
+A2,adjektiv,gefühl,bequem
+A2,adjektiv,zustand,verfügbar
+A2,adjektiv,zustand,fertig
+A2,adjektiv,zustand,berühmt
+A2,adjektiv,zustand,beliebt
+A2,adjektiv,zustand,trocken
+A2,adjektiv,zustand,nass
+A2,adjektiv,geschmack,lecker
+A2,adjektiv,ort,lokal
+A2,adjektiv,ort,national
+A2,adjektiv,persönlichkeit,höflich
+A2,adjektiv,persönlichkeit,unhöflich
+A2,adjektiv,möglichkeit,unmöglich
+A2,adjektiv,möglichkeit,möglich
+A2,adjektiv,qualität,interessant
+A2,adjektiv,qualität,normal
+A2,adjektiv,qualität,seltsam
+A2,adjektiv,qualität,ernst
+A2,adjektiv,qualität,nützlich
+A2,adjektiv,qualität,praktisch
+A2,adjektiv,gesundheit,krank
+A2,adjektiv,sicherheit,gefährlich
+A2,adjektiv,größe,eng
+A2,adjektiv,größe,breit
+A2,adjektiv,zeit,modern
+A2,adjektiv,zeit,traditionell
+A2,adjektiv,gefühl,weich
+A2,adjektiv,privatheit,privat
+A2,adjektiv,privatheit,öffentlich
+A2,adverb,sicherheit,vielleicht
+A2,adverb,grad,ziemlich
+A2,adverb,grad,fast
+A2,adverb,grad,nur
+A2,adverb,grad,sehr
+A2,adverb,grad,wirklich
+A2,adverb,häufigkeit,normalerweise
+A2,adverb,bewertung,zum Glück
+A2,adverb,bewertung,leider
+A2,adverb,häufigkeit,nie
+A2,adverb,häufigkeit,manchmal
+A2,adverb,häufigkeit,selten
+A2,adverb,häufigkeit,oft
+A2,adverb,häufigkeit,immer
+A2,adverb,häufigkeit,gewöhnlich
+A2,adverb,ort,hier
+A2,adverb,ort,dort
+A2,adverb,ort,überall
+A2,adverb,ort,irgendwo
+A2,adverb,ort,nirgends
+A2,adverb,ort,woanders
+A2,adverb,art,einfach
+A2,adverb,art,zusammen
+A2,adverb,art,höflich
+A2,adverb,art,langsam
+A2,adverb,art,leise
+A2,adverb,art,traurig
+A2,adverb,art,allein
+A2,adverb,art,sorgfältig
+A2,adverb,art,schnell
+A2,adverb,art,laut
+A2,adverb,art,gern
+A2,adverb,art,direkt
+A2,adverb,zeit,heute
+A2,adverb,zeit,schon
+A2,adverb,zeit,morgen
+A2,adverb,zeit,noch
+A2,adverb,zeit,gestern
+A2,adverb,zeit,jetzt
+A2,adverb,zeit,bald
+A2,adverb,zeit,spät
+A2,adverb,zeit,früh
+A2,adverb,zeit,wieder
+B1,substantiv,bildung,Kurs
+B1,substantiv,bildung,Abschluss
+B1,substantiv,bildung,Prüfung
+B1,substantiv,bildung,Note
+B1,substantiv,bildung,Forschung
+B1,substantiv,bildung,Ergebnis
+B1,substantiv,bildung,Thema
+B1,substantiv,bildung,Konferenz
+B1,substantiv,gefühl,Vertrauen
+B1,substantiv,gefühl,Stress
+B1,substantiv,umwelt,Verschmutzung
+B1,substantiv,umwelt,Recycling
+B1,substantiv,gesundheit,Diagnose
+B1,substantiv,gesundheit,Notfall
+B1,substantiv,gesundheit,Symptom
+B1,substantiv,gesundheit,Behandlung
+B1,substantiv,gesellschaft,Vorteil
+B1,substantiv,gesellschaft,Wahl
+B1,substantiv,gesellschaft,Gemeinschaft
+B1,substantiv,gesellschaft,Entscheidung
+B1,substantiv,gesellschaft,Nachteil
+B1,substantiv,gesellschaft,Meinung
+B1,substantiv,gesellschaft,Problem
+B1,substantiv,gesellschaft,Grund
+B1,substantiv,gesellschaft,Dienst
+B1,substantiv,gesellschaft,Lösung
+B1,substantiv,technik,Gerät
+B1,substantiv,technik,Bildschirm
+B1,substantiv,technik,Software
+B1,substantiv,technik,Passwort
+B1,substantiv,technik,Netzwerk
+B1,substantiv,technik,Webseite
+B1,substantiv,arbeit,Kollege
+B1,substantiv,arbeit,Frist
+B1,substantiv,arbeit,Abteilung
+B1,substantiv,arbeit,Mitarbeiter
+B1,substantiv,arbeit,Firma
+B1,substantiv,arbeit,Gespräch
+B1,substantiv,arbeit,Ausbildung
+B1,substantiv,arbeit,Leiter
+B1,substantiv,arbeit,Projekt
+B1,substantiv,arbeit,Aufgabe
+B1,substantiv,reise,Fahrgast
+B1,substantiv,reise,Bahnsteig
+B1,substantiv,reise,Strecke
+B1,verb,infinitiv,akzeptieren
+B1,verb,infinitiv,verbessern
+B1,verb,infinitiv,vergleichen
+B1,verb,infinitiv,beraten
+B1,verb,infinitiv,kontaktieren
+B1,verb,infinitiv,koordinieren
+B1,verb,infinitiv,entwickeln
+B1,verb,infinitiv,diskutieren
+B1,verb,infinitiv,vermeiden
+B1,verb,infinitiv,erklären
+B1,verb,infinitiv,verwalten
+B1,verb,infinitiv,installieren
+B1,verb,infinitiv,verhandeln
+B1,verb,infinitiv,protestieren
+B1,verb,infinitiv,organisieren
+B1,verb,infinitiv,teilnehmen
+B1,verb,infinitiv,bevorzugen
+B1,verb,infinitiv,verleihen
+B1,verb,infinitiv,empfehlen
+B1,verb,infinitiv,ersetzen
+B1,verb,infinitiv,antworten
+B1,verb,infinitiv,zusammenfassen
+B1,verb,infinitiv,sich einloggen
+B1,verb,infinitiv,vorschlagen
+B1,verb,infinitiv,herunterladen
+B1,verb,präsens,erkläre
+B1,verb,präsens,erklärst
+B1,verb,präsens,vergleichst
+B1,verb,präsens,diskutiert
+B1,verb,präsens,schlagen vor
+B1,verb,präsens,empfiehlt
+B1,verb,präsens,berätst
+B1,verb,präsens,akzeptierst
+B1,verb,präsens,vermeide
+B1,verb,präsens,verwaltet
+B1,verb,perfekt,habe erklärt
+B1,verb,perfekt,hast beschrieben
+B1,verb,perfekt,hat verglichen
+B1,verb,perfekt,haben diskutiert
+B1,verb,perfekt,haben vorgeschlagen
+B1,verb,perfekt,habe empfohlen
+B1,verb,perfekt,hast beraten
+B1,verb,perfekt,hat akzeptiert
+B1,verb,perfekt,haben verwaltet
+B1,verb,perfekt,habe verbessert
+B1,verb,futur,werde erklären
+B1,verb,futur,wirst beschreiben
+B1,verb,futur,wird vergleichen
+B1,verb,futur,werden diskutieren
+B1,verb,futur,werden vorschlagen
+B1,verb,futur,werden empfehlen
+B1,verb,futur,wird verbessern
+B1,verb,futur,wirst fortsetzen
+B1,verb,futur,werden vorbereiten
+B1,verb,futur,werden entscheiden
+B1,verb,konjunktiv,würde erklären
+B1,verb,konjunktiv,würdest vergleichen
+B1,verb,konjunktiv,würde vorschlagen
+B1,verb,konjunktiv,würden empfehlen
+B1,verb,konjunktiv,würden verbessern
+B1,verb,konjunktiv,würdest teilnehmen
+B1,verb,konjunktiv,würden organisieren
+B1,verb,konjunktiv,würde antworten
+B1,verb,konjunktiv,würden kommen
+B1,verb,konjunktiv,hättest
+B1,adjektiv,qualität,klar
+B1,adjektiv,qualität,unklar
+B1,adjektiv,qualität,gemeinsam
+B1,adjektiv,qualität,ungewöhnlich
+B1,adjektiv,qualität,ähnlich
+B1,adjektiv,qualität,verschieden
+B1,adjektiv,qualität,wichtig
+B1,adjektiv,qualität,notwendig
+B1,adjektiv,qualität,praktisch
+B1,adjektiv,qualität,kreativ
+B1,adjektiv,qualität,zuverlässig
+B1,adjektiv,qualität,sicher
+B1,adjektiv,qualität,geduldig
+B1,adjektiv,qualität,verantwortlich
+B1,adjektiv,qualität,unabhängig
+B1,adjektiv,qualität,erfolgreich
+B1,adjektiv,qualität,begrenzt
+B1,adjektiv,qualität,allgemein
+B1,adjektiv,qualität,spezifisch
+B1,adjektiv,qualität,persönlich
+B1,adjektiv,qualität,beruflich
+B1,adjektiv,qualität,technisch
+B1,adjektiv,qualität,medizinisch
+B1,adjektiv,qualität,ökologisch
+B1,adjektiv,qualität,sozial
+B1,adjektiv,qualität,wirtschaftlich
+B1,adjektiv,qualität,politisch
+B1,adjektiv,qualität,kulturell
+B1,adjektiv,qualität,natürlich
+B1,adjektiv,qualität,regelmäßig
+B1,adjektiv,qualität,gewöhnlich
+B1,adjektiv,qualität,dringend
+B1,adjektiv,qualität,positiv
+B1,adjektiv,qualität,negativ
+B1,adjektiv,qualität,wertvoll
+B1,adverb,sicherheit,sicherlich
+B1,adverb,sicherheit,vielleicht
+B1,adverb,sicherheit,wahrscheinlich
+B1,adverb,grad,ziemlich
+B1,adverb,grad,völlig
+B1,adverb,grad,teilweise
+B1,adverb,grad,hauptsächlich
+B1,adverb,grad,besonders
+B1,adverb,grad,genug
+B1,adverb,grad,ausreichend
+B1,adverb,bewertung,offensichtlich
+B1,adverb,bewertung,zum Glück
+B1,adverb,häufigkeit,häufig
+B1,adverb,häufigkeit,gelegentlich
+B1,adverb,ort,im Ausland
+B1,adverb,ort,in der Nähe
+B1,adverb,art,klar
+B1,adverb,art,ernsthaft
+B1,adverb,art,richtig
+B1,adverb,art,höflich
+B1,adverb,art,mit Vertrauen
+B1,adverb,art,geduldig
+B1,adverb,art,erfolgreich
+B1,adverb,art,regelmäßig
+B1,adverb,art,persönlich
+B1,adverb,art,beruflich
+B1,adverb,zeit,kürzlich
+B1,adverb,zeit,früher
+B1,adverb,zeit,sofort
+B1,adverb,zeit,schließlich
+B1,konnektor,zusatz,außerdem
+B1,konnektor,zusatz,auch
+B1,konnektor,grund,weil
+B1,konnektor,grund,da
+B1,konnektor,grund,denn
+B1,konnektor,bedingung,wenn
+B1,konnektor,bedingung,falls
+B1,konnektor,bedingung,solange
+B1,konnektor,kontrast,obwohl
+B1,konnektor,kontrast,trotzdem
+B1,konnektor,kontrast,auch wenn
+B1,konnektor,kontrast,andererseits
+B1,konnektor,kontrast,stattdessen
+B1,konnektor,beispiel,zum Beispiel
+B1,konnektor,beispiel,wie
+B1,konnektor,ziel,damit
+B1,konnektor,ziel,um zu
+B1,konnektor,folge,also
+B1,konnektor,folge,deshalb
+B1,konnektor,folge,daher
+B1,konnektor,reihenfolge,danach
+B1,konnektor,reihenfolge,vorher
+B1,konnektor,zeit,während
+B1,konnektor,zeit,sobald
+B1,konnektor,zeit,inzwischen
+B2,substantiv,bildung,Analyse
+B2,substantiv,bildung,Argument
+B2,substantiv,bildung,Bewertung
+B2,substantiv,bildung,Aufsatz
+B2,substantiv,bildung,Beweis
+B2,substantiv,bildung,Ansatz
+B2,substantiv,bildung,Perspektive
+B2,substantiv,bildung,Interpretation
+B2,substantiv,bildung,Rahmen
+B2,substantiv,bildung,Prinzip
+B2,substantiv,gefühl,Bewusstsein
+B2,substantiv,umwelt,Klima
+B2,substantiv,umwelt,Nachhaltigkeit
+B2,substantiv,umwelt,Ressource
+B2,substantiv,umwelt,Emission
+B2,substantiv,gesellschaft,Politik
+B2,substantiv,gesellschaft,Autorität
+B2,substantiv,gesellschaft,Regelung
+B2,substantiv,gesellschaft,Vorteil
+B2,substantiv,gesellschaft,Auswirkung
+B2,substantiv,gesellschaft,Frage
+B2,substantiv,gesellschaft,Haltung
+B2,substantiv,gesellschaft,Verhalten
+B2,substantiv,gesellschaft,Ergebnis
+B2,substantiv,gesellschaft,Tendenz
+B2,substantiv,gesellschaft,Identität
+B2,substantiv,gesellschaft,Minderheit
+B2,substantiv,gesellschaft,Mehrheit
+B2,substantiv,technik,Innovation
+B2,substantiv,technik,Schnittstelle
+B2,substantiv,technik,Grenze
+B2,substantiv,technik,Datenschutz
+B2,substantiv,arbeit,Bewerbung
+B2,substantiv,arbeit,Qualifikation
+B2,substantiv,arbeit,Verantwortung
+B2,substantiv,arbeit,Führung
+B2,substantiv,arbeit,Verhandlung
+B2,substantiv,arbeit,Vorschlag
+B2,substantiv,arbeit,Vertrag
+B2,substantiv,arbeit,Leistung
+B2,verb,infinitiv,analysieren
+B2,verb,infinitiv,bewerten
+B2,verb,infinitiv,argumentieren
+B2,verb,infinitiv,behaupten
+B2,verb,infinitiv,begründen
+B2,verb,infinitiv,kritisieren
+B2,verb,infinitiv,betonen
+B2,verb,infinitiv,darstellen
+B2,verb,infinitiv,definieren
+B2,verb,infinitiv,repräsentieren
+B2,verb,infinitiv,sich beziehen
+B2,verb,infinitiv,widerspiegeln
+B2,verb,infinitiv,beeinflussen
+B2,verb,infinitiv,betreffen
+B2,verb,infinitiv,einschätzen
+B2,verb,infinitiv,reduzieren
+B2,verb,infinitiv,erhöhen
+B2,verb,infinitiv,erhalten
+B2,verb,infinitiv,gelingen
+B2,verb,infinitiv,erfordern
+B2,verb,präsens,analysiere
+B2,verb,präsens,bewertest
+B2,verb,präsens,argumentiert
+B2,verb,präsens,behauptest
+B2,verb,präsens,begründet
+B2,verb,präsens,kritisiert
+B2,verb,präsens,betone
+B2,verb,präsens,stellt dar
+B2,verb,präsens,definiert
+B2,verb,präsens,repräsentiert
+B2,verb,perfekt,habe analysiert
+B2,verb,perfekt,hast bewertet
+B2,verb,perfekt,hat argumentiert
+B2,verb,perfekt,haben behauptet
+B2,verb,perfekt,hat begründet
+B2,verb,perfekt,haben kritisiert
+B2,verb,perfekt,habe betont
+B2,verb,perfekt,hat dargestellt
+B2,verb,perfekt,haben definiert
+B2,verb,perfekt,haben repräsentiert
+B2,verb,futur,werde analysieren
+B2,verb,futur,wirst bewerten
+B2,verb,futur,wird argumentieren
+B2,verb,futur,werden behaupten
+B2,verb,futur,wird begründen
+B2,verb,futur,werden kritisieren
+B2,verb,futur,werde betonen
+B2,verb,futur,wird beeinflussen
+B2,verb,futur,werden betreffen
+B2,verb,futur,werden erfordern
+B2,verb,perfekt,haben bewertet
+B2,verb,perfekt,hat beeinflusst
+B2,verb,perfekt,haben reduziert
+B2,verb,perfekt,haben erhöht
+B2,verb,perfekt,haben begründet
+B2,verb,perfekt,habe beeinflusst
+B2,verb,modal,sollte analysieren
+B2,verb,modal,könnte argumentieren
+B2,verb,modal,könnten betreffen
+B2,verb,modal,muss berücksichtigen
+B2,verb,modal,würden erfordern
+B2,verb,modal,sollte erklären
+B2,verb,modal,kann beeinflussen
+B2,verb,modal,sollten erhalten
+B2,verb,konjunktiv,würde analysieren
+B2,verb,konjunktiv,würdest bewerten
+B2,verb,konjunktiv,würde argumentieren
+B2,verb,konjunktiv,würden behaupten
+B2,verb,konjunktiv,würde begründen
+B2,verb,konjunktiv,würden beeinflussen
+B2,verb,konjunktiv,würdest reduzieren
+B2,verb,konjunktiv,würden erhöhen
+B2,verb,konjunktiv,würden erhalten
+B2,verb,konjunktiv,würdest repräsentieren
+B2,verb,konjunktiv,würden festlegen
+B2,adjektiv,qualität,präzise
+B2,adjektiv,qualität,angemessen
+B2,adjektiv,qualität,komplex
+B2,adjektiv,qualität,umstritten
+B2,adjektiv,qualität,überzeugend
+B2,adjektiv,qualität,kritisch
+B2,adjektiv,qualität,effektiv
+B2,adjektiv,qualität,effizient
+B2,adjektiv,qualität,wesentlich
+B2,adjektiv,qualität,flexibel
+B2,adjektiv,qualität,bedeutend
+B2,adjektiv,qualität,relevant
+B2,adjektiv,qualität,vernünftig
+B2,adjektiv,qualität,offensichtlich
+B2,adjektiv,qualität,subtil
+B2,adjektiv,qualität,vorübergehend
+B2,adjektiv,qualität,dauerhaft
+B2,adjektiv,qualität,global
+B2,adjektiv,qualität,individuell
+B2,adjektiv,qualität,kollektiv
+B2,adjektiv,qualität,rechtlich
+B2,adjektiv,qualität,finanziell
+B2,adjektiv,qualität,akademisch
+B2,adjektiv,qualität,emotional
+B2,adjektiv,qualität,geistig
+B2,adjektiv,qualität,körperlich
+B2,adjektiv,qualität,ethisch
+B2,adjektiv,qualität,logisch
+B2,adjektiv,qualität,gültig
+B2,adjektiv,qualität,falsch
+B2,adjektiv,qualität,bewusst
+B2,adjektiv,qualität,fähig
+B2,adjektiv,qualität,bereit
+B2,adjektiv,qualität,besorgt
+B2,adjektiv,qualität,geeignet
+B2,adverb,sicherheit,anscheinend
+B2,adverb,sicherheit,wahrscheinlich
+B2,adverb,grad,äußerst
+B2,adverb,grad,hoch
+B2,adverb,grad,leicht
+B2,adverb,grad,relativ
+B2,adverb,grad,ungefähr
+B2,adverb,grad,bedeutend
+B2,adverb,bewertung,merkwürdigerweise
+B2,adverb,bewertung,zweifellos
+B2,adverb,fokus,jeweils
+B2,adverb,fokus,andernfalls
+B2,adverb,art,richtig
+B2,adverb,art,angemessen
+B2,adverb,art,wirksam
+B2,adverb,art,genau
+B2,adverb,art,kritisch
+B2,adverb,art,logisch
+B2,adverb,art,emotional
+B2,adverb,art,körperlich
+B2,adverb,art,geistig
+B2,adverb,art,rechtlich
+B2,adverb,zeit,derzeit
+B2,adverb,zeit,allmählich
+B2,adverb,zeit,früher
+B2,konnektor,zusatz,außerdem
+B2,konnektor,zusatz,darüber hinaus
+B2,konnektor,zusatz,zudem
+B2,konnektor,grund,zumal
+B2,konnektor,grund,da ja
+B2,konnektor,grund,da
+B2,konnektor,bedingung,sofern
+B2,konnektor,bedingung,vorausgesetzt dass
+B2,konnektor,bedingung,andernfalls
+B2,konnektor,kontrast,dennoch
+B2,konnektor,kontrast,während
+B2,konnektor,kontrast,trotz
+B2,konnektor,kontrast,hingegen
+B2,konnektor,kontrast,jedoch
+B2,konnektor,beispiel,zum Beispiel
+B2,konnektor,ziel,um zu
+B2,konnektor,ziel,damit
+B2,konnektor,präzisierung,mit anderen Worten
+B2,konnektor,präzisierung,das heißt
+B2,konnektor,folge,deshalb
+B2,konnektor,folge,somit
+B2,konnektor,folge,aus diesem Grund
+B2,konnektor,zusammenfassung,im Allgemeinen
+B2,konnektor,zusammenfassung,abschließend
+B2,konnektor,reihenfolge,danach
