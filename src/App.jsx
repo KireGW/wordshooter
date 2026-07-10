@@ -337,6 +337,16 @@ const UI_TRANSLATIONS = {
     tapToShoot: 'Tap to shoot',
     spaceToShoot: 'Space to shoot',
     bonusUnlocked: 'Bonus unlocked',
+    legal: 'Legal',
+    legalTitle: 'Copyright Notice',
+    legalClose: 'Close',
+    legalCopyright: '© 2026 Erik G. Wiss. All rights reserved.',
+    legalParagraphs: [
+      'Wordshooter, including its game design, source code, interface, text, word lists, visual design, audio elements, and related educational content, is owned by Erik G. Wiss unless otherwise stated.',
+      'You may play and share the publicly available version of the game, but you may not copy, reproduce, modify, redistribute, reskin, sell, publish, host, or create derivative versions of Wordshooter without prior written permission.',
+      'Open-source libraries and third-party technologies used by the game remain subject to their own licenses.',
+      'For permission requests, collaborations, or licensing inquiries, contact the creator.',
+    ],
     missionLoaded:
       'Mission loaded for {language} {level}. Shoot only the matching targets.',
     newTargetCategory: 'New target category: {category}.',
@@ -397,6 +407,16 @@ const UI_TRANSLATIONS = {
     tapToShoot: 'Touchez pour tirer',
     spaceToShoot: 'Espace pour tirer',
     bonusUnlocked: 'Bonus active',
+    legal: 'Mentions legales',
+    legalTitle: 'Avis de droit d auteur',
+    legalClose: 'Fermer',
+    legalCopyright: '© 2026 Erik G. Wiss. Tous droits reserves.',
+    legalParagraphs: [
+      'Wordshooter, y compris sa conception de jeu, son code source, son interface, ses textes, ses listes de mots, son design visuel, ses elements audio et son contenu educatif associe, appartient a Erik G. Wiss sauf indication contraire.',
+      'Vous pouvez jouer a la version publique du jeu et la partager, mais vous ne pouvez pas copier, reproduire, modifier, redistribuer, remaquiller, vendre, publier, heberger ou creer des versions derivees de Wordshooter sans autorisation ecrite prealable.',
+      'Les bibliotheques open source et les technologies tierces utilisees par le jeu restent soumises a leurs propres licences.',
+      'Pour les demandes d autorisation, les collaborations ou les demandes de licence, contactez le createur.',
+    ],
     missionLoaded:
       'Mission chargee pour {language} {level}. Tirez seulement sur les bonnes cibles.',
     newTargetCategory: 'Nouvelle categorie cible : {category}.',
@@ -457,6 +477,16 @@ const UI_TRANSLATIONS = {
     tapToShoot: 'Toca para disparar',
     spaceToShoot: 'Pulsa espacio para disparar',
     bonusUnlocked: 'Bonus desbloqueado',
+    legal: 'Legal',
+    legalTitle: 'Aviso de copyright',
+    legalClose: 'Cerrar',
+    legalCopyright: '© 2026 Erik G. Wiss. Todos los derechos reservados.',
+    legalParagraphs: [
+      'Wordshooter, incluido su diseño de juego, codigo fuente, interfaz, textos, listas de palabras, diseño visual, elementos de audio y contenido educativo relacionado, pertenece a Erik G. Wiss salvo que se indique lo contrario.',
+      'Puedes jugar y compartir la version publica del juego, pero no puedes copiar, reproducir, modificar, redistribuir, cambiar la apariencia, vender, publicar, alojar ni crear versiones derivadas de Wordshooter sin permiso previo por escrito.',
+      'Las bibliotecas open source y las tecnologias de terceros utilizadas por el juego siguen sujetas a sus propias licencias.',
+      'Para solicitudes de permiso, colaboraciones o licencias, contacta con el creador.',
+    ],
     missionLoaded:
       'Mision cargada para {language} {level}. Dispara solo a los objetivos correctos.',
     newTargetCategory: 'Nueva categoria objetivo: {category}.',
@@ -517,6 +547,16 @@ const UI_TRANSLATIONS = {
     tapToShoot: 'Tocca per sparare',
     spaceToShoot: 'Premi spazio per sparare',
     bonusUnlocked: 'Bonus sbloccato',
+    legal: 'Note legali',
+    legalTitle: 'Avviso di copyright',
+    legalClose: 'Chiudi',
+    legalCopyright: '© 2026 Erik G. Wiss. Tutti i diritti riservati.',
+    legalParagraphs: [
+      'Wordshooter, incluso il game design, il codice sorgente, l interfaccia, i testi, le liste di parole, il design visivo, gli elementi audio e i contenuti educativi collegati, appartiene a Erik G. Wiss salvo diversa indicazione.',
+      'Puoi giocare e condividere la versione pubblica del gioco, ma non puoi copiare, riprodurre, modificare, redistribuire, cambiare veste grafica, vendere, pubblicare, ospitare o creare versioni derivate di Wordshooter senza previo permesso scritto.',
+      'Le librerie open source e le tecnologie di terze parti usate dal gioco restano soggette alle rispettive licenze.',
+      'Per richieste di permesso, collaborazioni o licenze, contatta il creatore.',
+    ],
     missionLoaded:
       'Missione caricata per {language} {level}. Spara solo ai bersagli giusti.',
     newTargetCategory: 'Nuova categoria bersaglio: {category}.',
@@ -577,6 +617,16 @@ const UI_TRANSLATIONS = {
     tapToShoot: 'Tippen zum Schiessen',
     spaceToShoot: 'Leertaste zum Schiessen',
     bonusUnlocked: 'Bonus aktiviert',
+    legal: 'Rechtliches',
+    legalTitle: 'Copyright-Hinweis',
+    legalClose: 'Schliessen',
+    legalCopyright: '© 2026 Erik G. Wiss. Alle Rechte vorbehalten.',
+    legalParagraphs: [
+      'Wordshooter, einschliesslich Spieldesign, Quellcode, Benutzeroberflaeche, Texten, Wortlisten, visuellem Design, Audioelementen und zugehoerigen Lerninhalten, gehoert Erik G. Wiss, sofern nicht anders angegeben.',
+      'Du darfst die oeffentlich verfuegbare Version des Spiels spielen und teilen, aber Wordshooter ohne vorherige schriftliche Erlaubnis nicht kopieren, reproduzieren, veraendern, weiterverbreiten, reskinnen, verkaufen, veroeffentlichen, hosten oder abgeleitete Versionen erstellen.',
+      'Open-Source-Bibliotheken und Technologien Dritter, die im Spiel verwendet werden, unterliegen weiterhin ihren eigenen Lizenzen.',
+      'Fuer Genehmigungen, Kooperationen oder Lizenzanfragen kontaktiere bitte den Ersteller.',
+    ],
     missionLoaded:
       'Mission fuer {language} {level} geladen. Schiesse nur auf passende Ziele.',
     newTargetCategory: 'Neue Zielkategorie: {category}.',
@@ -637,6 +687,16 @@ const UI_TRANSLATIONS = {
     tapToShoot: 'Knacka för att skjuta',
     spaceToShoot: 'Space för att skjuta',
     bonusUnlocked: 'Bonus upplåst',
+    legal: 'Juridiskt',
+    legalTitle: 'Copyrightinformation',
+    legalClose: 'Stäng',
+    legalCopyright: '© 2026 Erik G. Wiss. Alla rättigheter förbehållna.',
+    legalParagraphs: [
+      'Wordshooter, inklusive spelidé i konkret utförande, källkod, gränssnitt, texter, ordlistor, visuell design, ljudelement och tillhörande pedagogiskt innehåll, ägs av Erik G. Wiss om inget annat anges.',
+      'Du får spela och dela den offentligt tillgängliga versionen av spelet, men du får inte kopiera, reproducera, modifiera, distribuera, klä om, sälja, publicera, hosta eller skapa egna versioner av Wordshooter utan skriftligt tillstånd i förväg.',
+      'Open source-bibliotek och tredjepartstekniker som används i spelet omfattas av sina egna licenser.',
+      'Kontakta skaparen för tillstånd, samarbeten eller licensfrågor.',
+    ],
     missionLoaded:
       'Uppdrag laddat för {language} {level}. Skjut bara på rätt mål.',
     newTargetCategory: 'Ny målkategori: {category}.',
@@ -1839,6 +1899,7 @@ function App() {
   const [showGameOverLeaderboard, setShowGameOverLeaderboard] = useState(false)
   const [hasLaunchedInitialRun, setHasLaunchedInitialRun] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showLegalNotice, setShowLegalNotice] = useState(false)
   const [viewportSize, setViewportSize] = useState(() => ({
     width: typeof window === 'undefined' ? 1280 : window.innerWidth,
     height: typeof window === 'undefined' ? 800 : window.innerHeight,
@@ -2499,6 +2560,12 @@ function App() {
     const onKeyDown = (event) => {
       const key = event.key.toLowerCase()
 
+      if (key === 'escape' && showLegalNotice) {
+        event.preventDefault()
+        setShowLegalNotice(false)
+        return
+      }
+
       if (
         ['arrowleft', 'arrowright', 'arrowup', 'a', 'd', ' '].includes(key) ||
         event.key === ' '
@@ -2563,13 +2630,23 @@ function App() {
       window.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('keyup', onKeyUp)
     }
-  }, [fireBullet, finishGame, game.status, hasLaunchedInitialRun, isMobileLayout, resetGame, startInitialRun])
+  }, [
+    fireBullet,
+    finishGame,
+    game.status,
+    hasLaunchedInitialRun,
+    isMobileLayout,
+    resetGame,
+    showLegalNotice,
+    startInitialRun,
+  ])
 
   useEffect(() => {
     if (
       !hasLaunchedInitialRun ||
       game.status === 'gameover' ||
-      (isMobileLayout && mobileMenuOpen)
+      (isMobileLayout && mobileMenuOpen) ||
+      showLegalNotice
     ) {
       return undefined
     }
@@ -2696,11 +2773,12 @@ function App() {
     isMobileLayout,
     maxWordsAfterCategorySwitch,
     mobileMenuOpen,
+    showLegalNotice,
   ])
 
   useEffect(() => {
     const tick = (timestamp) => {
-      if (!hasLaunchedInitialRun || (isMobileLayout && mobileMenuOpen)) {
+      if (!hasLaunchedInitialRun || (isMobileLayout && mobileMenuOpen) || showLegalNotice) {
         lastFrameRef.current = timestamp
         rafRef.current = window.requestAnimationFrame(tick)
         return
@@ -3141,7 +3219,14 @@ function App() {
     return () => {
       window.cancelAnimationFrame(rafRef.current)
     }
-  }, [hasLaunchedInitialRun, isMobileLayout, mobileMenuOpen, selection.sfxEnabled, wordBudget])
+  }, [
+    hasLaunchedInitialRun,
+    isMobileLayout,
+    mobileMenuOpen,
+    selection.sfxEnabled,
+    showLegalNotice,
+    wordBudget,
+  ])
 
   const targetCategoryMap = getCategoryMap(game.languageId, game.cefrLevel)
   const currentTarget = targetCategoryMap[game.targetCategory]
@@ -3491,12 +3576,29 @@ function App() {
     </div>
   )
 
+  const legalPanel = (
+    <section className="legal-card">
+      <span>{uiText.legalCopyright}</span>
+      <button
+        type="button"
+        className="legal-link-button"
+        onClick={() => {
+          setMobileMenuOpen(false)
+          setShowLegalNotice(true)
+        }}
+      >
+        {uiText.legal}
+      </button>
+    </section>
+  )
+
   const hudPanel = (
     <section className="hud">
       {statsPanel}
       {finishGameButton}
       {soundPanel}
       {leaderboardPanel}
+      {legalPanel}
     </section>
   )
 
@@ -3552,11 +3654,12 @@ function App() {
             {finishGameButton}
             <section className="hud mobile-menu-sound-panel">{soundPanel}</section>
             {leaderboardPanel}
+            {legalPanel}
           </section>
       </>
       ) : null}
 
-      <section className={`play-layout ${isMobileLayout && mobileMenuOpen ? 'play-layout-dimmed' : ''}`}>
+      <section className={`play-layout ${(isMobileLayout && mobileMenuOpen) || showLegalNotice ? 'play-layout-dimmed' : ''}`}>
         {!isMobileLayout ? (
         <aside className="sidebar sidebar-left">
           {settingsPanel}
@@ -3915,6 +4018,42 @@ function App() {
         </aside>
         ) : null}
       </section>
+
+      {showLegalNotice ? (
+        <div className="legal-modal-backdrop" onClick={() => setShowLegalNotice(false)}>
+          <section
+            className="legal-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="legal-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="legal-modal-header">
+              <p>{uiText.legal}</p>
+              <button
+                type="button"
+                className="legal-close-button"
+                onClick={() => setShowLegalNotice(false)}
+                aria-label={uiText.legalClose}
+              >
+                ×
+              </button>
+            </div>
+            <h2 id="legal-modal-title">{uiText.legalTitle}</h2>
+            <strong>{uiText.legalCopyright}</strong>
+            {uiText.legalParagraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+            <button
+              type="button"
+              className="restart-button legal-confirm-button"
+              onClick={() => setShowLegalNotice(false)}
+            >
+              {uiText.legalClose}
+            </button>
+          </section>
+        </div>
+      ) : null}
     </main>
   )
 }
