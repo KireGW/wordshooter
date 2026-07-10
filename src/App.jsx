@@ -49,6 +49,9 @@ const MISSED_TARGET_POINTS = 10
 const AVOIDED_WORD_POINTS = 1
 const STREAK_BONUS_THRESHOLD = 10
 const STREAK_BONUS_POINTS = 40
+const STREAK_LIFE_BONUS_THRESHOLD = 20
+const STREAK_LIFE_BONUS_LIVES = 1
+const HEART_BONUS_ANNOUNCEMENT_MS = 1900
 const INITIAL_WORD_Y_MIN = -6
 const INITIAL_WORD_Y_MAX = 10
 const ACTIVE_SPAWN_Y_MIN = -8
@@ -355,6 +358,8 @@ const UI_TRANSLATIONS = {
     heartFull: 'Heart collected, but your lives are already full.',
     correctHit: '"{word}" is correct. +{points} points.',
     streakBonus: 'Streak bonus! {streak} correct hits in a row. +{points} points.',
+    streakHeartBonus: 'Heart bonus! +1 life. {lives} lives remaining.',
+    streakHeartFull: 'Heart bonus earned, but your lives are already full.',
     wrongCategory: '"{word}" is the wrong category. -{points} points and -1 life.',
     targetEscaped: 'A correct target escaped. -{points} points and -1 life.',
     safePass: 'A non-target passed safely. +{points} point.',
@@ -362,6 +367,7 @@ const UI_TRANSLATIONS = {
     effectLifeGain: '+1 LIFE',
     effectFull: 'FULL',
     streakWords: '{streak} word streak bonus!',
+    heartBonusWords: '{streak} hit heart bonus!',
   },
   french: {
     language: 'Langue du jeu',
@@ -425,6 +431,8 @@ const UI_TRANSLATIONS = {
     heartFull: 'Coeur recupere, mais vos vies sont deja au maximum.',
     correctHit: '"{word}" est correct. +{points} points.',
     streakBonus: 'Bonus de serie ! {streak} reponses justes de suite. +{points} points.',
+    streakHeartBonus: 'Bonus coeur ! +1 vie. Il reste {lives} vies.',
+    streakHeartFull: 'Bonus coeur gagne, mais vos vies sont deja au maximum.',
     wrongCategory: '"{word}" est dans la mauvaise categorie. -{points} points et -1 vie.',
     targetEscaped: 'Une bonne cible s est echappee. -{points} points et -1 vie.',
     safePass: 'Une mauvaise cible est passee sans danger. +{points} point.',
@@ -432,6 +440,7 @@ const UI_TRANSLATIONS = {
     effectLifeGain: '+1 VIE',
     effectFull: 'MAX',
     streakWords: 'Bonus serie de {streak} mots !',
+    heartBonusWords: 'Bonus coeur a {streak} coups !',
   },
   spanish: {
     language: 'Idioma del juego',
@@ -495,6 +504,8 @@ const UI_TRANSLATIONS = {
     heartFull: 'Corazon recogido, pero ya tienes todas las vidas.',
     correctHit: '"{word}" es correcto. +{points} puntos.',
     streakBonus: 'Bonus de racha. {streak} aciertos seguidos. +{points} puntos.',
+    streakHeartBonus: 'Bonus de corazon. +1 vida. Te quedan {lives} vidas.',
+    streakHeartFull: 'Bonus de corazon conseguido, pero ya tienes todas las vidas.',
     wrongCategory: '"{word}" es la categoria incorrecta. -{points} puntos y -1 vida.',
     targetEscaped: 'Se escapo un objetivo correcto. -{points} puntos y -1 vida.',
     safePass: 'Un no objetivo paso sin peligro. +{points} punto.',
@@ -502,6 +513,7 @@ const UI_TRANSLATIONS = {
     effectLifeGain: '+1 VIDA',
     effectFull: 'MAX',
     streakWords: 'Bonus por racha de {streak} palabras',
+    heartBonusWords: 'Bonus de corazon por {streak} aciertos',
   },
   italian: {
     language: 'Lingua del gioco',
@@ -565,6 +577,8 @@ const UI_TRANSLATIONS = {
     heartFull: 'Cuore raccolto, ma le vite sono gia al massimo.',
     correctHit: '"{word}" e corretto. +{points} punti.',
     streakBonus: 'Bonus serie! {streak} colpi giusti di fila. +{points} punti.',
+    streakHeartBonus: 'Bonus cuore! +1 vita. Ti restano {lives} vite.',
+    streakHeartFull: 'Bonus cuore ottenuto, ma le vite sono gia al massimo.',
     wrongCategory: '"{word}" e la categoria sbagliata. -{points} punti e -1 vita.',
     targetEscaped: 'Un bersaglio corretto e scappato. -{points} punti e -1 vita.',
     safePass: 'Un non bersaglio e passato senza rischio. +{points} punto.',
@@ -572,6 +586,7 @@ const UI_TRANSLATIONS = {
     effectLifeGain: '+1 VITA',
     effectFull: 'MAX',
     streakWords: 'Bonus serie da {streak} parole!',
+    heartBonusWords: 'Bonus cuore da {streak} colpi!',
   },
   german: {
     language: 'Spielsprache',
@@ -635,6 +650,8 @@ const UI_TRANSLATIONS = {
     heartFull: 'Herz eingesammelt, aber deine Leben sind bereits voll.',
     correctHit: '"{word}" ist korrekt. +{points} Punkte.',
     streakBonus: 'Serienbonus! {streak} richtige Treffer in Folge. +{points} Punkte.',
+    streakHeartBonus: 'Herzbonus! +1 Leben. Noch {lives} Leben uebrig.',
+    streakHeartFull: 'Herzbonus erreicht, aber deine Leben sind bereits voll.',
     wrongCategory: '"{word}" ist die falsche Kategorie. -{points} Punkte und -1 Leben.',
     targetEscaped: 'Ein richtiges Ziel ist entkommen. -{points} Punkte und -1 Leben.',
     safePass: 'Ein Nichtziel ist sicher durchgegangen. +{points} Punkt.',
@@ -642,6 +659,7 @@ const UI_TRANSLATIONS = {
     effectLifeGain: '+1 LEBEN',
     effectFull: 'VOLL',
     streakWords: '{streak}er-Serienbonus!',
+    heartBonusWords: 'Herzbonus bei {streak} Treffern!',
   },
   swedish: {
     language: 'Spelspråk',
@@ -705,6 +723,8 @@ const UI_TRANSLATIONS = {
     heartFull: 'Hjärta uppsamlat, men du har redan fullt med liv.',
     correctHit: '"{word}" är rätt. +{points} poäng.',
     streakBonus: 'Streakbonus! {streak} rätta i rad. +{points} poäng.',
+    streakHeartBonus: 'Hjärtbonus! +1 liv. Du har {lives} liv kvar.',
+    streakHeartFull: 'Hjärtbonus uppnådd, men du har redan fullt med liv.',
     wrongCategory: '"{word}" är fel kategori. -{points} poäng och -1 liv.',
     targetEscaped: 'Ett rätt mål kom undan. -{points} poäng och -1 liv.',
     safePass: 'Ett ord utanför målkategorin passerade. +{points} poäng.',
@@ -712,6 +732,7 @@ const UI_TRANSLATIONS = {
     effectLifeGain: '+1 LIV',
     effectFull: 'FULLT',
     streakWords: '{streak} i rad-bonus!',
+    heartBonusWords: 'Hjärtbonus vid {streak} träffar!',
   },
 }
 
@@ -1880,6 +1901,8 @@ const buildInitialGame = (
     categoryAnnouncementMs: 0,
     streakAnnouncement: '',
     streakAnnouncementMs: 0,
+    heartBonusAnnouncement: '',
+    heartBonusAnnouncementMs: 0,
     endReason: null,
     status: 'playing',
     targetCategory,
@@ -2865,6 +2888,11 @@ function App() {
           0,
           current.streakAnnouncementMs - delta * 1000,
         )
+        let heartBonusAnnouncement = current.heartBonusAnnouncement
+        let heartBonusAnnouncementMs = Math.max(
+          0,
+          current.heartBonusAnnouncementMs - delta * 1000,
+        )
         const nextCategorySwitchMs = Math.max(
           0,
           current.nextCategorySwitchMs - delta * 1000,
@@ -2963,10 +2991,11 @@ function App() {
             if (streak > 0 && streak % STREAK_BONUS_THRESHOLD === 0) {
               score += STREAK_BONUS_POINTS
               bestScore = Math.max(bestScore, score)
-              feedback = formatUiText(uiText.streakBonus, {
+              const streakBonusFeedback = formatUiText(uiText.streakBonus, {
                 streak,
                 points: STREAK_BONUS_POINTS,
               })
+              feedback = streakBonusFeedback
               nextEffects = [
                 ...nextEffects,
                 {
@@ -2980,6 +3009,30 @@ function App() {
               ]
               streakAnnouncement = formatUiText(uiText.streakWords, { streak })
               streakAnnouncementMs = STREAK_ANNOUNCEMENT_MS
+              if (selection.sfxEnabled) {
+                audioRef.current?.playBonus()
+              }
+            }
+
+            if (streak > 0 && streak % STREAK_LIFE_BONUS_THRESHOLD === 0) {
+              const gainedLife = lives < MAX_LIVES
+              lives = Math.min(MAX_LIVES, lives + STREAK_LIFE_BONUS_LIVES)
+              feedback = gainedLife
+                ? `${feedback} ${formatUiText(uiText.streakHeartBonus, { lives })}`
+                : `${feedback} ${uiText.streakHeartFull}`
+              nextEffects = [
+                ...nextEffects,
+                {
+                  id: effectIdRef.current++,
+                  x: hitWord.x,
+                  y: Math.max(8, hitWord.y - 12),
+                  tone: 'bonus',
+                  label: gainedLife ? uiText.effectLifeGain : uiText.effectFull,
+                  ttl: EFFECT_LIFETIME_MS + 220,
+                },
+              ]
+              heartBonusAnnouncement = formatUiText(uiText.heartBonusWords, { streak })
+              heartBonusAnnouncementMs = HEART_BONUS_ANNOUNCEMENT_MS
               if (selection.sfxEnabled) {
                 audioRef.current?.playBonus()
               }
@@ -3166,6 +3219,8 @@ function App() {
             categoryAnnouncementMs: 0,
             streakAnnouncement: '',
             streakAnnouncementMs: 0,
+            heartBonusAnnouncement: '',
+            heartBonusAnnouncementMs: 0,
             nextCategorySwitchMs: 0,
             nextHeartSpawnMs: 0,
             startAnnouncement: '',
@@ -3202,6 +3257,8 @@ function App() {
           startAnnouncementMs,
           streakAnnouncement,
           streakAnnouncementMs,
+          heartBonusAnnouncement,
+          heartBonusAnnouncementMs,
           endReason: null,
           status: 'playing',
           nextCategorySwitchMs,
@@ -3234,11 +3291,11 @@ function App() {
     CATEGORY_STYLES[currentTarget?.styleId ?? game.targetCategory] ?? CATEGORY_STYLES.verb
   const languages = getLanguageNames()
   const targetLanguageId = selection.targetLanguageId ?? selection.languageId
-  const uiLanguageId = targetLanguageId
+  const uiLanguageId = game.instructionLanguageId ?? targetLanguageId
   const uiText = getUiText(uiLanguageId)
   const currentCefrUi = getCefrUiCopy(selection.cefrLevel, uiLanguageId)
   const targetUiPack =
-    TARGET_UI_TRANSLATIONS[targetLanguageId] ?? TARGET_UI_TRANSLATIONS.english
+    TARGET_UI_TRANSLATIONS[uiLanguageId] ?? TARGET_UI_TRANSLATIONS.english
   const targetUiCategory = getTargetUiCategory({
     game,
     currentTarget,
@@ -3845,6 +3902,13 @@ function App() {
                 </div>
               ) : null}
 
+              {!isMobileLayout && categoryCountdown ? (
+                <div className="desktop-category-countdown" aria-hidden="true">
+                  <span>{uiText.nextSwitch}</span>
+                  <strong key={categoryCountdown}>{categoryCountdown}</strong>
+                </div>
+              ) : null}
+
               {game.startAnnouncementMs > 0 ? (
                 <div className="start-popup">
                   <strong>{game.startAnnouncement}</strong>
@@ -3855,6 +3919,13 @@ function App() {
                 <div className="streak-popup">
                   <span>{uiText.bonusUnlocked}</span>
                   <strong>{game.streakAnnouncement}</strong>
+                </div>
+              ) : null}
+
+              {game.heartBonusAnnouncementMs > 0 ? (
+                <div className="heart-bonus-popup">
+                  <div className="heart-bonus-heart" aria-hidden="true">♥</div>
+                  <strong>{game.heartBonusAnnouncement}</strong>
                 </div>
               ) : null}
 
