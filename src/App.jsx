@@ -2989,6 +2989,7 @@ function App() {
             }
 
             if (streak > 0 && streak % STREAK_BONUS_THRESHOLD === 0) {
+              const isHeartBonusMilestone = streak % STREAK_LIFE_BONUS_THRESHOLD === 0
               score += STREAK_BONUS_POINTS
               bestScore = Math.max(bestScore, score)
               const streakBonusFeedback = formatUiText(uiText.streakBonus, {
@@ -3007,8 +3008,10 @@ function App() {
                   ttl: EFFECT_LIFETIME_MS + 180,
                 },
               ]
-              streakAnnouncement = formatUiText(uiText.streakWords, { streak })
-              streakAnnouncementMs = STREAK_ANNOUNCEMENT_MS
+              if (!isHeartBonusMilestone) {
+                streakAnnouncement = formatUiText(uiText.streakWords, { streak })
+                streakAnnouncementMs = STREAK_ANNOUNCEMENT_MS
+              }
               if (selection.sfxEnabled) {
                 audioRef.current?.playBonus()
               }
